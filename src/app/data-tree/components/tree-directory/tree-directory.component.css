@@ -1,0 +1,274 @@
+.title {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 0;
+  font-family: iransans;
+  font-size: 24px;;
+  font-weight: 500;
+  text-align: right;
+  float: right;
+}
+
+
+.icons-bar {
+  font-size: 18px;
+  color: white;
+  padding: 10px;
+  float: right;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.icon-bar-none-select{
+  font-size: 18px;
+  color: white;
+  padding: 10px;
+  float: right;
+  margin-right: 15px;
+  cursor: pointer;
+  opacity: 0.3;
+
+}
+
+.fa-upload {
+  background-color: #009f00;
+}
+
+.file-icon {
+  padding: 25px 40px;;
+  text-align: center
+}
+
+.file-icon-detail {
+  padding: 25px 40px;;
+  text-align: right
+}
+
+.file-big {
+  font-size: 70px;
+  color: #8d8dc8;
+  cursor: pointer;
+  padding-bottom: 10px;
+  display: unset !important;
+}
+
+.word-big {
+  font-size: 70px;
+  color: #285192;
+  cursor: pointer;
+  padding-bottom: 10px;
+  display: unset !important;
+}
+
+.pdf-big {
+  font-size: 70px;
+  color: #a80301;
+  cursor: pointer;
+  padding-bottom: 10px;
+  display: unset !important;
+}
+
+.excel-big {
+  font-size: 70px;
+  color: #10783f;
+  cursor: pointer;
+  padding-bottom: 10px;
+  display: unset !important;
+}
+
+.image-big {
+  font-size: 70px;
+  color: #1872cc;
+  cursor: pointer;
+  padding-bottom: 10px;
+  display: unset !important;
+}
+
+.big-options {
+  position: relative;
+  cursor: pointer;
+  width: 25% !important;
+  outline: 0;
+  display: inline-block;
+  padding: 70px 14px !important;
+  float: right;
+}
+
+@media (max-width: 600px) {
+
+  .big-options {
+    position: relative;
+    cursor: pointer;
+    width: 33% !important;
+    outline: 0;
+    display: inline-block;
+    padding: 70px 14px;
+    float: right;
+  }
+}
+
+@media (max-width: 470px) {
+
+  .big-options {
+    position: relative;
+    cursor: pointer;
+    width: 50% !important;
+    outline: 0;
+    display: inline-block;
+    padding: 70px 14px;
+    float: right;
+  }
+}
+
+@media (max-width: 350px) {
+
+  .big-options {
+    position: relative;
+    cursor: pointer;
+    width: 100% !important;
+    outline: 0;
+    display: inline-block;
+    padding: 70px 14px;
+    float: right;
+  }
+}
+
+:host ::ng-deep .mat-pseudo-checkbox {
+  width: 16px;
+  position: absolute;
+  right: 10px;
+}
+
+.small-options {
+  cursor: pointer;
+  width: 100% !important;
+  outline: 0;
+  display: inline-block;
+  padding: 20px 14px;
+  float: right;
+}
+
+.file-small {
+  font-size: 23px;
+  color: #8d8dc8;
+  cursor: pointer;
+  padding-bottom: 0;
+  position: absolute;
+  right: 60px;
+}
+
+.word-small {
+  font-size: 30px;
+  color: #285192;
+  cursor: pointer;
+  padding-bottom: 0;
+  position: absolute;
+  right: 60px;
+}
+
+.pdf-small {
+  font-size: 23px;
+  color: #a80301;
+  cursor: pointer;
+  padding-bottom: 0;
+  position: absolute;
+  right: 60px;
+}
+
+.excel-small {
+  font-size: 30px;
+  color: #10783f;
+  cursor: pointer;
+  padding-bottom: 0;
+  position: absolute;
+  right: 60px;
+}
+
+.image-small {
+  font-size: 23px;
+  color: #1872cc;
+  cursor: pointer;
+  padding-bottom: 0;
+  position: absolute;
+  right: 60px;
+}
+
+:host ::ng-deep .p-dropdown {
+  border-radius: 50px;
+  border: 1px solid #d5cccc;
+  text-align: right;
+  width: 30%;
+  padding-right: 15px;
+  padding-top: 3px;
+  height: 33px;
+  margin-right: 1%;
+}
+
+.checkBox {
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+:host ::ng-deep .p-dropdown-panel {
+  padding-right: 20px;
+}
+
+.txt-small {
+  font-size: 23px;
+  color: #1872cc;
+  cursor: pointer;
+  padding-bottom: 0;
+  position: absolute;
+  right: 60px;
+}
+
+.txt-big {
+  font-size: 70px;
+  color: #1872cc;
+  cursor: pointer;
+  padding-bottom: 10px;
+  display: unset !important;
+}
+
+@media (max-width: 533px){
+  .title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 0;
+    font-family: iransans;
+    font-size: 19px;;
+    font-weight: 600;
+    text-align: right;
+    float: right;
+  }
+}
+
+@media (max-width: 440px){
+  .title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 0;
+    font-family: iransans;
+    font-size: 16px;;
+    font-weight: 700;
+    text-align: right;
+    float: right;
+  }
+}
+
+.fa-star {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: -20px;
+}
+
+::ng-deep .my-class .modal-dialog {
+  max-width: 75%;
+  width: 75%;
+}
+
+:host ::ng-deep .fa-file-pdf-o {
+  background-image: url(../../../../assets/icons/pdf-file.svg);
+}

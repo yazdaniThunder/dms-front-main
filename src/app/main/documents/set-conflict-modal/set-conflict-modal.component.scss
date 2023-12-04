@@ -1,0 +1,159 @@
+
+  
+   ::ng-deep .p-dropdown {
+    width: 400px;
+  }
+  
+ ::ng-deep .p-multiselect {
+  min-width: 15rem;
+  width: 18rem;
+}
+
+ ::ng-deep .p-multiselect {
+  display: inline-flex;
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+ ::ng-deep .p-multiselect-label-container {
+  overflow: hidden;
+  flex: 1 1 auto;
+  cursor: pointer;
+}
+
+ ::ng-deep .p-multiselect .p-multiselect-label {
+  padding: 0.75rem 0.75rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+ ::ng-deep .p-multiselect-label {
+  display: block;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ ::ng-deep .p-multiselect .p-multiselect-trigger {
+  background: transparent;
+  color: #6c757d;
+  width: 3rem;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+ ::ng-deep .p-multiselect-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+ ::ng-deep .pi {
+  font-family: primeicons;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ ::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  right: 1px !important;
+  border: 0 none;
+  color: #495057;
+  background: transparent;
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}
+
+ ::ng-deep .p-multiselect-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+ ::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+  color: #820263;
+  background: #EFF6FF;
+}
+ ::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  border: 0 none;
+  color: #495057;
+  background: transparent;
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}
+
+ ::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item .p-checkbox {
+  margin-right: 0.5rem;
+}
+
+ ::ng-deep .p-checkbox {
+  display: inline-flex;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  vertical-align: bottom;
+  position: relative;
+}
+
+ ::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+  border-color: #820263;
+  background: #820263;
+}
+
+ ::ng-deep .p-checkbox .p-checkbox-box {
+  border: 2px solid #ced4da;
+  background: #ffffff;
+  width: 22px;
+  height: 22px;
+  color: #495057;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+ ::ng-deep .p-multiselect {
+  min-width: 15rem;
+  width: 18rem;
+}
+
+
+::ng-deep .p-multiselect {
+  display: inline-flex;
+  border: 1px solid gray;
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+ ::ng-deep .pi-search {
+  display: none;
+}
+
+ ::ng-deep .p-multiselect .p-multiselect-label.p-placeholder {
+  color: #6c757d;
+}
+
+ ::ng-deep .p-multiselect .p-multiselect-label {
+  padding: 0.75rem 0.75rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+ ::ng-deep .p-multiselect-items-wrapper {
+  background: #fff;
+}

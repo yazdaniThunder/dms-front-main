@@ -1,0 +1,1692 @@
+<div
+  class="p-grid p-col-12 fix-direction"
+  style="padding: 0 !important; min-height: 80vh"
+>
+  <div class="p-col-2" style="padding: 0 !important">
+    <div class="card">
+      <p style="text-align: center">نوع دسته اسناد : {{ getType(type) }}</p>
+
+      <p style="text-align: center">تعداد فایل ها : {{ documents.length }}</p>
+      <div
+        dir="ltr"
+        style="display: flex; justify-content: center; margin: 1rem 0"
+      >
+        <button
+          (click)="openModalClick(completeModal)"
+          [disabled]="false"
+          type="button"
+          style="
+            color: #820263;
+            background-color: #fff;
+            border: 1px solid #820263;
+            border-radius: 5px;
+          "
+        >
+          افزودن فایل
+
+          <img
+            src="../../../../assets/icons/plus-color.svg"
+            width="20px"
+            height="20px"
+            alt="SCAN"
+            aria-hidden="true"
+          />
+        </button>
+      </div>
+
+      <div class="p-col-12 p-grid date-div">
+        <div class="p-col-5" style="padding-top: 12px">
+          <span style="font-size: smaller">وضعیت فایل </span>
+        </div>
+        <div
+          style="
+            border: 1px solid #820263;
+            border-radius: 5px;
+            height: fit-content;
+          "
+          class="p-col-7"
+        >
+          <p-dropdown
+            [options]="statusKeys"
+            placeholder="انتخاب کنید"
+            optionLabel="label"
+            (onChange)="setState($event)"
+            [title]="statusKeysLabel"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <p-table
+        [(selection)]="selectedItem"
+        [scrollable]="true"
+        [value]="documentList"
+        scrollHeight="500px"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 10%; font-size: smaller"></th>
+            <th style="width: 40%; font-size: smaller">نام</th>
+            <th style="width: 30%; font-size: smaller">وضعیت</th>
+            <th style="width: 20%; font-size: smaller">اصلاح</th>
+          </tr>
+        </ng-template>
+        <ng-template let-product pTemplate="body">
+          <tr>
+            <td style="width: 10%">
+              <p-tableRadioButton
+                (click)="onSelectCheckbox()"
+                [value]="product"
+              ></p-tableRadioButton>
+            </td>
+            <td style="font-size: x-small; width: 40%">
+              فایل {{ product.name ? product.name : "-" }}
+            </td>
+            <td style="font-size: x-small; width: 30%">
+              {{ getState(product.currentState) }}
+            </td>
+            <td style="width: 20%">
+              <img
+                src="../../../../assets/icons/color-edit.svg"
+                width="20px"
+                height="20px"
+                (click)="openModalClick(editModal, product)"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="p-col-4" style="padding: 0 !important">
+    <p-accordion #accordion>
+      <p-accordionTab
+        [disabled]="!selectedItem.id"
+        header="متادیتا و کدنگهداری"
+      >
+        <div *ngIf="selectedItem.id">
+          <div *ngIf="fileContradictionSets.type === 'DAILY'">
+            <div
+              *ngIf="
+                selectedItem.currentState !== 'STAGNANT';
+                else showMetaDaily
+              "
+              class="p-grid p-col-12 p-xl-12"
+            >
+              <form
+                style="width: 100%"
+                (ngSubmit)="submitMetaData()"
+                [formGroup]="formGroup2"
+              >
+                <div class="p-grid p-col-12 p-xl-12">
+                  <p class="title-show">اطلاعات متادیتا</p>
+                  <mat-card style="width: 100%">
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>نوع دسته سند</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <input
+                          [value]="documentSetType"
+                          class="input"
+                          id="documentSetType"
+                          style="width: 100%"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>شماره سند</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <mat-chip-list #chipList>
+                          <mat-chip
+                            *ngFor="let docNumber of docnumber"
+                            [removable]="removablenum"
+                            (removed)="removenum(docNumber)"
+                          >
+                            {{ docNumber }}
+                            <mat-icon
+                              style="margin: 0 10px 8px 0"
+                              matChipRemove
+                              *ngIf="removablenum"
+                            >
+                              <img
+                                src="../../../../assets/icons/wrong.svg"
+                                width="15px"
+                                height="15px"
+                                alt="Delete"
+                                aria-hidden="true"
+                            /></mat-icon>
+                          </mat-chip>
+
+                          <input
+                            style="
+                              border: 0.1rem solid gray;
+                              border-radius: 5px;
+                            "
+                            #chipInput
+                            [formControl]="docnumCtrl"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="
+                              separatorKeysCodesnum
+                            "
+                            [matChipInputAddOnBlur]="addOnBlurnum"
+                            (matChipInputTokenEnd)="addnum($event)"
+                          />
+                        </mat-chip-list>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>کد شعبه</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <mat-chip-list #chipList2>
+                          <mat-chip
+                            *ngFor="let branchCode of docbranchcode"
+                            [removable]="removable"
+                            (removed)="remove(branchCode)"
+                          >
+                            {{ branchCode }}
+                            <mat-icon
+                              style="margin: 0 10px 8px 0"
+                              matChipRemove
+                              *ngIf="removable"
+                            >
+                              <img
+                                src="../../../../assets/icons/wrong.svg"
+                                width="15px"
+                                height="15px"
+                                alt="Delete"
+                                aria-hidden="true"
+                            /></mat-icon>
+                          </mat-chip>
+
+                          <input
+                            style="
+                              border: 0.1rem solid gray;
+                              border-radius: 5px;
+                            "
+                            #chipInput
+                            [formControl]="docbranchcodeCtrl"
+                            [matChipInputFor]="chipList2"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur"
+                            (matChipInputTokenEnd)="add($event)"
+                          />
+                        </mat-chip-list>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>تاریخ سند</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <mat-chip-list #chipList3>
+                          <mat-chip
+                            *ngFor="let docDate of docdate"
+                            [removable]="removabledate"
+                            (removed)="removedate(docDate)"
+                          >
+                            {{ docDate }}
+                            <mat-icon
+                              style="margin: 0 10px 8px 0"
+                              matChipRemove
+                              *ngIf="removabledate"
+                            >
+                              <img
+                                src="../../../../assets/icons/wrong.svg"
+                                width="15px"
+                                height="15px"
+                                alt="Delete"
+                                aria-hidden="true"
+                              />
+                            </mat-icon>
+                          </mat-chip>
+                        </mat-chip-list>
+                        <div style="margin-top: 2rem">
+                          <persian-date-picker
+                            placeholder="انتخاب کنید"
+                            [alwaysPlaceholder]="true"
+                            (passEntry)="addDateFromPicker($event)"
+                          ></persian-date-picker>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>طبقه سند</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <p-dropdown
+                          (onChange)="setDocumentClass($event)"
+                          [(ngModel)]="documentClass"
+                          [filterBy]="'label'"
+                          [filter]="true"
+                          [options]="enumKeys"
+                          class="basic-dropdown"
+                          formControlName="documentClass"
+                          optionLabel="label"
+                          placeholder="انتخاب کنید"
+                          [title]="documentClassLabel"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>شرح سند / فرم</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <p-dropdown
+                          (onChange)="setDocumentDescription($event)"
+                          *ngIf="documentTypes.length > 0"
+                          [(ngModel)]="documentDescription"
+                          [filterBy]="'label'"
+                          [filter]="true"
+                          [options]="currentPageItems"
+                          class="basic-dropdown"
+                          formControlName="documentDescription"
+                          optionLabel="title"
+                          placeholder="انتخاب کنید"
+                          [title]="documentDescriptionLabel"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+                    <div
+                      class="p-col-12 p-sm-12 p-grid"
+                      style="display: flex; justify-content: flex-start"
+                    >
+                      <button
+                        [disabled]="false"
+                        class="global-primary-button"
+                        style="margin-top: 15px"
+                        type="submit"
+                      >
+                        ثبت متادیتا
+                      </button>
+                    </div>
+                  </mat-card>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div *ngIf="fileContradictionSets.type === 'CHAKAVAK'">
+            <div
+              *ngIf="
+                selectedItem.currentState !== 'STAGNANT';
+                else showMetaChakavak
+              "
+              class="p-grid p-col-12 p-xl-12"
+            >
+              <form
+                style="width: 100%"
+                (ngSubmit)="submitMetaDataChakavak()"
+                [formGroup]="formGroup3"
+              >
+                <div class="p-grid p-col-12 p-xl-12">
+                  <p class="title-show">اطلاعات متادیتا</p>
+                  <mat-card style="width: 100%">
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>نوع دسته سند</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <input
+                          [(ngModel)]="documentSetType"
+                          [value]="documentSetType"
+                          class="input"
+                          formControlName="documentSetType"
+                          id="documentSetType"
+                          style="width: 100%"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>شماره صیاد</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <app-otp-input></app-otp-input>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>شماره چک</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <input
+                          [(ngModel)]="chequeNo"
+                          class="input"
+                          formControlName="chequeNo"
+                          id="chequeNo"
+                          style="width: 100%"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>تاریخ چک</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <input
+                          [(ngModel)]="chequeDate"
+                          class="input"
+                          formControlName="chequeDate"
+                          id="chequeDate"
+                          style="width: 100%"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>نام بانک عهده</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <p-dropdown
+                          [(ngModel)]="toBranch"
+                          [filterBy]="'label'"
+                          [filter]="true"
+                          [options]="enumKeysBanks"
+                          class="basic-dropdown"
+                          formControlName="toBranch"
+                          optionLabel="label"
+                          placeholder="انتخاب کنید"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>طبقه سند</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <p-dropdown
+                          (onChange)="setDocumentClass($event)"
+                          [(ngModel)]="documentClass"
+                          [filterBy]="'label'"
+                          [filter]="true"
+                          [options]="enumKeysChakavak"
+                          class="basic-dropdown"
+                          formControlName="documentClass"
+                          optionLabel="label"
+                          placeholder="انتخاب کنید"
+                          [title]="documentClassLabel"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>نوع یا فرم سند</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <p-dropdown
+                          [(ngModel)]="documentType"
+                          [filterBy]="'label'"
+                          [filter]="true"
+                          [options]="enumTypeOfDoc"
+                          class="basic-dropdown"
+                          formControlName="documentType"
+                          optionLabel="label"
+                          placeholder="انتخاب کنید"
+                          [title]="documentType?.label"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>نام شعبه بانک عهده</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <input
+                          [(ngModel)]="fromBranch"
+                          class="input"
+                          formControlName="fromBranch"
+                          id="fromBranch"
+                          style="width: 100%"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>نام و کد شعبه واگذار شده</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <input
+                          [value]="branchName"
+                          class="input"
+                          style="width: 100%"
+                          disabled
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="p-col-12 p-sm-12 p-grid"
+                      style="display: flex; justify-content: flex-start"
+                    >
+                      <button
+                        [disabled]="false"
+                        class="global-primary-button"
+                        style="margin-top: 15px"
+                        type="submit"
+                      >
+                        ثبت متادیتا
+                      </button>
+                    </div>
+                  </mat-card>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div
+            *ngIf="
+              fileContradictionSets.type !== 'CHAKAVAK' &&
+              fileContradictionSets.type !== 'DAILY'
+            "
+          >
+            <div
+              *ngIf="
+                selectedItem.currentState !== 'STAGNANT';
+                else showMetaOther
+              "
+              class="p-grid p-col-12 p-xl-12"
+            >
+              <form
+                style="width: 100%"
+                (ngSubmit)="submitMetaDataOther()"
+                [formGroup]="formGroup4"
+              >
+                <div class="p-grid p-col-12 p-xl-12">
+                  <p class="title-show">اطلاعات متادیتا</p>
+                  <mat-card style="width: 100%">
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>نوع دسته سند</span>
+                      </div>
+                      <div class="p-col-8 p-sm-">
+                        <p-dropdown
+                          [options]="enumKeysOther"
+                          placeholder="انتخاب کنید"
+                          optionLabel="label"
+                          [(ngModel)]="selectedType"
+                          formControlName="documentType"
+                          (onChange)="setType($event)"
+                          [title]="selectedType.label"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>شماره مشتری</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <input
+                          [(ngModel)]="fileContradictionSets.customerNumber"
+                          class="input"
+                          formControlName="customerNumber"
+                          id="customerNumber"
+                          style="width: 100%"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>شماره پرونده</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <input
+                          [(ngModel)]="fileContradictionSets.fileNumber"
+                          class="input"
+                          formControlName="fileNumber"
+                          id="fileNumber"
+                          style="width: 100%"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>نوع پرونده</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <input
+                          [value]="getFileType(fileType)"
+                          class="input"
+                          style="width: 100%"
+                          type="text"
+                          disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid date-div"
+                      style="padding-bottom: 0"
+                    >
+                      <div
+                        class="p-col-4"
+                        style="direction: rtl; float: right; display: inherit"
+                      >
+                        <span>وضعیت پرونده</span>
+                      </div>
+                      <div
+                        style="
+                          background-color: aliceblue;
+                          border-radius: 5px;
+                          margin: 0.5rem 0;
+                        "
+                        class="p-col-8 p-sm-"
+                      >
+                        <p-dropdown
+                          *ngIf="statusOtherKeys.length > 0"
+                          [(ngModel)]="defaultStatusKey"
+                          formControlName="fileStatus"
+                          [options]="statusOtherKeys"
+                          optionLabel="label"
+                          (onChange)="setFileStatusId($event)"
+                          placeholder="انتخاب کنید"
+                          [title]="defaultStatusKey?.label"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div
+                      class="p-col-12 p-sm-12 p-grid"
+                      style="display: flex; justify-content: flex-start"
+                    >
+                      <button
+                        [disabled]="false"
+                        class="global-primary-button"
+                        style="margin-top: 15px"
+                        type="submit"
+                      >
+                        ثبت متادیتا
+                      </button>
+                    </div>
+                  </mat-card>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div class="p-col-2" style="margin-top: 20px">
+            <span>کد نگهداری</span>
+          </div>
+          <div class="p-col-10" style="display: flex">
+            <form (ngSubmit)="submitCode()" [formGroup]="formGroup">
+              <input
+                [(ngModel)]="maintenanceCode"
+                [value]="maintenanceCode"
+                class="input"
+                formControlName="maintenanceCode"
+                id="maintenanceCode"
+                style="margin-left: 10px"
+                type="text"
+                (input)="onInputChange()"
+              />
+              <button
+                [disabled]="!isInputChanged"
+                class="global-primary-button"
+                style="margin-top: 15px; margin-left: 70px"
+                type="submit"
+              >
+                ثبت کد نگهداری
+              </button>
+            </form>
+          </div>
+        </div>
+      </p-accordionTab>
+      <p-accordionTab [disabled]="!selectedItem.id" header="ثبت مغایرت">
+        <div style="padding: 0 !important" class="p-grid p-col-12 p-xl-12">
+          <form style="width: 100%">
+            <div
+              *ngIf="
+                isCompleted && selectedItem.currentState === 'NOT_CHECKED';
+                else notConf
+              "
+              style="margin-top: 2px"
+              class="p-grid p-col-12 p-xl-12"
+            >
+              <p class="title-show">ثبت مغایرت</p>
+              <mat-card style="width: 100%; min-height: 37rem">
+                <app-set-doc-conflict-modal
+                  (passEntry)="submitNew(1)"
+                  [documentModel]="selectedItem"
+                  [enumKeysConflicts]="enumKeysConflicts"
+                ></app-set-doc-conflict-modal>
+              </mat-card>
+            </div>
+          </form>
+        </div>
+      </p-accordionTab>
+      <p-accordionTab
+        [disabled]="!selectedItem.id"
+        header="اطلاعات کلی فایل و تایید اولیه"
+      >
+        <div class="p-grid p-col-12 p-xl-12" style="padding-top: 23px">
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="
+                direction: rtl;
+                float: right;
+                display: inherit;
+                text-align: right;
+              "
+            >
+              <span>تاریخ دسته اسناد از</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                [value]="getDate(selectedItem.fromDate)"
+                class="input"
+                disabled
+                style="width: 90%"
+                type="text"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="
+                direction: rtl;
+                float: right;
+                display: inherit;
+                text-align: right;
+              "
+            >
+              <span>تاریخ دسته اسناد تا</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                [value]="getDate(selectedItem.toDate)"
+                class="input"
+                disabled
+                style="width: 90%"
+                type="text"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="
+                direction: rtl;
+                float: right;
+                display: inherit;
+                text-align: right;
+              "
+            >
+              <span>تاریخ ارسال دسته اسناد </span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                [value]="getDate(selectedItem.sendDate)"
+                class="input"
+                disabled
+                style="width: 90%"
+                type="text"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="
+                direction: rtl;
+                float: right;
+                display: inherit;
+                text-align: right;
+              "
+            >
+              <span>کد شعبه</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                [value]="selectedItem.branchCode"
+                class="input"
+                disabled
+                style="width: 90%"
+                type="text"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="
+                direction: rtl;
+                float: right;
+                display: inherit;
+                text-align: right;
+              "
+            >
+              <span>شماره ردیف دسته سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                [value]="selectedItem.documentSetRowsNumber"
+                class="input"
+                disabled
+                style="width: 90%"
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="description !== null"
+          class="p-col-12 p-sm-12 p-grid date-div"
+          style="padding-bottom: 0"
+        >
+          <div class="p-col-2" style="margin-top: 20px">
+            <span>توضیحات</span>
+          </div>
+          <div class="p-col-10" style="display: flex">
+            <div
+              style="border: 1px solid GRAY; border-radius: 5px; padding: 5px"
+            >
+              {{ description }}
+            </div>
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <button
+            (click)="confirmDoc()"
+            [disabled]="
+              !isCompleted || selectedItem.currentState !== 'NOT_CHECKED'
+            "
+            class="global-primary-button"
+            type="button"
+          >
+            تایید اولیه فایل
+          </button>
+        </div>
+      </p-accordionTab>
+      <p-accordionTab
+        *ngIf="
+          selectedItem.currentState === 'CONFLICTING' ||
+          selectedItem.currentState === 'SENT_CONFLICT' ||
+          selectedItem.conflicts?.length > 0
+        "
+        [disabled]="!selectedItem.id"
+        header="مدیریت مغایرت"
+      >
+        <div
+          class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12"
+          style="padding-top: 23px"
+        >
+          <mat-card dir="rtl" style="margin: 0.5rem; width: 100%">
+            <mat-card-header style="text-align: right">
+              <mat-card-title>تاریخ و دلایل مغایرت</mat-card-title>
+              <mat-card-subtitle
+                style="overflow-wrap: anywhere; direction: rtl"
+              >
+                مغایرت ثبت شده توسط :
+                {{ selectedItem.conflicts[0].registrarName }}
+
+                <br />
+                توضیحات مغایرت :
+                {{ selectedItem.conflicts[0].registerDescription }}
+                <br />
+                توضیحات رفع مغایرت :
+                {{ selectedItem.conflicts[0].resolveDescription }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <div
+              *ngIf="selectedItem.conflicts && selectedItem.conflicts[0]"
+              style="display: contents"
+            >
+              <div
+                *ngFor="let item of selectedItem.conflicts[0].conflictReasons"
+              >
+                <span class="reasons"
+                  >{{ item.reason }} -
+                  {{ getDate(selectedItem.conflicts[0].registerDate) }}</span
+                >
+              </div>
+            </div>
+          </mat-card>
+          <span
+            *ngIf="
+              selectedItem.currentState === 'CONFLICTING' ||
+              selectedItem.currentState === 'SENT_CONFLICT'
+            "
+          >
+            <app-manage-contradiction-modal
+              (passEntry)="submitNew()"
+              [documentModel]="selectedItem"
+            ></app-manage-contradiction-modal>
+          </span>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+  <div class="p-col-6" style="padding: 0 !important">
+    <div class="card">
+      <p style="text-align: center; margin: revert">نمایش فایل</p>
+    </div>
+    <div class="p-col-12" style="padding: 0 !important">
+      <div *ngIf="open" style="width: 100%; height: 70vh">
+        <ng2-pdfjs-viewer [pdfSrc]="link"></ng2-pdfjs-viewer>
+      </div>
+      <div *ngIf="!open" style="width: 100%">
+        <p style="text-align: center; margin: revert">سندی انتخاب نشده است</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #disabledButton>
+  <button
+    (click)="confirmDoc()"
+    class="global-primary-button"
+    disabled="true"
+    type="button"
+  >
+    تایید اولیه فایل
+  </button>
+</ng-template>
+<ng-template #notConf>
+  <div style="margin-top: 2px" class="p-grid p-col-12 p-xl-12">
+    <p class="title-show">ثبت مغایرت</p>
+    <mat-card class="blur-card">
+      <div class="text-overlay">
+        <div style="z-index: 1">فیلدهای متادیتا باید ثبت شده باشد.</div>
+        <div style="z-index: 1">وضعیت سند باید بررسی نشده باشد.</div>
+      </div>
+      <div class="card-content">
+        <div class="p-grid p-col-12">
+          <form class="form-inline p-col-12">
+            <div
+              class="p-grid p-col-12"
+              style="padding-bottom: 0; font-size: 13px"
+            >
+              <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+                <div class="p-col-12 p-sm-12 p-grid date-div">
+                  <div class="p-col-12">
+                    <span>دلیل مغایرت</span>
+                  </div>
+                  <div class="p-col-12 p-sm-12">
+                    <input disabled />
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-grid p-col-12" style="margin-right: 0.7rem">
+                <span>توضیحات:</span>
+                <input disabled style="width: 100%; height: 70px" />
+              </div>
+
+              <div
+                class="p-col-12"
+                style="display: flex; justify-content: flex-start"
+              >
+                <div
+                  class="global-primary-button"
+                  style="margin-right: 15px; margin-left: 15px"
+                >
+                  ثبت مغایرت
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</ng-template>
+<ng-template #manageConflictModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">مدیریت مغایرت ها</h6>
+    <button
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+      class="close"
+      type="button"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-manage-contradiction-modal
+      (passEntry)="submitNew()"
+      [documentModel]="selectedDoc"
+    ></app-manage-contradiction-modal>
+  </div>
+</ng-template>
+<ng-template #showMetaDaily>
+  <div class="p-grid p-col-12 p-xl-12">
+    <form>
+      <div class="p-grid p-col-12 p-xl-12">
+        <p class="title-show">اطلاعات متادیتا</p>
+        <mat-card style="width: 100%">
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>نوع دسته سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                style="width: 90%"
+                class="input"
+                type="text"
+                [value]="documentSetType"
+                disabled
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>شماره سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                disabled
+                class="input"
+                type="text"
+                [value]="docnumber"
+                style="width: 90%"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>کد شعبه</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                disabled
+                class="input"
+                type="text"
+                [value]="docbranchcode"
+                style="width: 90%"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>تاریخ سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                disabled
+                class="input"
+                type="text"
+                [value]="docdate"
+                style="width: 90%"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>طبقه سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                style="width: 90%"
+                class="input"
+                type="text"
+                [value]="documentClassShow"
+                disabled
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>شرح سند / فرم</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                style="width: 90%"
+                class="input"
+                type="text"
+                [value]="documentDescriptionShow"
+                disabled
+              />
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template #showMetaChakavak>
+  <div class="p-grid p-col-12 p-xl-12">
+    <p class="title-show">اطلاعات متادیتا</p>
+    <mat-card style="width: 100%">
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>نوع دسته سند</span>
+        </div>
+        <div class="p-col-8 p-sm-">
+          <input
+            [(ngModel)]="documentSetType"
+            [value]="documentSetType"
+            class="input"
+            id="documentSetType"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>شماره صیاد</span>
+        </div>
+        <div
+          style="
+            background-color: aliceblue;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+          "
+          class="p-col-8 p-sm-"
+        >
+          <input
+            [value]="sayyadNo"
+            class="input"
+            id="sayyadNo"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>شماره چک</span>
+        </div>
+        <div
+          style="
+            background-color: aliceblue;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+          "
+          class="p-col-8 p-sm-"
+        >
+          <input
+            [(ngModel)]="chequeNo"
+            class="input"
+            id="chequeNo"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>تاریخ چک</span>
+        </div>
+        <div
+          style="
+            background-color: aliceblue;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+          "
+          class="p-col-8 p-sm-"
+        >
+          <input
+            [(ngModel)]="chequeDate"
+            class="input"
+            id="chequeDate"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>نام بانک عهده</span>
+        </div>
+        <div
+          style="
+            background-color: aliceblue;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+          "
+          class="p-col-8 p-sm-"
+        >
+          <input
+            [value]="toBranchShow"
+            class="input"
+            id="toBranch"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>طبقه سند</span>
+        </div>
+        <div class="p-col-8 p-sm-">
+          <input
+            style="width: 100%"
+            class="input"
+            type="text"
+            [value]="documentClassShow"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>نوع یا فرم سند</span>
+        </div>
+        <div class="p-col-8 p-sm-">
+          <input
+            [value]="documentTypeShow"
+            class="input"
+            id="documentType"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>نام شعبه بانک عهده</span>
+        </div>
+        <div class="p-col-8 p-sm-">
+          <input
+            [(ngModel)]="fromBranch"
+            class="input"
+            id="fromBranch"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>نام و کد شعبه واگذار شده</span>
+        </div>
+        <div class="p-col-8 p-sm-">
+          <input
+            [value]="branchName"
+            class="input"
+            style="width: 100%"
+            disabled
+          />
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</ng-template>
+<ng-template #showMetaOther>
+  <div class="p-grid p-col-12 p-xl-12">
+    <p class="title-show">اطلاعات متادیتا</p>
+    <mat-card style="width: 100%">
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>نوع دسته سند</span>
+        </div>
+        <div class="p-col-8 p-sm-">
+          <input
+            [value]="getType(fileContradictionSets.type)"
+            class="input"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>شماره مشتری</span>
+        </div>
+        <div
+          style="
+            background-color: aliceblue;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+          "
+          class="p-col-8 p-sm-"
+        >
+          <input
+            [(ngModel)]="fileContradictionSets.customerNumber"
+            class="input"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>شماره پرونده</span>
+        </div>
+        <div
+          style="
+            background-color: aliceblue;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+          "
+          class="p-col-8 p-sm-"
+        >
+          <input
+            [(ngModel)]="fileContradictionSets.fileNumber"
+            class="input"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>نوع پرونده</span>
+        </div>
+        <div
+          style="
+            background-color: aliceblue;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+          "
+          class="p-col-8 p-sm-"
+        >
+          <input
+            [value]="getFileType(fileType)"
+            class="input"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-4"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>وضعیت پرونده</span>
+        </div>
+        <div
+          style="
+            background-color: aliceblue;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+          "
+          class="p-col-8 p-sm-"
+        >
+          <input
+            [value]="fileContradictionSets.fileStatusTitle"
+            class="input"
+            style="width: 100%"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</ng-template>
+
+<ng-template #completeModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <input
+        class="global-upload-file"
+        style="padding: 0.5rem; margin-bottom: 1rem"
+        type="file"
+        (change)="onChange($event)"
+        accept=".pdf, .tif, .tiff"
+      />
+      <button (click)="onUpload()" class="global-primary-button">
+        بارگذاری
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <input
+        class="global-upload-file"
+        style="padding: 0.5rem; margin-bottom: 1rem"
+        type="file"
+        (change)="onChangeEdit($event)"
+        accept=".pdf, .tif, .tiff"
+      />
+      <button (click)="onUploadEdit()" class="global-primary-button">
+        بارگذاری
+      </button>
+    </div>
+  </div>
+</ng-template>

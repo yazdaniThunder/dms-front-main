@@ -1,0 +1,173 @@
+<div class="p-grid p-col-12">
+  <mat-card class="p-grid p-col-12" style="margin-top: 10px">
+    <mat-card-header>
+      <mat-card-title>ارسال به شعبه</mat-card-title>
+    </mat-card-header>
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+        <div
+          *ngIf="requestModel.officeFiles.length > 0"
+          class="p-col-10 p-sm-10 p-md-10 p-lg-10 p-xl-10"
+          style="display: contents"
+        >
+          <div
+            style="display: flex; justify-content: center"
+            *ngFor="let file of requestModel.officeFiles"
+          >
+            <div
+              style="
+                margin: 1rem;
+                border: #820263 1px solid;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #f5f5f5;
+                cursor: pointer;
+              "
+              (click)="getContent(file.uuid)"
+            >
+              {{ file.name }}
+              <img
+                src="../../../../../assets/icons/download.svg"
+                width="25px"
+                height="25px"
+                alt="download"
+                aria-hidden="true"
+              />
+            </div>
+            <div
+              style="
+                margin: 1rem;
+                border: #820263 1px solid;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: #f5f5f5;
+                cursor: pointer;
+                width: fit-content;
+              "
+              (click)="openModalClick(editModal, file)"
+            >
+              اصلاح فایل
+              <img
+                src="../../../../../assets/icons/color-edit.svg"
+                width="25px"
+                height="25px"
+                alt="edit"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-col-12"
+          style="
+            padding-top: 12px;
+            float: right;
+            direction: rtl;
+            text-align: right;
+          "
+          *ngIf="requestModel.lastState.description != ''"
+        >
+          <span style="font-size: larger; font-weight: 300">
+            توضیحات آپلود فایل:
+          </span>
+        </div>
+        <div
+          *ngIf="requestModel.lastState.description != ''"
+          class="p-col-12"
+          style="display: flex"
+        >
+          <span class="reasons">
+            {{ requestModel.lastState.description }}
+          </span>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>تاریخ اعتبار مشاهده</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <persian-date-picker
+              placeholder="انتخاب کنید"
+              (passEntry)="setDate($event)"
+            ></persian-date-picker>
+          </div>
+        </div>
+
+        <div
+          class="p-col-12"
+          style="
+            padding-top: 12px;
+            float: right;
+            direction: rtl;
+            text-align: right;
+          "
+        >
+          <span style="font-size: larger; font-weight: 300">توضیحات:</span>
+        </div>
+        <div class="p-col-12 inputCSS">
+          <textarea
+            id="requestDescription"
+            name="requestDescription"
+            [(ngModel)]="sendModel.receiveDescription"
+            type="text"
+            style="
+              text-align: right;
+              font-family: iransans;
+              font-size: medium;
+              width: 100%;
+              height: 90px;
+            "
+          >
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <div class="p-col-12" style="display: flex; justify-content: center">
+    <button
+      class="global-primary-button"
+      [disabled]="false"
+      (click)="onSubmit()"
+    >
+      ارسال
+    </button>
+  </div>
+</div>
+
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span *ngIf="requestModel.requestType !== 'GROUP_DOCUMENT_IMAGE'">
+        <input
+          class="global-upload-file"
+          style="padding: 0.5rem; margin-bottom: 1rem"
+          type="file"
+          (change)="onChangeEdit($event)"
+          accept=".pdf, .tif, .tiff"
+      /></span>
+      <span *ngIf="requestModel.requestType === 'GROUP_DOCUMENT_IMAGE'"
+        ><input
+          class="global-upload-file"
+          style="padding: 0.5rem; margin-bottom: 1rem"
+          type="file"
+          formControlName="file"
+          (change)="onChangeEdit($event)"
+          accept=".zip"
+      /></span>
+
+      <button (click)="onUploadEdit()" class="global-primary-button">
+        بارگذاری
+      </button>
+    </div>
+  </div>
+</ng-template>

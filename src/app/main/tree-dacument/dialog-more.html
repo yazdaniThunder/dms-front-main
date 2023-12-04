@@ -1,0 +1,55 @@
+<div class=" p-grid p-col-12 fix-direction" style="padding: 0 !important;overflow-x: hidden;">
+
+
+
+
+    <div class=" p-grid p-col-12 dot " style="background-color: #ffffff;padding: 0;margin-left: 8px;padding: 0 !important;"
+         fxLayoutAlign="center center">
+
+      <div class="p-col-12" style="margin-top: 10px;" fxLayoutAlign="center center">
+
+        <p style="font-size: large;font-family: iransans;text-align: center">
+          موارد بیشتر
+        </p>
+      </div>
+
+      <div class="p-col-12" style="margin-top: 10px;" fxLayoutAlign="center center">
+
+
+        <div  [@listAnimation]="morItem.length">
+
+          <mat-list
+            *ngFor="let item of morItem ; let i = index"
+            style="margin-top: 12px;background:white;border-radius: 14px;margin-right: 14px;margin-left: 14px">
+            <mat-list-item style="height: 100%;">
+              <div fxLayout="column" style="width: 100%;margin-left: 20px;margin-right: 20px">
+                <p style="font-size: 16px;margin-top: 15px;margin-right: 30px;font-family: iransans;
+               margin-left: 10px;text-align: left;">
+                  {{item.label}}<span style="text-align: left"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                </p>
+
+              </div>
+
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+

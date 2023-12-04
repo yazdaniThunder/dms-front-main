@@ -1,0 +1,145 @@
+<div class="p-grid p-col-12">
+  <div
+    class="p-grid p-col-12 p-md-11 p-lg-11 p-xl-11"
+    style="padding-top: 5px; width: 100%"
+  >
+    <h2
+      class="Title"
+      style="
+        padding-top: 41px;
+        padding-bottom: 25px;
+        padding-right: 0;
+        font-family: iransans;
+        font-size: 24px;
+        font-weight: 500;
+      "
+    >
+      ثبت سایر اسناد عملیات بانکی
+    </h2>
+    <mat-card>
+      <form
+        [formGroup]="formGroup"
+        autocomplete="off"
+        class="p-col-12"
+        style="min-height: 200px"
+      >
+        <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+          <div
+            class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6"
+            style="padding-top: 18px"
+          >
+            <div class="p-col-12 p-grid date-div">
+              <div class="p-col-4" style="padding-top: 12px">
+                <span style="color: red">*</span>
+
+                <span>نوع پرونده</span>
+              </div>
+              <div class="p-col-8 inputCSS">
+                <p-dropdown
+                  *ngIf="typeKeys.length > 0"
+                  (onChange)="setType($event)"
+                  [options]="typeKeys"
+                  optionLabel="label"
+                  formControlName="fileTypeId"
+                  placeholder="انتخاب کنید"
+                  [title]="typeLabel"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <div *ngIf="active" class="p-col-12 p-grid date-div">
+              <div class="p-col-4" style="padding-top: 12px">
+                <span style="color: red">*</span>
+
+                <span>شماره پرونده </span>
+              </div>
+              <div class="p-col-8 inputCSS">
+                <input class="input" formControlName="fileNumber" type="text" />
+              </div>
+            </div>
+
+            <div *ngIf="!active" class="p-col-12 p-grid date-div">
+              <div class="p-col-4" style="padding-top: 12px">
+                <span>شماره پرونده </span>
+              </div>
+              <div class="p-col-8 inputCSS">
+                <input
+                  class="input"
+                  formControlName="fileNumber"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div class="p-col-12 p-grid date-div">
+              <div class="p-col-4" style="padding-top: 12px">
+                <span>نام و کد سرپرستی</span>
+              </div>
+              <div class="p-col-8 inputCSS">
+                <input style="width: 198px" [value]="superVisor" disabled />
+              </div>
+            </div>
+          </div>
+
+          <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+            <div class="p-col-12 p-grid date-div">
+              <div class="p-col-4" style="padding-top: 12px">
+                <span style="color: red">*</span>
+
+                <span>شماره مشتری</span>
+              </div>
+              <div class="p-col-8 inputCSS">
+                <input
+                  class="input"
+                  formControlName="customerNumber"
+                  type="text"
+                />
+              </div>
+            </div>
+            <div class="p-col-12 p-grid date-div">
+              <div class="p-col-4" style="padding-top: 12px">
+                <span>کاربر ثبت کننده</span>
+              </div>
+              <div class="p-col-8 inputCSS">
+                <input style="width: 198px" [value]="fullName" disabled />
+              </div>
+            </div>
+
+            <div class="p-col-12 p-grid date-div">
+              <div class="p-col-4" style="padding-top: 12px">
+                <span>نام و کد واحد بانکی</span>
+              </div>
+              <div class="p-col-8 inputCSS">
+                <input style="width: 198px" [value]="branchName" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-col-12"
+          style="display: flex; justify-content: space-evenly"
+        >
+          <button
+            (click)="confirm()"
+            [disabled]="!formGroup.valid"
+            class="global-primary-button"
+          >
+            ثبت
+          </button>
+          <button (click)="cancel()" class="global-cancel-button" type="submit">
+            انصراف
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #emptyDD>
+  <input
+    style="width: 198px"
+    value="ابتدا نوع پرونده را انتخاب کنید"
+    disabled
+  />
+</ng-template>

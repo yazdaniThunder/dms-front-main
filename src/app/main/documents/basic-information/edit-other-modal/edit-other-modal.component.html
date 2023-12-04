@@ -1,0 +1,241 @@
+<div class="global-modal-body">
+  <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+    <div class="p-col-3" style="direction: rtl; float: right; display: inherit">
+      <span>نوع پرونده</span>
+    </div>
+    <div class="p-col-9 p-sm-">
+      <input
+        [(ngModel)]="fileTypeModel.title"
+        style="
+          border: 0.1rem solid gray;
+          border-radius: 5px;
+          margin-right: 0.3rem;
+          width: 150px;
+          height: 28px;
+        "
+        type="text"
+      />
+    </div>
+  </div>
+  <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+    <div class="p-col-3" style="direction: rtl; float: right; display: inherit">
+      <span>وضعیت پرونده</span>
+    </div>
+    <div
+      style="background-color: aliceblue; border-radius: 5px; margin: 0.5rem 0"
+      class="p-col-9 p-sm-"
+    >
+      <div style="display: flex">
+        <input
+          style="
+            border: 0.1rem solid gray;
+            border-radius: 5px;
+            margin-right: 5px;
+            width: 150px;
+            height: 28px;
+            margin-top: 10px;
+          "
+          [(ngModel)]="fileStatusInput"
+        />
+        <button
+          style="margin-right: 20px; margin-bottom: 10px"
+          class="global-button"
+          (click)="addFileStatus()"
+        >
+          افزودن
+        </button>
+      </div>
+      <div style="display: grid; max-height: 180px; overflow-y: scroll">
+        <p-table [value]="fileStatus" responsive="true" class="Table">
+          <ng-template pTemplate="header">
+            <tr class="tr-class">
+              <th style="width: 10%" class="th-class">عنوان وضعیت</th>
+              <th style="width: 10%" class="th-class">انتخاب پیش فرض</th>
+              <th style="width: 5%" class="th-class">ویرایش</th>
+              <th style="width: 5%" class="th-class">حذف</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr class="tr-class2">
+              <td class="td-class" style="overflow: hidden">
+                {{ product?.title }}
+              </td>
+              <td class="td-class">
+                <label>
+                  <input
+                    type="radio"
+                    [checked]="product.isDefault"
+                    (change)="selectFileStatus(product)"
+                  />
+                </label>
+              </td>
+              <td class="td-class">
+                <img
+                  src="../../../../assets/icons/color-edit.svg"
+                  width="20px"
+                  height="20px"
+                  alt="Edit"
+                  aria-hidden="true"
+                  (click)="editFileStatus(product)"
+                />
+              </td>
+              <td
+                style="display: flex; justify-content: center"
+                class="td-class"
+              >
+                <img
+                  src="../../../../assets/icons/wrong.svg"
+                  width="10px"
+                  height="10px"
+                  alt="Delete"
+                  aria-hidden="true"
+                  (click)="removeFileStatus(product)"
+                />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div style="display: flex; gap: 10px" *ngIf="editingFileStatus">
+        <input
+          style="
+            border: 0.1rem solid gray;
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 150px;
+            height: 28px;
+          "
+          [(ngModel)]="editingFileStatus.title"
+        />
+        <button class="global-button" (click)="updateFileStatus()">
+          اصلاح
+        </button>
+        <button class="global-button" (click)="cancelEditFileStatus()">
+          انصراف
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+    <div class="p-col-3" style="direction: rtl; float: right; display: inherit">
+      <span>نوع سند</span>
+    </div>
+    <div
+      style="background-color: aliceblue; border-radius: 5px; margin: 0.5rem 0"
+      class="p-col-9 p-sm-"
+    >
+      <div style="display: flex; align-items: center">
+        <input
+          style="
+            border: 0.1rem solid gray;
+            border-radius: 5px;
+            margin-right: 5px;
+            width: 150px;
+            height: 28px;
+            margin-top: 10px;
+          "
+          [(ngModel)]="documentTypeInput"
+        />
+        <button
+          style="margin-right: 20px; margin-bottom: 10px"
+          class="global-button"
+          (click)="addDocumentType()"
+        >
+          افزودن
+        </button>
+      </div>
+      <div style="display: grid; max-height: 180px; overflow-y: scroll">
+        <p-table [value]="documentType" responsive="true" class="Table">
+          <ng-template pTemplate="header">
+            <tr class="tr-class">
+              <th style="width: 10%" class="th-class">عنوان سند</th>
+              <th style="width: 5%" class="th-class">ویرایش</th>
+              <th style="width: 5%" class="th-class">حذف</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr class="tr-class2">
+              <td class="td-class" style="overflow: hidden">
+                {{ product?.title }}
+              </td>
+              <td class="td-class">
+                <img
+                  src="../../../../assets/icons/color-edit.svg"
+                  width="20px"
+                  height="20px"
+                  alt="Edit"
+                  aria-hidden="true"
+                  (click)="editDocumentType(product)"
+                />
+              </td>
+              <td
+                style="display: flex; justify-content: center"
+                class="td-class"
+              >
+                <img
+                  src="../../../../assets/icons/wrong.svg"
+                  width="10px"
+                  height="10px"
+                  alt="Delete"
+                  aria-hidden="true"
+                  (click)="removeDocumentType(product)"
+                />
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div style="display: flex; gap: 10px" *ngIf="editingDocumentType">
+        <input
+          style="
+            border: 0.1rem solid gray;
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 150px;
+            height: 28px;
+          "
+          [(ngModel)]="editingDocumentType.title"
+        />
+        <button class="global-button" (click)="updateDocumentType()">
+          اصلاح
+        </button>
+        <button class="global-button" (click)="cancelEditDocumentType()">
+          انصراف
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <form
+    [formGroup]="formGroup"
+    (ngSubmit)="submit()"
+    class="form-inline p-col-12"
+  >
+    <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+      <mat-checkbox formControlName="activateFileNumber">
+        فعال بودن شماره پرونده
+      </mat-checkbox>
+    </div>
+
+    <div class="p-col-12" style="display: flex; justify-content: space-evenly">
+      <button
+        (click)="cancel()"
+        class="global-cancel-button"
+        [disabled]="false"
+        type="button"
+      >
+        انصراف
+      </button>
+      <button
+        class="global-primary-button"
+        [disabled]="
+          fileTypeModel.title == undefined || fileTypeModel.title == ''
+        "
+        type="submit"
+      >
+        ثبت
+      </button>
+    </div>
+  </form>
+</div>

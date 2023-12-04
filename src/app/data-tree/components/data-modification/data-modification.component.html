@@ -1,0 +1,179 @@
+<div *ngIf="!isTextExtracted">
+  <div cdkDropListGroup>
+    <div class="example-container">
+      <br />
+
+      <h3 style="text-align: center">انتخاب شده</h3>
+
+      <div
+        cdkDropList
+        [cdkDropListData]="groups"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="example-box-input" *ngFor="let item of groups" cdkDrag>
+          {{ item.label }}
+          <input
+            class="input"
+            type="text"
+            placeholder="مقدار"
+            [(ngModel)]="item.value"
+          />
+        </div>
+      </div>
+    </div>
+
+    <span class="change-icon"></span>
+    <div class="example-container" style="margin-right: 15%">
+      <br />
+
+      <h3 style="text-align: center">قابل انتخاب</h3>
+
+      <div
+        cdkDropList
+        [cdkDropListData]="AllGroups"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="example-box" *ngFor="let item of AllGroups" cdkDrag>
+          {{ item.label }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="formGroup">
+    <div class="p-grid p-col-12">
+      <div class="p-col-4">
+        <span style="float: right; padding-right: 12%; padding-bottom: 3%"
+          >نوع دسته سند</span
+        >
+        <p-dropdown
+          [options]="stateOneOptions"
+          placeholder="انتخاب کنید"
+          optionLabel="label"
+          (onChange)="setFixedTwo($event)"
+          formControlName="fixedOne"
+          [(ngModel)]="bindOne"
+        ></p-dropdown>
+      </div>
+      <div class="p-col-4">
+        <span style="float: right; padding-right: 12%; padding-bottom: 3%"
+          >طبقه سند</span
+        >
+        <p-dropdown
+          [disabled]="!stateTwoOptions"
+          [options]="stateTwoOptions"
+          placeholder="انتخاب کنید"
+          optionLabel="label"
+          [(ngModel)]="bindTwo"
+          (onChange)="setFixedThree($event)"
+          formControlName="fixedTwo"
+        ></p-dropdown>
+      </div>
+      <div class="p-col-4">
+        <span style="float: right; padding-right: 12%; padding-bottom: 3%"
+          >شرح سند</span
+        >
+        <p-dropdown
+          id="bar"
+          [disabled]="stateThreeOptions.length == 0"
+          [options]="currentPageItems"
+          placeholder="انتخاب کنید"
+          optionLabel="title"
+          [(ngModel)]="bindThree"
+          [filterBy]="'label'"
+          [filter]="true"
+          (onChange)="setFixedFive($event)"
+          formControlName="fixedFour"
+        ></p-dropdown>
+      </div>
+    </div>
+  </form>
+
+  <div class="p-col-12" style="text-align: center">
+    <div style="text-align: center; padding-top: 30px">
+      <button
+        class="add-button"
+        [disabled]="false"
+        (click)="confirmDoc()"
+        type="submit"
+      >
+        تایید
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isTextExtracted">
+  <div class="example-container">
+    <br />
+
+    <h3 style="text-align: center">متادیتا</h3>
+
+    <div class="example-list">
+      <div class="example-box-input" *ngFor="let item of groups" >
+        {{ item.label }}
+        <input
+          disabled
+          class="input"
+          type="text"
+          placeholder="مقدار"
+          [(ngModel)]="item.value"
+        />
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="formGroup">
+    <div class="p-grid p-col-12">
+      <div class="p-col-4">
+        <span style="float: right; padding-right: 12%; padding-bottom: 3%"
+          >نوع دسته سند</span
+        >
+        <p-dropdown
+          [disabled]="true"
+          [options]="stateOneOptions"
+          placeholder="انتخاب کنید"
+          optionLabel="label"
+          (onChange)="setFixedTwo($event)"
+          formControlName="fixedOne"
+          [(ngModel)]="bindOne"
+        ></p-dropdown>
+      </div>
+      <div class="p-col-4">
+        <span style="float: right; padding-right: 12%; padding-bottom: 3%"
+          >طبقه سند</span
+        >
+        <p-dropdown
+          [disabled]="true"
+          [options]="stateTwoOptions"
+          placeholder="انتخاب کنید"
+          optionLabel="label"
+          [(ngModel)]="bindTwo"
+          (onChange)="setFixedThree($event)"
+          formControlName="fixedTwo"
+        ></p-dropdown>
+      </div>
+      <div class="p-col-4">
+        <span style="float: right; padding-right: 12%; padding-bottom: 3%"
+          >شرح سند</span
+        >
+        <p-dropdown
+          id="bar"
+          [disabled]="true"
+          [options]="currentPageItems"
+          placeholder="انتخاب کنید"
+          optionLabel="title"
+          [(ngModel)]="bindThree"
+          [filterBy]="'label'"
+          [filter]="true"
+          (onChange)="setFixedFive($event)"
+          formControlName="fixedFour"
+        ></p-dropdown>
+      </div>
+    </div>
+  </form>
+</div>
+<p-toast></p-toast>
+<app-in-progress></app-in-progress>

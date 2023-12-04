@@ -1,0 +1,118 @@
+<div *ngIf="check" class="p-grid p-col-12" style="">
+  <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+    <div
+      class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+      style="padding-top: 23px"
+    >
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-5"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>تاریخ ایجاد سند</span>
+        </div>
+        <div class="p-col-7 p-sm-">
+          <input
+            disabled
+            class="input"
+            type="text"
+            [value]="getDate(documentSetModel.document.created)"
+            style="width: 90%"
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div
+          class="p-col-5"
+          style="direction: rtl; float: right; display: inherit"
+        >
+          <span>تاریخ آخرین تغییر </span>
+        </div>
+        <div class="p-col-7 p-sm-">
+          <input
+            disabled
+            class="input"
+            type="text"
+            [value]="getDate(documentSetModel.document.lastModified)"
+            style="width: 90%"
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-grid date-div">
+        <div class="p-col-5" style="padding-top: 12px">
+          <span>کلمات کلیدی</span>
+        </div>
+        <div class="p-col-7 inputCSS">
+          <input
+            disabled
+            class="input"
+            type="text"
+            [value]="documentSetModel.document.keywords"
+            style="width: 90%"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+      <div class="p-col-12 p-sm-12 p-grid date-div">
+        <div class="p-col-5" style="padding-top: 12px">
+          <span>وضعیت</span>
+        </div>
+        <div class="p-col-7 p-sm-">
+          <input
+            disabled
+            class="input"
+            type="text"
+            [value]="getStatus(documentSetModel.status)"
+            style="width: 90%"
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-grid date-div">
+        <div class="p-col-5" style="padding-top: 12px">
+          <span>کد نگهداری </span>
+        </div>
+        <div class="p-col-7 inputCSS">
+          <input
+            disabled
+            class="input"
+            type="text"
+            [value]="documentSetModel.maintenanceCode"
+            style="width: 90%"
+          />
+        </div>
+      </div>
+
+      <div class="p-col-12 p-grid date-div">
+        <div class="p-col-5" style="padding-top: 12px">
+          <span>سند دارای مغایرت</span>
+        </div>
+        <div class="p-col-7 inputCSS">
+          <input
+            *ngIf="documentSetModel.haveConflict"
+            disabled
+            class="input"
+            type="text"
+            value="می باشد"
+            style="width: 90%"
+          />
+          <input
+            *ngIf="!documentSetModel.haveConflict"
+            disabled
+            class="input"
+            type="text"
+            value="نمی باشد"
+            style="width: 90%"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!check" class="p-grid p-col-12" style="">
+  <p>سند وجود ندارد.</p>
+</div>

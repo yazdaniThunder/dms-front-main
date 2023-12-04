@@ -1,0 +1,49 @@
+<div style="text-align: center; margin-top: 35px; min-height: 200px">
+  <img (click)="deleteVersion()" class="icons-bar" height="50px" src="../../../../assets/icons/remove-pink.svg" title="حذف"
+       width="50px"/>
+
+  <img (click)="uploadFileModal(uploaderModal)" class="icons-bar" height="50px" src="../../../../assets/icons/upload.svg" title="بارگذاری مجدد"
+       width="50px"/>
+
+  <p-table [paginator]="true" [rows]="10" [value]="versionList" autoLayout class="Table tableSize"
+           responsive="true" scrollHeight="120px">
+    <ng-template pTemplate="header">
+      <tr class="tr-class">
+        <th class="th-class">نویسنده</th>
+        <th class="th-class">تاریخ ایجاد</th>
+        <th class="th-class">ورژن</th>
+        <th class="th-class">عملیات</th>
+      </tr>
+    </ng-template>
+    <ng-template let-Version pTemplate="body">
+      <tr class="tr-class2">
+        <td class="td-class">{{ Version.author }}</td>
+        <td class="td-class">{{ Version.created }}</td>
+        <td class="td-class">{{ Version.name }}</td>
+        <td class="td-class">
+          <span (click)="downloadVersion(Version.name)" style="cursor: pointer; color: green">دانلود</span>
+
+          <span (click)="restoreVersion(Version.name)" *ngIf="Version.name !== 1"
+                style="cursor: pointer; color: red; padding-right: 5px">
+            بازگردانی</span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-toast></p-toast>
+<app-in-progress></app-in-progress>
+<ng-template #uploaderModal let-uploaderModal style="z-index: 10">
+  <div class="modal-header" style="z-index: 10">
+    <button (click)="uploaderModal.dismiss('Cross click')" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="z-index: 10">
+    <app-uploader (eventEmitter)="getUploadedDoc($event)" [document]="document" [isUpdate]="true"
+                  [path]="this.document.path"></app-uploader>
+  </div>
+</ng-template>
+
+<p-toast></p-toast>

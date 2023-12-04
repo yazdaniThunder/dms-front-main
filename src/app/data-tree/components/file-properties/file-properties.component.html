@@ -1,0 +1,113 @@
+<div style="min-height: 225px; position: relative">
+  <div style="height: 25px">
+    <span class="property-titles" style="margin-top: 24px; margin-left: 7px"
+      >کد منحصر به فرد فایل :</span
+    >
+
+    <span class="property-numbers" style="margin-top: 25px">{{
+      document.uuid
+    }}</span>
+    <br />
+  </div>
+
+  <div style="height: 71px">
+    <br />
+    <span class="property-titles" style="margin-top: 24px; margin-left: 7px"
+      >نام :</span
+    >
+
+    <span class="property-titles" style="margin-top: 25px" value="">{{
+      document.title
+    }}</span>
+    <br />
+  </div>
+
+  <div style="height: 25px">
+    <span class="property-titles" style="margin-top: 24px; margin-left: 7px"
+      >تاریخ ایجاد :</span
+    >
+
+    <span
+      class="property-numbers"
+      style="margin-top: 25px"
+      value="858 45 45-85 454-21 21"
+      >{{ getDate(document.lastModified) }}</span
+    >
+    <br />
+  </div>
+
+  <div style="height: 71px">
+    <br />
+    <span class="property-titles" style="margin-top: 24px; margin-left: 7px"
+      >سایز</span
+    >
+
+    <span class="property-numbers" style="margin-top: 25px" value="">
+      KB 8.6
+    </span>
+    <br />
+  </div>
+
+  <div style="height: 25px">
+    <span class="property-titles" style="margin-top: 24px; margin-left: 7px"
+      >گروه دسته بندی :</span
+    >
+
+    <span class="property-titles" style="margin-top: 25px" value=""
+      >چک بانک . بانک ملی</span
+    >
+    <br />
+  </div>
+
+  <div style="height: 71px">
+    <br />
+    <span class="property-titles" style="margin-top: 24px; margin-left: 7px"
+      >فراداده :</span
+    >
+
+    <span class="property-titles" style="margin-top: 25px" value=""
+      >شماره مشتری : 102858</span
+    >
+    <br />
+  </div>
+
+  <div style="height: 71px">
+    <br />
+    <span class="property-titles" style="margin-top: -1px; margin-left: 7px"
+      >نام:</span
+    >
+
+    <span class="property-titles" style="margin-top: -1px" value="">{{
+      document.path
+    }}</span>
+    <br />
+  </div>
+
+  <div style="cursor: pointer; position: absolute; left: 0; top: 15px">
+    <h6>نشانه گذاری</h6>
+    <img
+      *ngIf="bookMarked"
+      src="../../../../assets/icons/bookmark.svg"
+      width="60px"
+      height="60px"
+      alt="BOOKMARK"
+      style="padding-left: 28px"
+      (click)="bookmarkChangedStep()"
+      aria-hidden="true"
+      title="نشانه گذاری"
+    />
+    <img
+      *ngIf="!bookMarked"
+      src="../../../../assets/icons/bookmark-gray.svg"
+      width="60px"
+      height="60px"
+      alt="BOOKMARK"
+      style="padding-left: 28px"
+      (click)="bookmarkChangedStep()"
+      aria-hidden="true"
+      title="نشانه گذاری"
+    />
+  </div>
+</div>
+<p-toast></p-toast>
+<app-in-progress></app-in-progress>

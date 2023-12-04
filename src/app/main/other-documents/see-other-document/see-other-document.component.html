@@ -1,0 +1,104 @@
+<div class="p-grid p-col-12">
+  <mat-card
+    *ngIf="otherDocumentModel?.lastState.description !== null"
+    dir="rtl"
+    style="margin: 0.5rem; width: 100%"
+  >
+    <mat-card-header style="text-align: right">
+      <mat-card-title>توضیحات عدم تایید :</mat-card-title>
+      <mat-card-subtitle style="overflow-wrap: anywhere; direction: rtl">
+        توضیحات ثبت شده توسط :
+        {{ otherDocumentModel.lastState.createByFullName }}
+        <br />
+        شرح توضیحات :
+        {{ otherDocumentModel.lastState.description }}
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <mat-card style="margin: 0.5rem; width: 100%">
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-2" style="padding-top: 12px">
+            <span>نوع پرونده</span>
+          </div>
+          <div class="p-col-10 inputCSS">
+            <input
+              class="input"
+              type="text"
+              [value]="otherDocumentModel?.fileType.title"
+              disabled
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-4" style="padding-top: 12px">
+            <span>شماره مشتری</span>
+          </div>
+          <div class="p-col-8 inputCSS">
+            <input
+              [value]="this.otherDocumentModel?.customerNumber"
+              disabled
+              class="input"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="active" class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-4" style="padding-top: 12px">
+            <span>شماره پرونده </span>
+          </div>
+          <div class="p-col-8 inputCSS">
+            <input
+              [value]="this.otherDocumentModel?.fileNumber"
+              disabled
+              class="input"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<div class="p-col-12" style="direction: rtl">
+  <p-accordion>
+    <ng-container *ngFor="let type of otherDocumentModel.otherDocumentFiles">
+      <p-accordionTab [header]="type?.otherDocumentType.title">
+        <div class="p-col-6 p-grid date-div">
+          <div class="p-col-4" style="padding-top: 12px">
+            <span>وضعیت پرونده</span>
+          </div>
+          <div class="p-col-8">
+            <input
+              class="input"
+              type="text"
+              [value]="type?.fileStatus.title"
+              disabled
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="type.fileUuid != null"
+          class="p-col-12"
+          style="display: grid"
+        >
+          <div *ngIf="fileProperties[type.fileUuid]?.openFile">
+            <div style="width: 100%; height: 500px">
+              <ng2-pdfjs-viewer
+                [pdfSrc]="fileProperties[type.fileUuid]?.link"
+              ></ng2-pdfjs-viewer>
+            </div>
+          </div>
+        </div>
+      </p-accordionTab>
+    </ng-container>
+  </p-accordion>
+</div>

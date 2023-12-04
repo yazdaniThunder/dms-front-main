@@ -1,0 +1,166 @@
+<section class="p-grid p-col-12 padding-0" style="background-color: white">
+  <div *ngIf="!showItems" class="p-grid p-col-12 back-lin padding-0">
+    <div class="p-col-12 padding-0" style="margin-top: 16px">
+      <nav class="row" dir="rtl" style="margin-top: 4px">
+        <div class="p-grid p-col-12" style="padding: 0 !important">
+          <div
+            class="p-col-12"
+            fxLayoutAlign="center center"
+            style="
+              justify-content: center;
+              color: #f9f9fa;
+              font-family: iransans;
+              font-size: medium;
+              padding: 0px !important;
+            "
+          >
+            <div
+              class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6"
+              style="justify-content: center; text-align: center"
+            ></div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <div *ngIf="showItems" class="p-grid p-col-12 back-lin padding-0">
+    <div class="p-col-12 padding-0" style="margin-top: 16px">
+      <nav class="row" dir="rtl" style="margin-top: 4px">
+        <div class="p-grid p-col-12" style="padding: 0 !important">
+          <div class="p-col-3 header-items" fxLayoutAlign="flex-start">
+            <div
+              [ngClass]="{ 'display-show': !isMobileSize }"
+              class="display-none"
+              style="margin: 5px 20px 0 0"
+            >
+              <a (click)="goToHome()" class="title-main">
+                <img
+                  src="../../../../assets/img/mainLogo.png"
+                  style="width: 3rem"
+                />
+              </a>
+            </div>
+          </div>
+          <div class="p-col-6" style="justify-content: center; display: flex">
+            <img
+              src="../../../../assets/img/SamanLogo.png"
+              style="height: 55px"
+            />
+          </div>
+
+          <div
+            class="p-col-3 padding-0"
+            fxLayoutAlign="end end"
+            style="
+              justify-content: left;
+              color: #f9f9fa;
+              font-family: iransans;
+              font-size: medium;
+            "
+          >
+            <a
+              *ngIf="roleName === 'ADMIN'"
+              (click)="clearCache()"
+              style="
+                display: grid;
+                justify-items: center;
+                margin-left: 20px;
+                margin-bottom: 5px;
+              "
+            >
+              <img
+                alt="CLEAR"
+                height="25px"
+                src="../../../../assets/icons/setting.svg"
+                title="پاکسازی کش سیستم"
+                width="25px"
+              />
+              <span class="role-text"> پاکسازی </span>
+            </a>
+            <a
+              style="
+                display: grid;
+                justify-items: center;
+                margin-left: 20px;
+                margin-bottom: 5px;
+              "
+              (click)="openModalClick(profileUser)"
+            >
+              <button
+                *ngIf="roleName === 'BA' || roleName === 'BU'; else showPro"
+                mat-button
+                [matBadge]="totalCount"
+                matBadgeColor="info"
+                [disabled]="false"
+                type="button"
+                style="border: 1px solid #820263; border-radius: 5px"
+              >
+                <img
+                  src="../../../../assets/icons/profile-dark.svg"
+                  width="25px"
+                  height="25px"
+                  alt="PROFILE"
+                  title="مشخصات کاربر"
+                />
+                <span class="role-text">
+                  {{ getType(roleName) }}
+                </span>
+              </button>
+            </a>
+            <a
+              (click)="logout()"
+              style="
+                display: grid;
+                justify-items: center;
+                margin-left: 20px;
+                margin-bottom: 5px;
+              "
+            >
+              <img
+                alt="LOGOUT"
+                height="25px"
+                src="../../../../assets/icons/logout.svg"
+                title="خروج از حساب کاربری"
+                width="25px"
+              />
+              <span class="role-text"> خروج </span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<ng-template #profileUser let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">مشخصات کاربر</h6>
+
+    <button
+      (click)="modal.dismiss('Cross click')"
+      aria-label="Close"
+      class="close"
+      type="button"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-profile-user-modal
+      (passEntry)="searchNodes($event)"
+    ></app-profile-user-modal>
+  </div>
+</ng-template>
+
+<ng-template #showPro let-modal>
+  <img
+    src="../../../../assets/icons/profile-dark.svg"
+    width="25px"
+    height="25px"
+    alt="PROFILE"
+    title="مشخصات کاربر"
+  />
+  <span class="role-text">
+    {{ getType(roleName) }}
+  </span>
+</ng-template>

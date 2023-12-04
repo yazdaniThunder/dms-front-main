@@ -1,0 +1,20 @@
+.property-titles{
+  float: right;
+  font-family: iransans;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.property-numbers {
+  float: right;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.bookmark-disable {
+  color: lightgray;;
+}
+
+.bookmark-enable {
+  color: red;
+}

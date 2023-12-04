@@ -1,0 +1,81 @@
+<div class="global-modal-body">
+  <form
+    autocomplete="off"
+    [formGroup]="formGroup"
+    class="form-inline p-col-12"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div class="p-col-6 p-sm-6 p-grid">
+        <div class="p-col-5" style="padding-top: 12px; display: flex">
+          <span>نوع</span>
+        </div>
+        <div class="p-col-7 p-sm-">
+          <p-dropdown
+            [options]="typeEnumKeys"
+            placeholder="انتخاب کنید"
+            optionLabel="label"
+            formControlName="type"
+            (onChange)="setGeneralType($event)"
+            formGroupName="type"
+            [title]="typeLabel"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div class="p-col-6 p-sm-6 p-grid">
+        <div class="p-col-5" style="padding-top: 12px; display: flex">
+          <span>نوع دسته اسناد</span>
+        </div>
+        <div class="p-col-7 p-sm-">
+          <p-dropdown
+            [options]="enumKeys"
+            placeholder="انتخاب کنید"
+            optionLabel="label"
+            formControlName="documentSetType"
+            (onChange)="setType($event)"
+            formGroupName="documentSetType"
+            [title]="documentSetTypeLabel"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="p-col-12"
+      style="padding-top: 12px; float: right; direction: rtl; text-align: right"
+    >
+      <span style="font-size: larger; font-weight: 300">شرح دلیل مغایرت:</span>
+    </div>
+    <div class="p-col-12 inputCSS">
+      <textarea
+        id="reason"
+        name="reason"
+        [(ngModel)]="conflictSetModel.reason"
+        formControlName="reason"
+        formGroupName="reason"
+        type="text"
+        style="
+          text-align: right;
+          font-family: iransans;
+          font-size: medium;
+          width: 100%;
+          height: 90px;
+        "
+      >
+      </textarea>
+    </div>
+    <div class="p-col-12" style="display: flex; justify-content: space-evenly">
+      <button (click)="cancel()" class="global-cancel-button">انصراف</button>
+      <button
+        class="global-primary-button"
+        [disabled]="!formGroup.valid"
+        type="submit"
+      >
+        ثبت
+      </button>
+    </div>
+  </form>
+</div>

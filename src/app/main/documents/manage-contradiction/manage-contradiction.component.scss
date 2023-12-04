@@ -1,0 +1,23 @@
+.table-button {
+  background-color: #fff;
+  border: none;
+}
+
+:host ::ng-deep .p-dropdown {
+  width: 197px;
+}
+
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 197px;
+}
+
+.textBox {
+  display: inline-block;
+  width: 98px;
+}
+
+.reasons{
+  display: flex;
+  background-color: #ede0ea;
+  margin: 0.5rem;
+}

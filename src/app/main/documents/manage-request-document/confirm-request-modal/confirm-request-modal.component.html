@@ -1,0 +1,204 @@
+<div class="p-grid p-col-12">
+  <form autocomplete="off" [formGroup]="formGroup" class="form-inline p-col-12">
+    <mat-card style="margin-top: 10px">
+      <mat-card-header>
+        <mat-card-title>اطلاعات درخواست سند</mat-card-title>
+      </mat-card-header>
+      <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+          <div class="p-col-12 p-sm-12 p-grid date-div">
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>نوع سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                class="input"
+                disabled="true"
+                [value]="getType(requestModel.documentType)"
+              />
+            </div>
+          </div>
+
+          <div class="p-col-12 p-sm-12 p-grid date-div">
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>کد و نام شعبه سند</span>
+            </div>
+            <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+              <input
+                class="input"
+                type="text"
+                disabled="true"
+                [value]="branch"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+          <div class="p-col-12 p-sm-12 p-grid date-div">
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>نوع درخواست</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                class="input"
+                disabled="true"
+                [value]="getTypeDoc(requestModel.requestType)"
+              />
+            </div>
+          </div>
+
+          <div class="p-col-12 p-sm-12 p-grid date-div">
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>دلیل درخواست</span>
+            </div>
+            <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+              <input
+                class="input"
+                type="text"
+                disabled="true"
+                [value]="requestModel.documentRequestReasonTitle"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="requestModel.branchFileUuid !== null"
+          class="p-col-12"
+          style="text-align: right"
+        >
+          <span style="font-size: larger; font-weight: 300"
+            >فایل بارگذاری شده توسط {{ requestModel.registrarName }}</span
+          >
+          <button
+            style="margin-right: 17.5rem"
+            (click)="getContent()"
+            class="global-primary-button"
+            [disabled]="isLoading"
+          >
+            دانلود فایل
+          </button>
+        </div>
+        <div
+          class="p-col-12"
+          style="
+            padding-top: 12px;
+            float: right;
+            direction: rtl;
+            text-align: right;
+          "
+        >
+          <span style="font-size: larger; font-weight: 300">توضیحات:</span>
+        </div>
+        <div class="p-col-12 inputCSS">
+          <textarea
+            id="requestDescription"
+            name="requestDescription"
+            formGroupName="receiveDescription"
+            disabled="true"
+            type="text"
+            [value]="requestModel.requestDescription"
+            style="
+              text-align: right;
+              font-family: iransans;
+              font-size: medium;
+              width: 100%;
+              height: 50px;
+            "
+          >
+          </textarea>
+        </div>
+      </div>
+      <div
+        class="p-col-12"
+        style="display: flex; justify-content: space-evenly"
+      >
+        <button
+          class="global-primary-button"
+          (click)="confirmDoc()"
+          [disabled]="false"
+        >
+          تایید درخواست
+        </button>
+        <button
+          (click)="openModalFileClick(rejectModal)"
+          class="global-cancel-button"
+        >
+          عدم تایید درخواست
+        </button>
+      </div>
+    </mat-card>
+  </form>
+</div>
+
+<ng-template #rejectModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">عدم تائید</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #fixFileForm="ngForm" (ngSubmit)="cancelDoc()">
+      <div
+        class="p-col-12 p-sm-12 p-grid date-div"
+        fxLayout="row"
+        fxLayoutAlign="space-around center"
+      >
+        <div
+          class="p-col-12"
+          style="
+            padding-top: 12px;
+            float: right;
+            direction: rtl;
+            text-align: right;
+          "
+        >
+          <span style="font-size: larger; font-weight: 300">توضیحات:</span>
+        </div>
+        <div class="p-col-12 inputCSS">
+          <textarea
+            id="description"
+            [(ngModel)]="description"
+            name="description"
+            type="text"
+            style="
+              text-align: right;
+              font-family: iransans;
+              font-size: medium;
+              width: 100%;
+              height: 70px;
+            "
+          >
+          </textarea>
+        </div>
+        <div
+          class="p-col-12"
+          style="display: flex; justify-content: space-evenly"
+        >
+          <button
+            class="global-primary-button"
+            [disabled]="description === ''"
+            type="submit"
+          >
+            عدم تائید
+          </button>
+          <button
+            class="global-cancel-button"
+            [disabled]="false"
+            type="button"
+            (click)="modal.dismiss('Cross click')"
+          >
+            انصراف
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>

@@ -1,0 +1,49 @@
+
+<div class=" p-grid p-col-12 fix-direction" style="background: white;padding: 0 !important; min-height: 400px;">
+  <div class="p-grid p-col-12">
+
+    <div style="direction: rtl; min-width: 100%;">
+
+    <mat-tab-group  mat-stretch-tabs animationDuration="0ms"  >
+      <mat-tab label="مشخصات فایل">
+        <app-file-properties [document]="document"></app-file-properties>
+      </mat-tab>
+
+
+      <mat-tab label="یادداشت">
+        <app-note [document]="document"></app-note>
+      </mat-tab>
+
+
+
+      <mat-tab label="اصلاح دسته بندی گروه">
+        <app-group-modification [document]="document"></app-group-modification>
+      </mat-tab>
+
+      <mat-tab label="اصلاح فراداده">
+        <app-data-modification [document]="document"></app-data-modification>
+      </mat-tab>
+
+
+      <mat-tab label="تاریخچه">
+        <app-version-history [document]="document"></app-version-history>
+
+      </mat-tab>
+
+      <mat-tab label="نمایش فایل">
+        <app-file-showing [document]="document"></app-file-showing>
+      </mat-tab>
+
+
+
+
+    </mat-tab-group>
+
+  </div>
+
+
+  </div>
+
+</div>
+
+

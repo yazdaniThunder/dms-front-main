@@ -1,0 +1,17 @@
+
+
+:host ::ng-deep .p-dropdown {
+  width: 200px;
+}
+
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 200px;
+}
+
+:host ::ng-deep.input {
+  width: 200px;
+}
+
+input.ng-invalid.ng-touched {
+  border: red 1px solid;
+}

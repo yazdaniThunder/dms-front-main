@@ -1,0 +1,683 @@
+<div class="p-col-12" style="padding: 0 !important; direction: rtl">
+  <p-accordion>
+    <p-accordionTab header="نمایش فایل و متادیتا">
+      <div *ngIf="fileContradictionSets.type === 'DAILY'">
+        <div class="p-grid p-col-12 p-xl-12" style="padding-top: 23px">
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>نوع دسته سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                style="width: 90%"
+                class="input"
+                type="text"
+                [value]="documentSetType"
+                disabled
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>شماره سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                disabled
+                class="input"
+                type="text"
+                [value]="docnumber"
+                style="width: 90%"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>کد شعبه</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                disabled
+                class="input"
+                type="text"
+                [(ngModel)]="branchcode"
+                style="width: 90%"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>تاریخ سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                disabled
+                class="input"
+                type="text"
+                [(ngModel)]="docdate"
+                style="width: 90%"
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>طبقه سند</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                style="width: 90%"
+                class="input"
+                type="text"
+                [value]="documentClass"
+                disabled
+              />
+            </div>
+          </div>
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="padding-bottom: 0"
+          >
+            <div
+              class="p-col-5"
+              style="direction: rtl; float: right; display: inherit"
+            >
+              <span>شرح سند / فرم</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <input
+                style="width: 90%"
+                class="input"
+                type="text"
+                [value]="documentDescription"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="fileContradictionSets.type === 'CHAKAVAK'">
+        <div class="p-grid p-col-12 p-xl-12">
+          <p class="title-show">اطلاعات متادیتا</p>
+          <mat-card style="width: 100%">
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>نوع دسته سند</span>
+              </div>
+              <div class="p-col-8 p-sm-">
+                <input
+                  style="width: 100%"
+                  class="input"
+                  type="text"
+                  [value]="documentSetType"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>شماره صیاد</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-8 p-sm-"
+              >
+                <input
+                  [value]="sayyadNo"
+                  class="input"
+                  id="sayyadNo"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>شماره چک</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-8 p-sm-"
+              >
+                <input
+                  [(ngModel)]="chequeNo"
+                  class="input"
+                  id="chequeNo"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>تاریخ چک</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-8 p-sm-"
+              >
+                <input
+                  [(ngModel)]="chequeDate"
+                  class="input"
+                  id="chequeDate"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>نام بانک عهده</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-8 p-sm-"
+              >
+                <input
+                  [value]="toBranchShow"
+                  class="input"
+                  id="toBranch"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>طبقه سند</span>
+              </div>
+              <div class="p-col-8 p-sm-">
+                <input
+                  style="width: 100%"
+                  class="input"
+                  type="text"
+                  [value]="documentClassShow"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>نوع یا فرم سند</span>
+              </div>
+              <div class="p-col-8 p-sm-">
+                <input
+                  [value]="documentTypeShow"
+                  class="input"
+                  id="documentType"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>نام شعبه بانک عهده</span>
+              </div>
+              <div class="p-col-8 p-sm-">
+                <input
+                  [(ngModel)]="fromBranch"
+                  class="input"
+                  id="fromBranch"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>نام و کد شعبه واگذار شده</span>
+              </div>
+              <div class="p-col-8 p-sm-">
+                <input
+                  [value]="branchName"
+                  class="input"
+                  style="width: 100%"
+                  disabled
+                />
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <div
+        *ngIf="
+          fileContradictionSets.type !== 'CHAKAVAK' &&
+          fileContradictionSets.type !== 'DAILY'
+        "
+      >
+        <div class="p-grid p-col-12 p-xl-12">
+          <p class="title-show">اطلاعات متادیتا</p>
+          <mat-card style="width: 100%">
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>نوع دسته سند</span>
+              </div>
+              <div class="p-col-8 p-sm-">
+                <input
+                  style="width: 90%"
+                  class="input"
+                  type="text"
+                  [value]="documentSetType"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>شماره مشتری</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-8 p-sm-"
+              >
+                <input
+                  [(ngModel)]="fileContradictionSets.customerNumber"
+                  class="input"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>شماره پرونده</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-8 p-sm-"
+              >
+                <input
+                  [(ngModel)]="fileContradictionSets.fileNumber"
+                  class="input"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>نوع پرونده</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-8 p-sm-"
+              >
+                <input
+                  [value]="getFileType(fileType)"
+                  class="input"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-4"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>وضعیت پرونده</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-8 p-sm-"
+              >
+                <input
+                  [value]="fileContradictionSets.fileStatusTitle"
+                  class="input"
+                  style="width: 100%"
+                  type="text"
+                  disabled
+                />
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <div class="p-col-12" style="padding: 0 !important">
+        <div *ngIf="open" style="width: 100%; height: 500px">
+          <ng2-pdfjs-viewer [pdfSrc]="link"></ng2-pdfjs-viewer>
+        </div>
+      </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="اطلاعات کلی فایل">
+      <div class="p-grid p-col-12 p-xl-12" style="padding-top: 23px">
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>تاریخ دسته اسناد از</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="getDate(fileContradictionSets.fromDate)"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>تاریخ دسته اسناد تا</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="getDate(fileContradictionSets.toDate)"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>تاریخ ارسال دسته اسناد </span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="getDate(fileContradictionSets.sendDate)"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>کد شعبه</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="fileContradictionSets.branchCode"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>شماره ردیف دسته سند</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="fileContradictionSets.documentSetRowsNumber"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>کد نگهداری</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="fileContradictionSets.maintenanceCode"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="دلایل مغایرت">
+      <mat-card dir="rtl" style="margin: 0.5rem">
+        <mat-card-header style="text-align: right">
+          <mat-card-title>تاریخ و دلایل مغایرت</mat-card-title>
+          <mat-card-subtitle style="overflow-wrap: anywhere; direction: rtl">
+            مغایرت ثبت شده توسط :
+            {{ fileContradictionSets.conflicts[0].registrarName }}
+
+            <br />
+            توضیحات مغایرت :
+            {{ fileContradictionSets.conflicts[0].registerDescription }}
+            <br />
+            توضیحات رفع مغایرت :
+            {{ fileContradictionSets.conflicts[0].resolveDescription }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div
+          *ngIf="
+            fileContradictionSets.conflicts &&
+            fileContradictionSets.conflicts[0]
+          "
+          style="display: contents"
+        >
+          <div
+            *ngFor="
+              let item of fileContradictionSets.conflicts[0].conflictReasons
+            "
+          >
+            <span class="reasons"
+              >{{ item.reason }} -
+              {{
+                getDate(fileContradictionSets.conflicts[0].registerDate)
+              }}</span
+            >
+          </div>
+        </div>
+      </mat-card>
+    </p-accordionTab>
+  </p-accordion>
+</div>

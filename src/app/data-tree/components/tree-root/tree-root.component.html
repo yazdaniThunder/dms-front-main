@@ -1,0 +1,62 @@
+<div class="p-grid p-col-12" style="padding: 0 !important; margin-top: 10px; margin-bottom: 150px;overflow-x: scroll;">
+  <div class="p-col-12" dir="rtl" fxLayoutAlign="start start">
+    <div (click)="bookmark()" class="icons" style="position: relative">
+      <img alt="BOOKMARK" height="30px" src="../../../../assets/icons/bookmark.svg"
+           style="position: absolute; left: 3%; bottom: -45px" title="نشانک ها" width="30px"/>
+    </div>
+
+    <p-tree (onNodeExpand)="openNode($event.node)" [draggableNodes]="true" [droppableNodes]="true" [filter]="true" [value]="nodes"
+            draggableScope="self" droppableScope="self" filterMode="strict">
+      <ng-template let-i="index" let-node pTemplate="default">
+        <div (blur)="closeNode(node)" (mouseleave)="hideIcon(node.key)"
+             (mouseover)="showIcon(node.key)" class="div-input p-col-12 p-grid padding-0" style="display: flex; position: relative">
+          <div class="p-col-12" style="padding: 0 !important">
+
+
+            <input (click)="expendNode(node)" [id]="'input' + node.key" [title]="node.label" [value]="node.label | CheckCharValidPipe"
+                   class="tree-input" readonly type="text"/>
+          </div>
+          <div [id]="'icon' + node.key" class="hover-container" style="position: relative">
+            <img (click)="openAllNode(node.key)" height="30px" src="../../../../assets/icons/bars.svg" style="
+                position: absolute;
+                left: 5px;
+                z-index: 1000000;
+                cursor: pointer;
+              " width="30px"/>
+
+            <div [id]="'small-icon' + node.key" class="hidden-icons" style="background-color: white">
+              <img (click)="removeNode(node)" class="remove-node" height="20px" src="../../../../assets/icons/remove-pink.svg" title="حذف"
+                   width="20px"/>
+
+              <img (click)="addFolder(node)" class="add-node" height="20px" src="../../../../assets/icons/plus-color.svg" title="افزودن"
+                   width="20px"/>
+
+              <img (click)="uploadFile(node, uploaderModal)" class="upload-node" height="20px" src="../../../../assets/icons/upload.svg"
+                   title="بارگذاری" width="20px"/>
+
+              <img (click)="editIcon(node)" class="edit-node" height="45px" src="../../../../assets/icons/color-edit.svg" title="ویرایش"
+                   width="45px"/>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-tree>
+  </div>
+
+  <div class="p-col-12">
+    <p style="text-align: center; color: whitesmoke">.</p>
+  </div>
+</div>
+
+<ng-template #uploaderModal let-uploaderModal style="z-index: 10">
+  <div class="modal-header" style="z-index: 10">
+    <button (click)="uploaderModal.dismiss('Cross click')" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="z-index: 10">
+    <app-uploader (eventEmitter)="getUploadedDoc($event)" [isUpdate]="false" [path]="path"></app-uploader>
+  </div>
+</ng-template>
+
+<p-toast></p-toast>

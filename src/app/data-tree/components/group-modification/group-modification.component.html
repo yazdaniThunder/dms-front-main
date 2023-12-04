@@ -1,0 +1,60 @@
+
+
+<div>
+
+  <div class="example-container">
+    <br>
+
+    <h3 style="text-align: center"> انتخاب شده</h3>
+
+    <div
+      id="all"
+      cdkDropList
+      [cdkDropListData]="selectedCategories"
+      cdkDropListConnectedTo="even"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+
+      <div
+        class="example-box"
+        *ngFor="let number of selectedCategories"
+        [cdkDragData]="number"
+        cdkDrag>{{number.name }}</div>
+    </div>
+    <br>
+  </div>
+
+<span class="change-icon"> < ></span>
+
+  <div class="example-container" style="margin-right: 15%;">
+    <br>
+
+    <h3 style="text-align: center;">قابل انتخاب</h3>
+
+    <div
+      id="even"
+      cdkDropList
+      [cdkDropListData]="categoryList"
+      cdkDropListConnectedTo="all"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div
+        class="example-box"
+        *ngFor="let number of categoryList"
+        cdkDrag
+        [cdkDragData]="number">{{number.name}}</div>
+    </div>
+    <br>
+  </div>
+
+  <div class="add" style="text-align: center;padding-top: 330px" >
+    <button class="add-button" [disabled]="false" (click)="confirmDoc()" type="submit">
+      تایید
+    </button>
+
+  </div>
+
+</div>
+<p-toast></p-toast>
+<app-in-progress></app-in-progress>
+

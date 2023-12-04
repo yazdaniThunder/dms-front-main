@@ -1,0 +1,94 @@
+<div class="p-grid p-col-12" class="global-modal-body">
+  <form #fixForm="ngForm" (ngSubmit)="submit(fixForm.value)" action="">
+    <div
+      class="p-col-12 p-sm-12 p-grid date-div"
+      fxLayout="row"
+      fxLayoutAlign="space-around center"
+    >
+      <mat-card dir="rtl" style="margin: 0.5rem; width: 100%">
+        <mat-card-header style="text-align: right">
+          <mat-card-title>تاریخ و دلایل مغایرت</mat-card-title>
+          <mat-card-subtitle style="overflow-wrap: anywhere; direction: rtl">
+            مغایرت ثبت شده توسط :
+            {{ documentContradictionModel.conflicts[0].registrarName }}
+            <br />
+            توضیحات مغایرت :
+            {{ documentContradictionModel.conflicts[0].registerDescription }}
+            <br />
+            توضیحات رفع مغایرت :
+            {{ documentContradictionModel.conflicts[0].resolveDescription }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <div
+          *ngIf="
+            documentContradictionModel.conflicts &&
+            documentContradictionModel.conflicts[0]
+          "
+          style="display: contents"
+        >
+          <div
+            *ngFor="
+              let item of documentContradictionModel.conflicts[0]
+                .conflictReasons
+            "
+          >
+            <span class="reasons"
+              >{{ item.reason }} -
+              {{
+                getDate(documentContradictionModel.conflicts[0].registerDate)
+              }}</span
+            >
+          </div>
+        </div>
+      </mat-card>
+
+      <div
+        class="p-col-12"
+        style="
+          padding-top: 12px;
+          float: right;
+          direction: rtl;
+          text-align: right;
+        "
+      >
+        <span style="font-size: larger; font-weight: 300">توضیحات:</span>
+      </div>
+      <div class="p-col-12 inputCSS">
+        <textarea
+          [(ngModel)]="description"
+          id="description"
+          name="description"
+          style="
+            text-align: right;
+            font-family: iransans;
+            font-size: medium;
+            width: 100%;
+            height: 70px;
+          "
+          type="text"
+        >
+        </textarea>
+      </div>
+      <div
+        class="p-col-12"
+        style="display: flex; justify-content: space-evenly"
+      >
+        <button
+          [disabled]="description.length === 0"
+          class="global-primary-button"
+          type="submit"
+        >
+          رفع مغایرت
+        </button>
+        <button
+          (click)="cancel()"
+          [disabled]="false"
+          class="global-cancel-button"
+          type="button"
+        >
+          انصراف
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

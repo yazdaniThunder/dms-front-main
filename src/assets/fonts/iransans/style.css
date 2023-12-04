@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'iransans';
+    src: url('IRANSansWebFaNum-Light.eot');
+    src: url('IRANSansWebFaNum-Light.eot?#iefix') format('embedded-opentype'),
+        url('IRANSansWebFaNum-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'iransans';
+    src: url('IRANSansWebFaNum-Medium.eot');
+    src: url('IRANSansWebFaNum-Medium.eot?#iefix') format('embedded-opentype'),
+        url('IRANSansWebFaNum-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'iransans';
+    src: url('IRANSansWebFaNum-Bold.eot');
+    src: url('IRANSansWebFaNum-Bold.eot?#iefix') format('embedded-opentype'),
+        url('IRANSansWebFaNum-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+

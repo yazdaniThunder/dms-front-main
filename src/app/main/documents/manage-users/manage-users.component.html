@@ -1,0 +1,364 @@
+<div class="p-grid p-col-12 fix-direction" style="padding: 0 !important">
+  <div class="p-grid p-col-12" style="padding-top: 50px">
+    <div
+      class="p-col-12 p-md-1 p-lg-1 p-xl-1 padding-0"
+      style="width: 4%"
+    ></div>
+    <div
+      class="p-grid p-col-12 p-md-11 p-lg-11 p-xl-11"
+      style="padding-top: 5px"
+    >
+      <h2
+        class="Title"
+        style="
+          padding-top: 41px;
+          padding-bottom: 25px;
+          padding-right: 0;
+          font-family: iransans;
+          font-size: 24px;
+          font-weight: 500;
+          margin-right: 2rem;
+        "
+      >
+        مدیریت کاربران
+      </h2>
+      <mat-expansion-panel
+        style="margin: 2%"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>جستجوی کاربران</mat-panel-title>
+        </mat-expansion-panel-header>
+        <form
+          autocomplete="off"
+          [formGroup]="formGroup"
+          class="p-col-12"
+          style="min-height: 325px"
+        >
+          <div
+            class="p-grid p-col-12"
+            style="padding-bottom: 0; font-size: 13px"
+          >
+            <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4 inner-date-div">
+                  <span>کد پرسنلی</span>
+                </div>
+                <div class="p-col-8">
+                  <input
+                    id="personCode"
+                    name="personCode"
+                    [(ngModel)]="documentSearchDto.personCode"
+                    formControlName="personCode"
+                    formGroupName="personCode"
+                    type="text"
+                    style="width: 13.2rem"
+                  />
+                </div>
+              </div>
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4 inner-date-div">
+                  <span>کد ملی</span>
+                </div>
+                <div class="p-col-8">
+                  <input
+                    id="nationalKey"
+                    name="nationalKey"
+                    [(ngModel)]="documentSearchDto.nationalKey"
+                    formControlName="nationalKey"
+                    formGroupName="nationalKey"
+                    type="text"
+                    style="width: 13.2rem"
+                  />
+                </div>
+              </div>
+
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>کد و نام واحد بانکی</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <p-dropdown
+                    *ngIf="typeBranchKeys.length > 0"
+                    [options]="currentPageItems"
+                    placeholder="انتخاب کنید"
+                    optionLabel="label"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    formControlName="branchId"
+                    (onChange)="setBranch($event)"
+                    [title]="branchLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4 inner-date-div">
+                  <span>نام و نام خانوادگی</span>
+                </div>
+                <div class="p-col-8">
+                  <input
+                    id="fullName"
+                    name="fullName"
+                    [(ngModel)]="documentSearchDto.fullName"
+                    formControlName="fullName"
+                    formGroupName="fullName"
+                    type="text"
+                    style="width: 13.2rem"
+                  />
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4 inner-date-div">
+                  <span>نام کاربری</span>
+                </div>
+                <div class="p-col-8">
+                  <input
+                    id="personelUserName"
+                    name="personelUserName"
+                    [(ngModel)]="documentSearchDto.personelUserName"
+                    formControlName="personelUserName"
+                    formGroupName="personelUserName"
+                    type="text"
+                    style="width: 13.2rem"
+                  />
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>نقش</span>
+                </div>
+                <div class="p-col-8">
+                  <p-dropdown
+                    [options]="typeKeys"
+                    placeholder="انتخاب کنید"
+                    optionLabel="label"
+                    (ngModelChange)="setRole($event)"
+                    formControlName="role"
+                    [title]="getRole(documentSearchDto.role)"
+                  ></p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="p-col-12"
+            style="
+              display: flex;
+              justify-content: space-evenly;
+              margin-top: 5rem;
+            "
+          >
+            <button
+              class="global-primary-button"
+              [disabled]="false"
+              (click)="search()"
+            >
+              جستجو
+            </button>
+            <button
+              class="global-cancel-button"
+              (click)="resetSearchItems()"
+              type="submit"
+            >
+              انصراف
+            </button>
+          </div>
+        </form>
+      </mat-expansion-panel>
+      <mat-card style="margin-bottom: 1rem">
+        <mat-card-header>
+          <mat-card-title>مشاهده نتایج جستجو</mat-card-title>
+        </mat-card-header>
+
+        <div class="p-grid p-col-12">
+          <div class="p-grid p-col-12" style="text-align: right">
+            <div class="p-col-4">
+              <button
+                class="global-primary-button"
+                [disabled]="false"
+                (click)="openModalFileClick(openModal)"
+                type="button"
+              >
+                افزودن کاربر
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12" style="padding-bottom: 2%">
+          <p-table
+            dataKey="id"
+            [(selection)]="selectedFiles"
+            responsive="true"
+            selectionMode="single"
+            class="Table"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="تعداد: {totalRecords} رکورد"
+            [value]="profileData"
+            autoLayout
+            [paginator]="resultCount !== null && resultCount !== 0"
+            [rows]="10"
+            [lazy]="true"
+            (onLazyLoad)="loadAllUsers($event)"
+            [totalRecords]="resultCount"
+          >
+            <ng-template pTemplate="header">
+              <tr class="tr-class">
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  pSortableColumn="personCode"
+                >
+                  <p-sortIcon field="personCode"></p-sortIcon>
+                  کد پرسنلی
+                </th>
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  pSortableColumn="fullName"
+                >
+                  <p-sortIcon field="fullName"></p-sortIcon>
+                  نام و نام خانوادگی
+                </th>
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  pSortableColumn="nationalKey"
+                >
+                  <p-sortIcon field="nationalKey"></p-sortIcon>
+
+                  کد ملی
+                </th>
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  pSortableColumn="personelUserName"
+                >
+                  <p-sortIcon field="personelUserName"></p-sortIcon>
+
+                  نام کاربری
+                </th>
+
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  pSortableColumn="p.branch.branchName"
+                >
+                  <p-sortIcon field="p.branch.branchName"></p-sortIcon>
+                  کد و نام واحد بانکی
+                </th>
+                <th
+                  style="width: 12%"
+                  class="th-class"
+                  pSortableColumn="p.role"
+                >
+                  <p-sortIcon field="p.role"></p-sortIcon>
+                  نقش
+                </th>
+                <th style="width: 15%" class="th-class">وضعیت</th>
+                <th style="width: 7%" class="th-class">عملیات</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+              <tr class="tr-class2">
+                <td class="td-class">{{ product.personCode }}</td>
+                <td class="td-class">{{ product.fullName }}</td>
+                <td class="td-class">{{ product.nationalKey }}</td>
+                <td class="td-class">{{ product.personelUserName }}</td>
+
+                <td class="td-class">
+                  {{ product.branchName }} - {{ product.branchCode }}
+                </td>
+                <td class="td-class">
+                  {{ getRole(product.role) }}
+                </td>
+                <td class="td-class">
+                  <button class="activeButton" type="submit">
+                    <p-toggleButton
+                      onLabel="فعال"
+                      offLabel="غیرفعال"
+                      onIcon="pi pi-check"
+                      offIcon="pi pi-times"
+                      iconPos="right"
+                      (onChange)="handleChange(product.active, product.userId)"
+                      [(ngModel)]="product.active"
+                    ></p-toggleButton>
+                  </button>
+                </td>
+                <td class="td-class" style="color: #820263">
+                  <img
+                    src="../../../../assets/icons/color-edit.svg"
+                    width="30px"
+                    height="30px"
+                    alt="EDIT"
+                    aria-hidden="true"
+                    title="تغییر نقش کاربر"
+                    (click)="openModalFileClick(editModal, product)"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <h6 style="direction: ltr" class="modal-titel">ویرایش نقش کاربر</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-edit-user-modal
+      [inputModel]="selectedFile"
+      (passEntry)="submitNew($event)"
+    ></app-edit-user-modal>
+  </div>
+</ng-template>
+
+<ng-template #emptyTable>
+  <div style="margin-top: 2rem">
+    <p-table responsive="true" class="Table" autoLayout>
+      <ng-template pTemplate="header">
+        <tr class="tr-class">
+          <th style="width: 100%" class="th-class">
+            رکوردی جهت نمایش وجود ندارد
+          </th>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-template>
+
+<ng-template #openModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">افزودن کاربر</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-create-user-modal
+      (passEntry)="submitNew($event)"
+    ></app-create-user-modal>
+  </div>
+</ng-template>

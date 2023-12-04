@@ -1,0 +1,636 @@
+<div class="p-grid p-col-12 fix-direction" style="padding: 0 !important">
+  <div class="p-grid p-col-12">
+    <div
+      class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12"
+      style="padding-right: 30px; padding-top: 45px"
+    >
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="end">
+        <mat-tab label="ایجاد دلایل سایر اسناد عملیات بانکی">
+          <mat-card style="margin-bottom: 1rem">
+            <mat-card-header> </mat-card-header>
+            <div class="p-grid p-col-12">
+              <div class="p-grid p-col-12" style="text-align: right">
+                <div class="p-col-4">
+                  <button
+                    class="global-primary-button"
+                    [disabled]="false"
+                    (click)="openModalOtherClick(addOtherModal)"
+                    type="button"
+                  >
+                    افزودن
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="p-col-12" style="padding-bottom: 2%">
+              <p-table
+                dataKey="id"
+                [(selection)]="selectedOtherItems"
+                responsive="true"
+                selectionMode="single"
+                class="Table"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="تعداد: {totalRecords} رکورد"
+                [value]="documentOtherData"
+                autoLayout
+                [paginator]="
+                  resultCountOther !== null && resultCountOther !== 0
+                "
+                [rows]="10"
+                [lazy]="true"
+                (onLazyLoad)="loadOther($event)"
+                [totalRecords]="resultCountOther"
+              >
+                <ng-template pTemplate="header">
+                  <tr class="tr-class">
+                    <th style="width: 10%" class="th-class">نوع پرونده</th>
+                    <th style="width: 10%" class="th-class">
+                      کاربر ایجاد کننده
+                    </th>
+
+                    <th
+                      style="width: 10%"
+                      class="th-class"
+                      pSortableColumn="registerDate"
+                    >
+                      <p-sortIcon field="registerDate"></p-sortIcon>
+                      تاریخ ایجاد
+                    </th>
+                    <th
+                      style="width: 10%"
+                      class="th-class"
+                      pSortableColumn="active"
+                    >
+                      <p-sortIcon field="active"></p-sortIcon>
+                      وضعیت
+                    </th>
+                    <th style="width: 5%" class="th-class">ویرایش</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                  <tr class="tr-class2">
+                    <td class="td-class" style="overflow: hidden">
+                      {{ product.title }}
+                    </td>
+                    <td class="td-class">{{ product.createByFullName }}</td>
+                    <td class="td-class">
+                      {{ getDate(product.registerDate) }}
+                    </td>
+                    <td class="td-class">
+                      <button class="activeButton" type="submit">
+                        <p-toggleButton
+                          onLabel="فعال"
+                          offLabel="غیرفعال"
+                          onIcon="pi pi-check"
+                          offIcon="pi pi-times"
+                          iconPos="right"
+                          (onChange)="
+                            handleChangeOtherDocument(
+                              product.active,
+                              product.id
+                            )
+                          "
+                          [(ngModel)]="product.active"
+                        ></p-toggleButton>
+                      </button>
+                    </td>
+
+                    <td class="td-class" style="color: #820263">
+                      <img
+                        src="../../../../assets/icons/color-edit.svg"
+                        width="30px"
+                        height="30px"
+                        alt="EDIT"
+                        aria-hidden="true"
+                        title="ویرایش فایل سایر اسناد"
+                        (click)="
+                          openModalOtherClick(otherDocumentModal, product)
+                        "
+                      />
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="ایجاد دلایل مغایرت">
+          <mat-expansion-panel
+            style="margin: 2%"
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>جستجوی مغایرت</mat-panel-title>
+            </mat-expansion-panel-header>
+            <form
+              autocomplete="off"
+              [formGroup]="formGroup"
+              class="p-col-12"
+              style="min-height: 325px"
+            >
+              <div
+                class="p-grid p-col-12"
+                style="padding-bottom: 0; font-size: 13px"
+              >
+                <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-4" style="padding-top: 12px">
+                      <span>نوع</span>
+                    </div>
+                    <div class="p-col-8">
+                      <p-dropdown
+                        [options]="typeEnumKeys"
+                        placeholder="انتخاب کنید"
+                        optionLabel="label"
+                        (ngModelChange)="setGeneralType($event)"
+                        formControlName="type"
+                        [title]="typeLabel"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-4" style="padding-top: 12px">
+                      <span>نوع دسته اسناد</span>
+                    </div>
+                    <div class="p-col-8">
+                      <p-dropdown
+                        [options]="typeKeys"
+                        placeholder="انتخاب کنید"
+                        optionLabel="label"
+                        (ngModelChange)="setType($event)"
+                        formControlName="documentSetType"
+                        [title]="documentSetTypeLabel"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-4" style="padding-top: 12px">
+                      <span>کاربر ایجاد کننده</span>
+                    </div>
+                    <div class="p-col-8 inputCSS">
+                      <p-dropdown
+                        *ngIf="userList?.length > 0"
+                        [options]="currentPageItemsUser"
+                        placeholder="انتخاب کنید"
+                        optionLabel="fullName"
+                        [filter]="true"
+                        [filterBy]="'label'"
+                        (ngModelChange)="setRegisterUser($event)"
+                        formControlName="userId"
+                        [title]="userLabel"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-4 inner-date-div">
+                      <span>تاریخ ایجاد دلیل مغایرت از</span>
+                    </div>
+                    <div class="p-col-8">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="setConflictFromDate($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-4 inner-date-div">
+                      <span>تاریخ ایجاد دلیل مغایرت تا</span>
+                    </div>
+                    <div class="p-col-8">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="setConflictToDate($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-4 inner-date-div">
+                      <span>دلیل مغایرت</span>
+                    </div>
+                    <div class="p-col-8">
+                      <input
+                        id="reason"
+                        name="reason"
+                        [(ngModel)]="documentSearchDto.reason"
+                        formControlName="reason"
+                        formGroupName="reason"
+                        type="text"
+                        style="width: 14rem"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="p-col-12"
+                style="
+                  display: flex;
+                  justify-content: space-evenly;
+                  margin-top: 5rem;
+                "
+              >
+                <button
+                  class="global-primary-button"
+                  [disabled]="false"
+                  (click)="search()"
+                >
+                  جستجو
+                </button>
+                <button
+                  class="global-cancel-button"
+                  (click)="resetSearchItems()"
+                  type="submit"
+                >
+                  انصراف
+                </button>
+              </div>
+            </form>
+          </mat-expansion-panel>
+          <mat-card style="margin-bottom: 1rem">
+            <mat-card-header>
+              <mat-card-title>مشاهده نتایج جستجو</mat-card-title>
+            </mat-card-header>
+
+            <div class="p-grid p-col-12">
+              <div class="p-grid p-col-12" style="text-align: right">
+                <div class="p-col-4">
+                  <button
+                    class="global-primary-button"
+                    [disabled]="false"
+                    (click)="openModalFileClick(openModal)"
+                    type="button"
+                  >
+                    افزودن دلیل مغایرت
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="p-col-12" style="padding-bottom: 2%">
+              <p-table
+                dataKey="id"
+                [(selection)]="selectedFiles"
+                responsive="true"
+                selectionMode="single"
+                class="Table"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="تعداد: {totalRecords} رکورد"
+                [value]="documentData"
+                autoLayout
+                [paginator]="resultCount !== null && resultCount !== 0"
+                [rows]="10"
+                [lazy]="true"
+                (onLazyLoad)="loadDocumentSets($event)"
+                [totalRecords]="resultCount"
+              >
+                <ng-template pTemplate="header">
+                  <tr class="tr-class">
+                    <th
+                      style="width: 10%"
+                      class="th-class"
+                      pSortableColumn="type"
+                    >
+                      <p-sortIcon field="type"></p-sortIcon>
+                      نوع
+                    </th>
+                    <th
+                      style="width: 10%"
+                      class="th-class"
+                      pSortableColumn="documentSetType"
+                    >
+                      <p-sortIcon field="documentSetType"></p-sortIcon>
+                      نوع دسته اسناد
+                    </th>
+                    <th style="width: 30%" class="th-class">شرح دلیل مغایرت</th>
+                    <th style="width: 10%" class="th-class">
+                      کاربر ایجاد کننده
+                    </th>
+
+                    <th
+                      style="width: 10%"
+                      class="th-class"
+                      pSortableColumn="registerDate"
+                    >
+                      <p-sortIcon field="registerDate"></p-sortIcon>
+                      تاریخ ایجاد
+                    </th>
+                    <th
+                      style="width: 10%"
+                      class="th-class"
+                      pSortableColumn="active"
+                    >
+                      <p-sortIcon field="active"></p-sortIcon>
+                      وضعیت
+                    </th>
+                    <th style="width: 5%" class="th-class">عملیات</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                  <tr class="tr-class2">
+                    <td class="td-class">{{ getGeneralType(product.type) }}</td>
+                    <td class="td-class">
+                      {{ getType(product.documentSetType) }}
+                    </td>
+                    <td class="td-class" style="overflow: hidden">
+                      {{ product.reason }}
+                    </td>
+                    <td class="td-class">{{ product.createByFullName }}</td>
+
+                    <td class="td-class">
+                      {{ getDate(product.registerDate) }}
+                    </td>
+                    <td class="td-class">
+                      <button class="activeButton" type="submit">
+                        <p-toggleButton
+                          onLabel="فعال"
+                          offLabel="غیرفعال"
+                          onIcon="pi pi-check"
+                          offIcon="pi pi-times"
+                          iconPos="right"
+                          (onChange)="handleChange(product.active, product.id)"
+                          [(ngModel)]="product.active"
+                        ></p-toggleButton>
+                      </button>
+                    </td>
+
+                    <td class="td-class" style="color: #820263">
+                      <img
+                        src="../../../../assets/icons/color-edit.svg"
+                        width="30px"
+                        height="30px"
+                        alt="EDIT"
+                        aria-hidden="true"
+                        title="تغییر مغایرت"
+                        (click)="openModalFileClick(editModal, product)"
+                      />
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="ایجاد دلایل درخواست">
+          <mat-card style="margin-bottom: 1rem">
+            <mat-card-header> </mat-card-header>
+            <div class="p-grid p-col-12">
+              <div class="p-grid p-col-12" style="text-align: right">
+                <div class="p-col-4">
+                  <button
+                    class="global-primary-button"
+                    [disabled]="false"
+                    (click)="openModalClick(addReasonModal)"
+                    type="button"
+                  >
+                    افزودن دلیل درخواست
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="p-col-12" style="padding-bottom: 2%">
+              <p-table
+                dataKey="id"
+                [(selection)]="selectedItems"
+                responsive="true"
+                selectionMode="single"
+                class="Table"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="تعداد: {totalRecords} رکورد"
+                [value]="documentReasonData"
+                autoLayout
+                [paginator]="
+                  resultCountReason !== null && resultCountReason !== 0
+                "
+                [rows]="10"
+                [lazy]="true"
+                (onLazyLoad)="loadRequest($event)"
+                [totalRecords]="resultCountReason"
+              >
+                <ng-template pTemplate="header">
+                  <tr class="tr-class">
+                    <th style="width: 30%" class="th-class">
+                      شرح دلیل درخواست
+                    </th>
+                    <th style="width: 10%" class="th-class">
+                      کاربر ایجاد کننده
+                    </th>
+
+                    <th
+                      style="width: 10%"
+                      class="th-class"
+                      pSortableColumn="registerDate"
+                    >
+                      <p-sortIcon field="registerDate"></p-sortIcon>
+                      تاریخ ایجاد
+                    </th>
+                    <th
+                      style="width: 10%"
+                      class="th-class"
+                      pSortableColumn="active"
+                    >
+                      <p-sortIcon field="active"></p-sortIcon>
+                      وضعیت
+                    </th>
+                    <th style="width: 5%" class="th-class">عملیات</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                  <tr class="tr-class2">
+                    <td class="td-class" style="overflow: hidden">
+                      {{ product.title }}
+                    </td>
+                    <td class="td-class">{{ product.createByFullName }}</td>
+                    <td class="td-class">
+                      {{ getDate(product.registerDate) }}
+                    </td>
+                    <td class="td-class">
+                      <button class="activeButton" type="submit">
+                        <p-toggleButton
+                          onLabel="فعال"
+                          offLabel="غیرفعال"
+                          onIcon="pi pi-check"
+                          offIcon="pi pi-times"
+                          iconPos="right"
+                          (onChange)="
+                            handleChangeDocument(product.active, product.id)
+                          "
+                          [(ngModel)]="product.active"
+                        ></p-toggleButton>
+                      </button>
+                    </td>
+
+                    <td class="td-class" style="color: #820263">
+                      <img
+                        src="../../../../assets/icons/color-edit.svg"
+                        width="30px"
+                        height="30px"
+                        alt="EDIT"
+                        aria-hidden="true"
+                        title="تغییر مغایرت"
+                        (click)="openModalClick(editReasonModal, product)"
+                      />
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+<ng-template #openModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">افزودن دلیل مغایرت</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-add-conflict-modal
+      (passEntry)="submitNew($event)"
+    ></app-add-conflict-modal>
+  </div>
+</ng-template>
+
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-edit-conflict-modal
+      [conflictSetModel]="selectedFile"
+      (passEntry)="submitNew($event)"
+    ></app-edit-conflict-modal>
+  </div>
+</ng-template>
+
+<ng-template #emptyTable>
+  <div style="margin-top: 2rem">
+    <p-table responsive="true" class="Table" autoLayout>
+      <ng-template pTemplate="header">
+        <tr class="tr-class">
+          <th style="width: 100%" class="th-class">
+            رکوردی جهت نمایش وجود ندارد
+          </th>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-template>
+
+<ng-template #addReasonModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">افزودن دلیل درخواست</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-add-reason-modal
+      (passEntry)="submitNewRequest($event)"
+    ></app-add-reason-modal>
+  </div>
+</ng-template>
+
+<ng-template #editReasonModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-edit-reason-modal
+      [requestReasonModel]="selectedItem"
+      (passEntry)="submitNewRequest($event)"
+    ></app-edit-reason-modal>
+  </div>
+</ng-template>
+
+<ng-template #otherDocumentModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">ویرایش نوع پرونده</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-edit-other-modal
+      [fileTypeModel]="selectedOtherItem"
+      (passEntry)="submitOtherDocument($event)"
+    ></app-edit-other-modal>
+  </div>
+</ng-template>
+
+<ng-template #defaultModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">ویرایش پیش فرض وضعیت پرونده</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-default-other
+      [fileTypeModel]="selectedOtherItem"
+      (passEntry)="submitOtherDocument($event)"
+    ></app-default-other>
+  </div>
+</ng-template>
+
+<ng-template #addOtherModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">افزودن</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-add-other-modal
+      (passEntry)="submitOtherDocument($event)"
+    ></app-add-other-modal>
+  </div>
+</ng-template>

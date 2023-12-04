@@ -1,0 +1,57 @@
+<div class="global-modal-body">
+  <form
+    [formGroup]="formGroup"
+    (ngSubmit)="submit()"
+    class="form-inline p-col-12"
+  >
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div class="p-col-6 p-sm-6 p-grid">
+        <div class="p-col-5" style="padding-top: 12px; display: flex">
+          <span>نوع پرونده</span>
+        </div>
+        <div class="p-col-7 p-sm-">
+          <input
+            class="input"
+            [value]="fileTypeModel.title"
+            type="text"
+            disabled
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12 p-sm-12 p-grid date-div">
+      <div class="p-col-4" style="padding-top: 12px">
+        <span>پیش فرض وضعیت پرونده</span>
+      </div>
+      <div class="p-col-8">
+        <p-dropdown
+          [(ngModel)]="defaultStatusKey"
+          formControlName="fileStatus"
+          [options]="statusKeys"
+          optionLabel="title"
+          (onChange)="setFileStatusId($event)"
+          placeholder="انتخاب کنید"
+          [title]="defaultStatusKey.label"
+        ></p-dropdown>
+      </div>
+    </div>
+    <div class="p-col-12" style="display: flex; justify-content: space-evenly">
+      <button
+        (click)="cancel()"
+        class="global-cancel-button"
+        [disabled]="false"
+        type="button"
+      >
+        انصراف
+      </button>
+      <button
+        class="global-primary-button"
+        [disabled]="!formGroup.valid"
+        type="submit"
+      >
+        ثبت
+      </button>
+    </div>
+  </form>
+</div>

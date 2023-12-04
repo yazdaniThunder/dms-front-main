@@ -1,0 +1,951 @@
+<div class="p-grid p-col-12 fix-direction" style="padding: 0 !important">
+  <div class="p-grid p-col-12" style="padding-top: 50px">
+    <div
+      class="p-col-12 p-md-1 p-lg-1 p-xl-1 padding-0"
+      style="width: 4%"
+    ></div>
+    <div
+      class="p-grid p-col-12 p-md-11 p-lg-11 p-xl-11"
+      style="padding-top: 5px"
+    >
+      <h2
+        class="Title"
+        style="
+          padding-top: 41px;
+          padding-bottom: 25px;
+          padding-right: 0;
+          font-family: iransans;
+          font-size: 24px;
+          font-weight: 500;
+          margin-right: 2rem;
+        "
+      >
+        مدیریت ارسال اسناد
+      </h2>
+      <mat-expansion-panel
+        style="margin: 2%"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> جستجوی درخواست ها </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form
+          autocomplete="off"
+          [formGroup]="formGroup"
+          class="p-col-12"
+          style="min-height: 325px"
+        >
+          <div
+            class="p-grid p-col-12"
+            style="padding-bottom: 0; font-size: 13px"
+          >
+            <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4 inner-date-div">
+                  <span>تاریخ ایجاد درخواست سند از</span>
+                </div>
+                <div class="p-col-8">
+                  <persian-date-picker
+                    placeholder="انتخاب کنید"
+                    (passEntry)="setRegisterFromDate($event)"
+                  ></persian-date-picker>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4 inner-date-div">
+                  <span>تاریخ سند از</span>
+                </div>
+                <div class="p-col-8">
+                  <persian-date-picker
+                    placeholder="انتخاب کنید"
+                    (passEntry)="setStartDate($event)"
+                  ></persian-date-picker>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>نوع سند</span>
+                </div>
+                <div class="p-col-8">
+                  <p-dropdown
+                    [options]="typeKeys"
+                    placeholder="انتخاب کنید"
+                    optionLabel="label"
+                    (ngModelChange)="setType($event)"
+                    formControlName="documentType"
+                    [title]="typeLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>کاربر ثبت کننده</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <p-dropdown
+                    *ngIf="userList2?.length > 0"
+                    [options]="currentPageItemsUser2"
+                    placeholder="انتخاب کنید"
+                    optionLabel="fullName"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    (ngModelChange)="setRegisterUser($event)"
+                    formControlName="creatorId"
+                    [title]="user2Label"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>شعبه صادرکننده سند</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <p-dropdown
+                    *ngIf="typeBranchKeys.length > 0"
+                    [options]="currentPageItems"
+                    placeholder="انتخاب کنید"
+                    optionLabel="label"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    formControlName="documentBranchId"
+                    (ngModelChange)="setBranch($event)"
+                    [title]="branchLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>شماره مشتری</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <input
+                    class="input"
+                    type="text"
+                    [(ngModel)]="documentSearchDto.customerNumber"
+                    formControlName="customerNumber"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4 inner-date-div">
+                  <span>تاریخ ایجاد درخواست سند تا</span>
+                </div>
+                <div class="p-col-8">
+                  <persian-date-picker
+                    placeholder="انتخاب کنید"
+                    (passEntry)="setRegisterToDate($event)"
+                  ></persian-date-picker>
+                </div>
+              </div>
+
+              <div
+                class="p-col-12 p-sm-12 p-grid date-div"
+                style="padding-bottom: 0"
+              >
+                <div class="p-col-4 inner-date-div">
+                  <span>تاریخ سند تا</span>
+                </div>
+                <div class="p-col-8">
+                  <persian-date-picker
+                    placeholder="انتخاب کنید"
+                    (passEntry)="setEndDate($event)"
+                  ></persian-date-picker>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>وضعیت</span>
+                </div>
+                <div class="p-col-8">
+                  <p-dropdown
+                    [options]="stateKeys"
+                    placeholder="انتخاب کنید"
+                    optionLabel="label"
+                    (ngModelChange)="setState($event)"
+                    formControlName="state"
+                    [title]="stateLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-sm-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>کاربر تایید کننده</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <p-dropdown
+                    *ngIf="userList?.length > 0"
+                    [options]="currentPageItemsUser"
+                    placeholder="انتخاب کنید"
+                    optionLabel="fullName"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    (ngModelChange)="setConfirmUser($event)"
+                    formControlName="confirmerId"
+                    [title]="userLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>واحد بانکی درخواست دهنده</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <span *ngIf="roleName === 'DOPU'">
+                    <p-dropdown
+                      *ngIf="requestBranchKeys?.length > 0"
+                      [options]="currentPageItems2"
+                      placeholder="انتخاب کنید"
+                      optionLabel="label"
+                      [filter]="true"
+                      [filterBy]="'label'"
+                      formControlName="requestBranchIds"
+                      (ngModelChange)="setrequestBranch($event)"
+                      [title]="requestLabel"
+                    ></p-dropdown>
+                  </span>
+                  <span *ngIf="roleName === 'ADMIN' || roleName === 'DOA'">
+                    <p-dropdown
+                      *ngIf="typeBranchKeys?.length > 0"
+                      [options]="currentPageItems"
+                      placeholder="انتخاب کنید"
+                      optionLabel="label"
+                      [filter]="true"
+                      [filterBy]="'label'"
+                      formControlName="requestBranchIds"
+                      (ngModelChange)="setrequestBranch($event)"
+                      [title]="typeBranchLabel"
+                    ></p-dropdown>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="p-col-12"
+            style="
+              display: flex;
+              justify-content: space-evenly;
+              margin-top: 5rem;
+            "
+          >
+            <button
+              class="global-primary-button"
+              [disabled]="false"
+              (click)="search()"
+            >
+              جستجو
+            </button>
+            <button
+              class="global-cancel-button"
+              (click)="resetSearchItems()"
+              type="submit"
+            >
+              انصراف
+            </button>
+          </div>
+        </form>
+      </mat-expansion-panel>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>مشاهده نتایج جستجو</mat-card-title>
+        </mat-card-header>
+        <div class="p-grid p-col-12">
+          <div
+            class="p-col-3"
+            style="
+              padding-top: 3%;
+              display: flex;
+              justify-content: right;
+              padding-right: 0;
+            "
+          ></div>
+        </div>
+        <div class="p-col-12">
+          <p-table
+            dataKey="id"
+            responsive="true"
+            [(selection)]="selectedItem"
+            class="Table"
+            [value]="documentData"
+            autoLayout
+            [paginator]="resultCount !== null && resultCount !== 0"
+            [rows]="10"
+            [lazy]="true"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="تعداد: {totalRecords} رکورد"
+            (onLazyLoad)="loadDocumentSets($event)"
+            [totalRecords]="resultCount"
+            (onHeaderCheckboxToggle)="selectAllRows($event)"
+          >
+            <ng-template pTemplate="header">
+              <tr class="tr-class">
+                <th style="width: 7.5%" class="th-class">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  pSortableColumn="registerDate"
+                >
+                  <p-sortIcon field="registerDate"></p-sortIcon>
+                  تاریخ ایجاد درخواست سند
+                </th>
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  pSortableColumn="documentType"
+                >
+                  <p-sortIcon field="documentType"></p-sortIcon>
+                  نوع سند
+                </th>
+                <th style="width: 15%" class="th-class">نوع درخواست</th>
+
+                <th style="width: 15%" class="th-class">تاریخ سند</th>
+                <th style="width: 15%" class="th-class">شماره سند</th>
+
+                <th style="width: 15%" class="th-class">کد و نام واحد بانکی</th>
+                <th style="width: 15%" class="th-class">دلیل درخواست</th>
+
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  pSortableColumn="lastState.state"
+                >
+                  <p-sortIcon field="lastState.state"></p-sortIcon>
+                  وضعیت
+                </th>
+                <th style="width: 15%" class="th-class">مشاهده</th>
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  *ngIf="roleCheck === 'DOA' || roleCheck === 'ADMIN'"
+                >
+                  عملیات تایید
+                </th>
+                <th style="width: 15%" class="th-class">بارگذاری فایل</th>
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  *ngIf="roleCheck === 'DOA' || roleCheck === 'ADMIN'"
+                >
+                  ارسال به شعبه
+                </th>
+                <th
+                  style="width: 15%"
+                  class="th-class"
+                  *ngIf="roleCheck === 'DOA' || roleCheck === 'ADMIN'"
+                >
+                  اصلاح تاریخ
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+              <tr class="tr-class2">
+                <td
+                  class="tr-class"
+                  *ngIf="
+                    product.lastState?.state === 'BRANCH_CONFIRMED';
+                    else notCheck
+                  "
+                >
+                  <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                </td>
+                <td class="td-class">{{ getDate(product.registerDate) }}</td>
+                <td class="td-class">{{ getType(product.documentType) }}</td>
+                <td class="td-class">
+                  {{ getRequestType(product.requestType) }}
+                </td>
+                <td class="td-class">{{ getDate(product.documentDate) }}</td>
+
+                <td class="td-class">
+                  {{ product.documentNumber }}
+                </td>
+                <td class="td-class">
+                  {{ product.requestBranchName }}-{{
+                    product.requestBranchCode
+                  }}
+                </td>
+                <td class="td-class">
+                  {{ product.documentRequestReasonTitle }}
+                </td>
+
+                <td class="td-class">
+                  {{ getState(product.lastState?.state) }}
+                </td>
+                <td class="td-class" style="color: red; cursor: pointer">
+                  <span *ngIf="product.lastState.seen === false">
+                    <img
+                      src="../../../../assets/icons/eye.svg"
+                      width="15px"
+                      height="15px"
+                      alt="SHOW"
+                      aria-hidden="true"
+                      (click)="openModalShowClick(showModal, product)"
+                      title="مشاهده"
+                    />
+                  </span>
+                  <span *ngIf="product.lastState.seen === true">
+                    <img
+                      src="../../../../assets/icons/eye-green.svg"
+                      width="15px"
+                      height="15px"
+                      alt="SHOW"
+                      aria-hidden="true"
+                      (click)="openModalShowClick(showModal, product)"
+                      title="مشاهده"
+                    />
+                  </span>
+                </td>
+                <td
+                  class="td-class"
+                  style="color: red; cursor: pointer"
+                  *ngIf="roleCheck === 'DOA' || roleCheck === 'ADMIN'"
+                >
+                  <button
+                    *ngIf="
+                      product.lastState?.state === 'BRANCH_CONFIRMED';
+                      else checkButton
+                    "
+                    (click)="openModalFileClick(confirmModal, product)"
+                    class="reciveButton"
+                  >
+                    <img
+                      src="../../../../assets/icons/test.svg"
+                      width="25px"
+                      height="25px"
+                      alt="CHECK"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </td>
+                <td class="td-class" style="color: red; cursor: pointer">
+                  <button
+                    (click)="openModalFileClick(uploadModal, product)"
+                    *ngIf="
+                      product.lastState?.state === 'DOCUMENT_OFFICE_CONFIRMED';
+                      else scanButton
+                    "
+                    type="button"
+                    class="reciveButton"
+                  >
+                    <img
+                      src="../../../../assets/icons/scanner.svg"
+                      width="25px"
+                      height="25px"
+                      alt="SCAN"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </td>
+                <td
+                  *ngIf="roleCheck === 'DOA' || roleCheck === 'ADMIN'"
+                  class="td-class"
+                  style="color: red; cursor: pointer"
+                >
+                  <button
+                    (click)="openModalFileClick(sendToBranchModal, product)"
+                    *ngIf="
+                      product.lastState?.state === 'UPLOAD_FILE_OFFICE';
+                      else sendButton
+                    "
+                    type="button"
+                    class="reciveButton"
+                  >
+                    <img
+                      src="../../../../assets/icons/send.svg"
+                      width="25px"
+                      height="25px"
+                      alt="SEND"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </td>
+                <td
+                  *ngIf="roleCheck === 'DOA' || roleCheck === 'ADMIN'"
+                  class="td-class"
+                  style="color: red; cursor: pointer"
+                >
+                  <button
+                    (click)="openModalFileClick(editDateModal, product)"
+                    *ngIf="
+                      product.lastState?.state ===
+                        'RECEIVE_DOCUMENT_REQUESTED' ||
+                        product.lastState?.state ===
+                          'UPLOAD_DOCUMENT_REQUESTED' ||
+                        product.lastState?.state === 'SENT_DOCUMENT_REQUESTED';
+                      else dateButton
+                    "
+                    type="button"
+                    class="reciveButton"
+                  >
+                    <img
+                      src="../../../../assets/icons/color-edit.svg"
+                      width="25px"
+                      height="25px"
+                      alt="EDIT"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <div
+          *ngIf="roleCheck === 'ADMIN' || roleCheck === 'DOA'"
+          class="p-col-12"
+          style="display: flex; justify-content: center; margin: 2rem 0 2rem 0"
+        >
+          <button
+            class="global-primary-button"
+            [disabled]="selectedItem.length == 0"
+            (click)="confirmDoc()"
+            type="button"
+          >
+            تایید درخواست ها
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #showModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <mat-card dir="rtl" style="margin: 0.5rem">
+      <mat-card-header>
+        <mat-card-title>جزییات سند</mat-card-title>
+      </mat-card-header>
+      <p-table
+        dir="rtl"
+        dataKey="id"
+        responsive="true"
+        class="Table"
+        [value]="[selectedFile]"
+        autoLayout
+      >
+        <ng-template pTemplate="header">
+          <tr class="tr-class">
+            <th style="width: 30%" class="th-class">نوع سند</th>
+            <th style="width: 30%" class="th-class">دلیل درخواست سند</th>
+            <th style="width: 30%" class="th-class">نوع درخواست</th>
+            <th style="width: 30%" class="th-class">کد و نام شعبه سند</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr class="tr-class2">
+            <td class="td-class">{{ getType(product.documentType) }}</td>
+            <td class="td-class">{{ product.documentRequestReasonTitle }}</td>
+            <td class="td-class">{{ getRequestType(product.requestType) }}</td>
+            <td class="td-class">
+              {{ product.documentBranchCode }} -
+              {{ product.documentBranchName }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-table
+        dir="rtl"
+        dataKey="id"
+        responsive="true"
+        class="Table"
+        [value]="[selectedFile]"
+        autoLayout
+      >
+        <ng-template pTemplate="header">
+          <tr class="tr-class">
+            <th style="width: 30%" class="th-class">شماره مشتری</th>
+            <th style="width: 30%" class="th-class">شماره چک/برگه سند</th>
+            <th style="width: 30%" class="th-class">مبلغ سند / چک</th>
+            <th style="width: 30%" class="th-class">نام بانک صادر کننده چک</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr class="tr-class2">
+            <td class="td-class">{{ product.customerNumber }}</td>
+            <td class="td-class">{{ product.checkNumber }}</td>
+            <td class="td-class">{{ product.documentAmount }}</td>
+            <td class="td-class">
+              {{ product.checkIssuingBank }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-table
+        dir="rtl"
+        dataKey="id"
+        responsive="true"
+        class="Table"
+        [value]="[selectedFile]"
+        autoLayout
+      >
+        <ng-template pTemplate="header">
+          <tr class="tr-class">
+            <th style="width: 30%" class="th-class">شماره سند</th>
+            <th style="width: 30%" class="th-class">تاریخ سند</th>
+            <th style="width: 30%" class="th-class">تاریخ سند از</th>
+            <th style="width: 30%" class="th-class">تاریخ سند تا</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr class="tr-class2">
+            <td class="td-class">{{ product.documentNumber }}</td>
+            <td class="td-class">{{ getDate(product.documentDate) }}</td>
+            <td class="td-class">{{ getDate(product.documentDateFrom) }}</td>
+            <td class="td-class">{{ getDate(product.documentDateTo) }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-table
+        dir="rtl"
+        dataKey="id"
+        responsive="true"
+        class="Table"
+        [value]="[selectedFile]"
+        autoLayout
+      >
+        <ng-template pTemplate="header">
+          <tr class="tr-class">
+            <th style="width: 30%" class="th-class">شماره پرونده</th>
+            <th style="width: 30%" class="th-class">تاریخ پرونده</th>
+            <th style="width: 30%" class="th-class">تاریخ پرونده از</th>
+            <th style="width: 30%" class="th-class">تاریخ پرونده تا</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr class="tr-class2">
+            <td class="td-class">{{ product.fileNumber }}</td>
+            <td class="td-class">{{ getDate(product.fileDate) }}</td>
+            <td class="td-class">{{ getDate(product.fileDateFrom) }}</td>
+            <td class="td-class">{{ getDate(product.fileDateTo) }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-table
+        dir="rtl"
+        dataKey="id"
+        responsive="true"
+        class="Table"
+        [value]="[selectedFile]"
+        autoLayout
+      >
+        <ng-template pTemplate="header">
+          <tr class="tr-class">
+            <th style="width: 30%" class="th-class">تاریخ چک</th>
+            <th style="width: 30%" class="th-class">تاریخ وصول چک</th>
+            <th style="width: 30%" class="th-class">تاریخ وصول چک از</th>
+            <th style="width: 30%" class="th-class">تاریخ وصول چک تا</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr class="tr-class2">
+            <td class="td-class">{{ getDate(product.checkDate) }}</td>
+            <td class="td-class">{{ getDate(product.checkReceiptDate) }}</td>
+            <td class="td-class">
+              {{ getDate(product.checkReceiptDateFrom) }}
+            </td>
+            <td class="td-class">{{ getDate(product.checkReceiptDateTo) }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-table
+        dir="rtl"
+        dataKey="id"
+        responsive="true"
+        class="Table"
+        [value]="[selectedFile]"
+        autoLayout
+      >
+        <ng-template pTemplate="header">
+          <tr class="tr-class">
+            <th style="width: 30%" class="th-class">عنوان پرونده</th>
+            <th style="width: 30%" class="th-class">عنوان مرجع</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr class="tr-class2">
+            <td class="td-class">{{ product.fileTitle }}</td>
+            <td class="td-class">
+              {{ product.referenceTitle }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div
+        *ngIf="selectedFile.branchFileUuid !== null"
+        class="p-col-12"
+        style="display: flex; justify-content: center"
+      >
+        <button
+          class="global-primary-button"
+          [disabled]="isLoading"
+          type="submit"
+          (click)="downloadFile()"
+        >
+          دریافت فایل
+        </button>
+      </div>
+    </mat-card>
+    <mat-card dir="rtl" style="margin: 0.5rem">
+      <mat-card-header>
+        <mat-card-title>گزارش سند</mat-card-title>
+      </mat-card-header>
+      <p-table
+        dir="rtl"
+        dataKey="id"
+        responsive="true"
+        class="Table"
+        [value]="states"
+        autoLayout
+      >
+        <ng-template pTemplate="header">
+          <tr class="tr-class">
+            <th style="width: 30%" class="th-class">تاریخ ثبت</th>
+            <th style="width: 30%" class="th-class">وضعیت</th>
+            <th style="width: 30%" class="th-class">نام و نام خانوادگی</th>
+            <th style="width: 60%" class="th-class">توضیحات</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr class="tr-class2">
+            <td class="td-class">{{ getDate(product.registerDate) }}</td>
+            <td class="td-class">{{ getState(product.state) }}</td>
+            <td class="td-class">{{ product.createByFullName }}</td>
+            <td class="td-class">{{ product.description }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </mat-card>
+  </div>
+</ng-template>
+
+<ng-template #sendToBranchModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-send-branch-modal
+      [requestModel]="selectedFile"
+      (passEntry)="submitNew()"
+    ></app-send-branch-modal>
+  </div>
+</ng-template>
+
+<ng-template #editDateModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-edit-date-request
+      [requestModel]="selectedFile"
+      (passEntry)="submitNew()"
+    ></app-edit-date-request>
+  </div>
+</ng-template>
+
+<ng-template #uploadModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span *ngIf="selectedFile.requestType !== 'GROUP_DOCUMENT_IMAGE'">
+        <input
+          class="global-upload-file"
+          style="padding: 0.5rem; margin-bottom: 1rem"
+          type="file"
+          (change)="onChange($event)"
+          accept=".png, .jpg, .jpeg, .pdf, .tif, .tiff"
+          multiple
+          #fileInput
+        />
+
+        <div dir="rtl" *ngIf="selectedFiles.length > 0">
+          <h6>فایل های انتخاب شده :</h6>
+          <div
+            style="margin: 1rem"
+            *ngFor="let file of selectedFiles; let i = index"
+          >
+            {{ file.name }}
+            <img
+              src="../../../../assets/icons/wrong.svg"
+              width="25px"
+              height="25px"
+              alt="DELETE"
+              style="padding-left: 10px; color: #820263"
+              aria-hidden="true"
+              (click)="removeFile(i)"
+            />
+          </div>
+        </div>
+      </span>
+      <span *ngIf="selectedFile.requestType === 'GROUP_DOCUMENT_IMAGE'">
+        <input
+          class="global-upload-file"
+          style="padding: 0.5rem; margin-bottom: 1rem"
+          type="file"
+          formControlName="file"
+          (change)="onChange($event)"
+          accept=".zip"
+        />
+      </span>
+      <div
+        class="p-col-12 p-sm-12 p-grid date-div"
+        fxLayout="row"
+        fxLayoutAlign="space-around center"
+      >
+        <div
+          class="p-col-12"
+          style="
+            padding-top: 12px;
+            float: right;
+            direction: rtl;
+            text-align: right;
+          "
+        >
+          <span style="font-size: larger; font-weight: 300">توضیحات:</span>
+        </div>
+        <div class="p-col-12 inputCSS">
+          <textarea
+            id="descriptionDoc"
+            [(ngModel)]="descriptionDoc"
+            name="descriptionDoc"
+            type="text"
+            style="
+              text-align: right;
+              font-family: iransans;
+              font-size: medium;
+              width: 100%;
+              height: 70px;
+            "
+          >
+          </textarea>
+        </div>
+      </div>
+      <button (click)="onUpload()" class="global-primary-button">
+        بارگذاری
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #confirmModal let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-confirm-request-modal
+      [requestModel]="selectedFile"
+      (passEntry)="submitNew()"
+    ></app-confirm-request-modal>
+  </div>
+</ng-template>
+
+<ng-template #emptyTable>
+  <div style="margin-top: 2rem">
+    <p-table responsive="true" class="Table" autoLayout>
+      <ng-template pTemplate="header">
+        <tr class="tr-class">
+          <th style="width: 100%" class="th-class">
+            رکوردی جهت نمایش وجود ندارد
+          </th>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-template>
+
+<ng-template #scanButton>
+  <img
+    src="../../../../assets/icons/scanner-gray.svg"
+    width="25px"
+    height="25px"
+    alt="SCAN"
+    aria-hidden="true"
+  />
+</ng-template>
+
+<ng-template #sendButton>
+  <img
+    src="../../../../assets/icons/send-gray.svg"
+    width="25px"
+    height="25px"
+    alt="SEND"
+    aria-hidden="true"
+  />
+</ng-template>
+
+<ng-template #notCheck>
+  <td class="tr-class"></td>
+</ng-template>
+
+<ng-template #dateButton>
+  <img
+    src="../../../../assets/icons/edit.svg"
+    width="25px"
+    height="25px"
+    alt="SEND"
+    aria-hidden="true"
+  />
+</ng-template>
+
+<ng-template #checkButton>
+  <img
+    src="../../../../assets/icons/test-gray.svg"
+    width="25px"
+    height="25px"
+    alt="CHECK"
+    aria-hidden="true"
+  />
+</ng-template>

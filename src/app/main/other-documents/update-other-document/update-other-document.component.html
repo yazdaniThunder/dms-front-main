@@ -1,0 +1,169 @@
+<div class="p-grid p-col-12">
+  <mat-card
+    *ngIf="otherDocumentModel?.lastState.description !== null"
+    dir="rtl"
+    style="margin: 0.5rem; width: 100%"
+  >
+    <mat-card-header style="text-align: right">
+      <mat-card-title>توضیحات عدم تایید :</mat-card-title>
+      <mat-card-subtitle style="overflow-wrap: anywhere; direction: rtl">
+        توضیحات ثبت شده توسط :
+        {{ otherDocumentModel.lastState.createByFullName }}
+        <br />
+        شرح توضیحات :
+        {{ otherDocumentModel.lastState.description }}
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <mat-card style="margin: 0.5rem; width: 100%">
+    <form
+      [formGroup]="formGroup"
+      autocomplete="off"
+      class="p-col-12"
+      style="min-height: 200px"
+    >
+      <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+        <div class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+          <div class="p-col-12 p-grid date-div">
+            <div class="p-col-2" style="padding-top: 12px">
+              <span>نوع پرونده</span>
+            </div>
+            <div class="p-col-10 inputCSS">
+              <input
+                class="input"
+                type="text"
+                [value]="otherDocumentModel.fileType.title"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="p-col-12 p-grid date-div">
+            <div class="p-col-4" style="padding-top: 12px">
+              <span style="color: red">*</span>
+              <span>شماره مشتری</span>
+            </div>
+            <div class="p-col-8 inputCSS">
+              <input
+                class="input"
+                formControlName="customerNumber"
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="active" class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+          <div class="p-col-12 p-grid date-div">
+            <div class="p-col-4" style="padding-top: 12px">
+              <span>شماره پرونده </span>
+            </div>
+            <div class="p-col-8 inputCSS">
+              <input class="input" formControlName="fileNumber" type="text" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12" style="display: flex; justify-content: center">
+        <button
+          (click)="confirm()"
+          [disabled]="!formGroup.valid"
+          class="global-primary-button"
+        >
+          ثبت
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
+<div class="p-col-12" style="direction: rtl">
+  <p-accordion>
+    <ng-container *ngFor="let type of otherDocumentModel.otherDocumentFiles">
+      <p-accordionTab [header]="type.otherDocumentType?.title">
+        <div class="p-col-6 p-grid date-div">
+          <div class="p-col-4" style="padding-top: 12px">
+            <span>وضعیت پرونده</span>
+          </div>
+          <div *ngIf="type.fileStatus !== null" class="p-col-8">
+            <p-dropdown
+              [(ngModel)]="type.fileStatus"
+              (onChange)="setFileStatusId($event)"
+              [options]="fileStatusKeys"
+              optionLabel="title"
+              placeholder="انتخاب کنید"
+              [title]="type.fileStatus.title"
+            ></p-dropdown>
+          </div>
+          <div *ngIf="type.fileStatus === null" class="p-col-8">
+            <p-dropdown
+              [(ngModel)]="defaultStatusKey"
+              (onChange)="setFileStatusId($event)"
+              [options]="fileStatusKeys"
+              optionLabel="title"
+              placeholder="انتخاب کنید"
+              [title]="defaultStatusKey.title"
+            ></p-dropdown>
+          </div>
+        </div>
+        <div *ngIf="type.fileUuid === null" class="text-center">
+          <input
+            class="global-upload-file"
+            style="padding: 0.5rem; margin-bottom: 1rem"
+            type="file"
+            (change)="onChange($event)"
+            accept=".pdf, .tif, .tiff"
+          />
+          <button (click)="onUpload(type)" class="global-primary-button">
+            بارگذاری
+          </button>
+        </div>
+        <div
+          *ngIf="type.fileUuid != null"
+          class="p-col-12"
+          style="display: grid"
+        >
+          <div
+            class="p-col-12"
+            style="display: flex; justify-content: flex-start"
+          >
+            <button
+              class="global-primary-button"
+              [disabled]="isLoading"
+              type="submit"
+              (click)="downloadFile(type.fileUuid)"
+            >
+              دریافت فایل بارگذاری شده
+            </button>
+
+            <a (click)="editFile()">
+              <img
+                alt="CLEAR"
+                width="30px"
+                height="30px"
+                src="../../../../assets/icons/color-edit.svg"
+                title="اصلاح"
+              />
+              <span class="role-text"> اصلاح فایل بارگذاری شده </span>
+            </a>
+          </div>
+
+          <div *ngIf="showUpload" class="text-center">
+            <input
+              class="global-upload-file"
+              style="padding: 0.5rem; margin-bottom: 1rem"
+              type="file"
+              (change)="onChange($event)"
+              accept=".pdf, .tif, .tiff"
+            />
+            <button (click)="onUpload(type)" class="global-primary-button">
+              بارگذاری
+            </button>
+          </div>
+        </div>
+      </p-accordionTab>
+    </ng-container>
+  </p-accordion>
+</div>

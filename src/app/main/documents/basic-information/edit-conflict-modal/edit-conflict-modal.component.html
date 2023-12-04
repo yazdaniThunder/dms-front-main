@@ -1,0 +1,78 @@
+<div class="global-modal-body">
+  <form
+    [formGroup]="formGroup"
+    (ngSubmit)="submit()"
+    class="form-inline p-col-12"
+  >
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div class="p-col-6 p-sm-6 p-grid">
+        <div class="p-col-5" style="padding-top: 12px; display: flex">
+          <span>نوع</span>
+        </div>
+        <div class="p-col-7 p-sm-">
+          <input [value]="getGeneralType(conflictSetModel.type)" disabled />
+        </div>
+      </div>
+    </div>
+
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div class="p-col-6 p-sm-6 p-grid">
+        <div
+          class="p-col-5"
+          style="padding-top: 12px; display: flex"
+        >
+          <span>نوع دسته اسناد</span>
+        </div>
+        <div
+          class="p-col-7 p-sm-"
+        >
+          <p-dropdown
+            [options]="enumKeys"
+            placeholder="انتخاب کنید"
+            optionLabel="label"
+            [(ngModel)]="selectedType"
+            formControlName="documentSetType"
+            [title]="selectedType.label"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-grid p-col-12">
+      <span>توضیحات:</span>
+      <textarea
+        id="reason"
+        [(ngModel)]="conflictSetModel.reason"
+        formControlName="reason"
+        name="reason"
+        type="text"
+        style="
+          text-align: right;
+          font-family: iransans;
+          font-size: medium;
+          width: 100%;
+          height: 70px;
+        "
+      >
+      </textarea>
+    </div>
+
+    <div class="p-col-12" style="display: flex; justify-content: space-evenly">
+      <button
+        (click)="cancel()"
+        class="global-cancel-button"
+        [disabled]="false"
+        type="button"
+      >
+        انصراف
+      </button>
+      <button
+        class="global-primary-button"
+        [disabled]="!formGroup.valid"
+        type="submit"
+      >
+        ثبت
+      </button>
+    </div>
+  </form>
+</div>

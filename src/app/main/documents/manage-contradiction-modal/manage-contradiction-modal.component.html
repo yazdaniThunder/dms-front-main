@@ -1,0 +1,103 @@
+<div
+  class="p-grid p-col-12 fix-direction"
+  style="background: white; padding: 0 !important"
+>
+  <div
+    class="p-grid p-col-12"
+    style="padding-top: 50px; display: flex; justify-content: center"
+  >
+    <div
+      class="p-grid p-col-12 p-md-11 p-lg-11 p-xl-11"
+      style="padding-top: 5px"
+    >
+      <mat-card *ngIf="documentModel.conflicts.length !== 0; else emptyFile">
+        <mat-card-header> </mat-card-header>
+        <div style="margin-top: 30px">
+          <p-table
+            responsive="true"
+            class="Table"
+            [value]="documentModel.conflicts"
+            autoLayout
+            [paginator]="true"
+            [rows]="10"
+          >
+            <ng-template pTemplate="header">
+              <tr class="tr-class">
+                <th style="width: 15%" class="th-class">کد شعبه ارسال کننده</th>
+                <th style="width: 15%" class="th-class">تاریخ دسته اسناد از</th>
+                <th style="width: 15%" class="th-class">تاریخ دسته اسناد تا</th>
+                <th style="width: 15%" class="th-class">
+                  تاریخ ارسال دسته اسناد
+                </th>
+                <th style="width: 15%" class="th-class">شماره فایل</th>
+                <th style="width: 15%" class="th-class">دلیل مغایرت</th>
+                <th style="width: 7.5%" class="th-class">اصلاح مغایرت</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+              <tr class="tr-class2">
+                <td class="td-class">{{ documentModel.branchCode }}</td>
+                <td class="td-class">{{ getDate(documentModel.fromDate) }}</td>
+                <td class="td-class">{{ getDate(documentModel.toDate) }}</td>
+                <td class="td-class">{{ getDate(documentModel.sendDate) }}</td>
+                <td class="td-class" style="overflow: hidden">
+                  {{ documentModel.documentSetRowsNumber }}
+                </td>
+                <td class="td-class" style="overflow: hidden">
+                  {{ product.conflictReasons[0] ? product.conflictReasons[0].reason : '' }}
+                </td>
+                <td class="td-class" style="color: red; cursor: pointer">
+                  <img
+                    src="../../../../assets/icons/conflict.png"
+                    width="18px"
+                    height="18px"
+                    alt="REFACTOR"
+                    aria-hidden="true"
+                    title="اصلاح مغایرت"
+                    (click)="openModalClick(setConflictModal, documentModel)"
+                    style="margin-left: 2px"
+                  />
+                  <img
+                    src="../../../../assets/icons/remove-pink.svg"
+                    width="15px"
+                    height="15px"
+                    alt="DELETE"
+                    aria-hidden="true"
+                    title="حذف مغایرت"
+                    (click)="deleteConflicting()"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<ng-template #setConflictModal let-modal>
+  <div class="modal-header">
+    <h6 class="modal-title">اصلاح مغایرت سند</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-update-doc-conflict-modal
+      [documentModel]="selectedDoc"
+      (passEntry)="submitNew()"
+    ></app-update-doc-conflict-modal>
+  </div>
+</ng-template>
+<ng-template #emptyFile>
+  <mat-card style="direction: rtl">
+    <mat-card-header style="direction: rtl">
+      <mat-card-title style="direction: rtl">موردی وجود ندارد.</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+</ng-template>

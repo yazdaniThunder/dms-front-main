@@ -1,0 +1,20 @@
+.loading-parent {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: block;
+  background-color: #ffffff87;
+  z-index: 9999999;
+}
+
+.loading {
+  width: 150px;
+  height: 150px;
+  background: url("../../../assets/img/progress1.gif") no-repeat;
+  background-size: 100% 100%;
+  margin-top: 18%;
+  margin-left: auto;
+  margin-right: auto;
+}

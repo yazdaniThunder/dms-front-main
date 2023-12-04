@@ -1,0 +1,112 @@
+<div class="p-grid p-col-12 fix-direction" style="background: white; padding: 0 !important; min-height: 750px">
+  <div class="p-col-12" style="direction: rtl; margin-top: 36px; margin-right: 0">
+    <div class="p-grid p-col-12">
+      <div class="p-col-4">
+        <span class="title">مدیریت فایل ها</span>
+      </div>
+      <div class="p-col-8">
+        <div>
+          <span style="float: right">
+            <img (click)="uploadFileModal(uploaderModal)" class="icons-bar" height="50px"
+                 src="../../../../assets/icons/upload.svg" title="بارگذاری" width="50px"/>
+          </span>
+          <img (click)="deleteFiles()" class="icons-bar" height="50px"
+               [ngClass]="{'icons-bar': isSelected, 'icon-bar-none-select' : !isSelected }"
+               src="../../../../assets/icons/remove.svg" title="حذف" width="50px"/>
+          <div>
+            <img (click)="copyDoc(true)" class="icons-bar" height="50px"
+                 [ngClass]="{'icons-bar': isSelected, 'icon-bar-none-select' : !isSelected }"
+                 src="../../../../assets/icons/copy.svg" title="کپی" width="50px"/>
+          </div>
+
+          <img (click)="pasteDoc()" class="icons-bar" height="50px"
+               [ngClass]="{'icons-bar': isSelectedForCopy, 'icon-bar-none-select' : !isSelectedForCopy }"
+               src="../../../../assets/icons/paste-gray.svg" title="الحاق" width="50px"/>
+
+          <img (click)="copyDoc(false)" class="icons-bar" height="50px"
+               [ngClass]="{'icons-bar': isSelected, 'icon-bar-none-select' : !isSelected }"
+               src="../../../../assets/icons/move.svg" title="انتقال" width="50px"/>
+        </div>
+
+        <label for="dropDown">نحوه نمایش: </label>
+        <p-dropdown [(ngModel)]="showType" [options]="showTypes" id="dropDown" optionLabel="name"
+                    placeholder="انتخاب کنید"></p-dropdown>
+      </div>
+    </div>
+    <div *ngIf="showType.id === 1" class="row p-col-12">
+      <form [formGroup]="techForm" style="width: 100%">
+        <mat-selection-list (selectionChange)="onSelectItem()" class="p-col-12 p-grid" formControlName="selectedTech">
+          <mat-list-option #bigItem *ngFor="let item of childrenDocList" [value]="item" class="big-options"
+                           id="bigItem">
+            <div class="file-icon">
+              <img (click)="openModalClick(openModal, item)" *ngIf="!item.thumbnailLink" height="70px"
+                   [src]="checkFileIcon(item.title, showType.id)" width="70px"/>
+
+              <img (click)="openModalClick(openModal, item)" *ngIf="item.thumbnailLink" [src]="item.thumbnailLink"
+                   style="width: 100px; height: 100px"/>
+              <br/>
+              <span style="font-size: 13px" title="{{ item.title }}">
+                {{ item.title.substr(0, 35) }}
+              </span>
+            </div>
+          </mat-list-option>
+        </mat-selection-list>
+      </form>
+    </div>
+
+    <div *ngIf="showType.id === 2" class="row p-col-12" style="padding-top: 50px">
+      <form [formGroup]="techFormDetails" style="width: 100%">
+        <p-table [(selection)]="selectedDocInForm" [paginator]="true" [rows]="8" [value]="childrenDocList" autoLayout
+                 class="Table" responsive="true" selectionMode="single">
+          <ng-template pTemplate="header">
+            <tr class="tr-class">
+              <th class="th-class" style="width: 6%">انتخاب</th>
+              <th class="th-class">نام فایل</th>
+              <th class="th-class">تاریخ ایجاد</th>
+              <th class="th-class">نویسنده</th>
+            </tr>
+          </ng-template>
+          <ng-template let-item pTemplate="body">
+            <tr class="tr-class2">
+              <td class="tr-class">
+                <input (change)="onSelectItemInDetail($event, item)" [(ngModel)]="item.isChecked" class="checkBox"
+                       formControlName="checkBox" name="choice" type="checkbox"/>
+              </td>
+              <td class="td-class" style="float: right;">
+                <img (click)="openModalClick(openModal, item)" height="40px" [src]="checkFileIcon(item.title, showType.id)"
+                     width="40px"/>
+                {{ item.title }}
+              </td>
+              <td class="td-class">{{ getDate(item.created) }}</td>
+              <td class="td-class">{{ item.author }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #openModal let-modal style="z-index: 10">
+  <div class="modal-header" style="z-index: 10">
+    <button (click)="closeModal()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="z-index: 10">
+    <app-tree-doc-pages [document]="selectedDoc"></app-tree-doc-pages>
+  </div>
+</ng-template>
+
+<ng-template #uploaderModal let-uploaderModal style="z-index: 10">
+  <div class="modal-header" style="z-index: 10">
+    <button (click)="uploaderModal.dismiss('Cross click')" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="z-index: 10">
+    <app-uploader (eventEmitter)="getUploadedDoc($event)" [isUpdate]="false" [path]="path"></app-uploader>
+  </div>
+</ng-template>
+<p-toast></p-toast>
+<app-in-progress></app-in-progress>

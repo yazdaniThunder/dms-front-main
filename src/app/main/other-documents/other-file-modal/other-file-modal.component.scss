@@ -1,0 +1,32 @@
+:host ::ng-deep .p-dropdown {
+  width: 197px;
+}
+
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 197px;
+}
+
+.textBox {
+  display: inline-block;
+  width: 98px;
+}
+
+.reasons {
+  display: flex;
+  background-color: #ede0ea;
+  margin: 0.5rem;
+}
+
+::ng-deep .my-class .modal-dialog {
+  max-width: 75%;
+  width: 75%;
+}
+
+.icons-bar {
+  font-size: 18px;
+  color: white;
+  padding: 10px;
+  float: right;
+  margin-right: 15px;
+  cursor: pointer;
+}

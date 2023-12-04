@@ -1,0 +1,741 @@
+<div class="p-grid p-col-12">
+  <form
+    autocomplete="off"
+    [formGroup]="formGroup"
+    class="form-inline p-col-12"
+    style="justify-content: center"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-card style="width: 90%">
+      <mat-card-header>
+        <mat-card-title>مشخصات کاربر ثبت کننده درخواست</mat-card-title>
+      </mat-card-header>
+      <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+        <div
+          class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+          style="padding-top: 23px"
+        >
+          <div class="p-col-12 p-grid date-div">
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>نام کاربر درخواست دهنده</span>
+            </div>
+            <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+              <input
+                disabled
+                class="input"
+                type="text"
+                [(ngModel)]="fullName"
+                formControlName="user"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+          <div class="p-col-12 p-grid date-div">
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>کد شعبه درخواست دهنده</span>
+            </div>
+            <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+              <input
+                disabled
+                class="input"
+                type="text"
+                [(ngModel)]="branchName"
+                formControlName="branchCodeRequested"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card style="margin-top: 10px">
+      <mat-card-header>
+        <mat-card-title>اطلاعات درخواست سند</mat-card-title>
+      </mat-card-header>
+      <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+          <div class="p-col-12 p-sm-12 p-grid date-div">
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>نوع سند</span>
+              <span style="color: red">*</span>
+            </div>
+            <div class="p-col-7 p-sm-">
+              <p-dropdown
+                [options]="enumKeys"
+                placeholder="انتخاب کنید"
+                optionLabel="label"
+                formControlName="documentType"
+                (onChange)="setType($event)"
+                formGroupName="documentType"
+                [title]="typeLabel"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="margin-top: 0.7rem"
+          >
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>دلیل درخواست سند</span>
+              <span style="color: red">*</span>
+            </div>
+            <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+              <p-dropdown
+                *ngIf="typeReasonKeys.length > 0"
+                [options]="typeReasonKeys"
+                placeholder="انتخاب کنید"
+                optionLabel="label"
+                [filter]="true"
+                [filterBy]="'label'"
+                formControlName="DocumentRequestReasonId"
+                (onChange)="setReason($event)"
+                [title]="reasonLabel"
+              ></p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+          <div class="p-col-12 p-sm-12 p-grid date-div">
+            <div class="p-col-5" style="padding-top: 12px">
+              <span>نوع درخواست</span>
+              <span style="color: red">*</span>
+            </div>
+            <div
+              *ngIf="roleName != 'ADMIN' && roleName != 'RU'"
+              class="p-col-7 p-sm-"
+            >
+              <p-dropdown
+                [options]="requestKeys"
+                placeholder="انتخاب کنید"
+                formControlName="requestType"
+                optionLabel="label"
+                (onChange)="setRequest($event)"
+              ></p-dropdown>
+            </div>
+            <div
+              *ngIf="roleName === 'ADMIN' || roleName === 'RU'"
+              class="p-col-7 p-sm-"
+            >
+              <p-dropdown
+                [options]="requestKeysAdmin"
+                placeholder="انتخاب کنید"
+                formControlName="requestType"
+                optionLabel="label"
+                (onChange)="setRequest($event)"
+                [title]="requestTypeLabel"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <div
+            class="p-col-12 p-sm-12 p-grid date-div"
+            style="margin-top: 0.7rem"
+          >
+            <div class="p-col-5" style="padding-top: 12px">
+              <span *ngIf="requsetModel.documentType !== 'CHAKAVAK'"
+                >کد و نام شعبه سند</span
+              >
+              <span *ngIf="requsetModel.documentType === 'CHAKAVAK'"
+                >کد و نام شعبه صادر کننده سند</span
+              >
+              <span
+                *ngIf="
+                  requsetModel.documentType !== 'OTHER_BANKING_OPERATIONS' ||
+                  requsetModel.requestType === 'GROUP_DOCUMENT_IMAGE'
+                "
+                style="color: red"
+                >*</span
+              >
+              <span *ngIf="branchIdIs" style="color: rgb(4, 0, 255)">*</span>
+            </div>
+            <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+              <p-dropdown
+                *ngIf="typeKeys.length > 0"
+                [options]="typeKeys"
+                placeholder="انتخاب کنید"
+                optionLabel="label"
+                [filter]="true"
+                [filterBy]="'label'"
+                formControlName="branchCode"
+                (onChange)="setBranch($event)"
+                [title]="branchLabel"
+              ></p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div style="width: 100%">
+          <p-accordion #accordion>
+            <p-accordionTab
+              [disabled]="
+                requsetModel.documentType === undefined ||
+                requsetModel.requestType === undefined ||
+                requsetModel.DocumentRequestReasonId === undefined
+              "
+              header="تکمیل اطلاعات"
+            >
+              <div
+                class="p-grid p-col-12"
+                style="padding-bottom: 0; font-size: 13px"
+              >
+                <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-5" style="padding-top: 12px">
+                      <span>شماره سند</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'DAILY' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                      <span
+                        *ngIf="documentNumberIs"
+                        style="color: rgb(4, 0, 255)"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+                      <input
+                        class="input"
+                        type="text"
+                        [(ngModel)]="requsetModel.documentNumber"
+                        name="documentNumber"
+                        formControlName="documentNumber"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-5" style="padding-top: 12px">
+                      <span>شماره چک / برگه سند</span>
+                      <span
+                        *ngIf="
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE') &&
+                          (requsetModel.documentType === 'DAILY' ||
+                            requsetModel.documentType === 'CHAKAVAK')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+                      <input
+                        class="input"
+                        type="text"
+                        [(ngModel)]="requsetModel.checkNumber"
+                        name="checkNumber"
+                        formControlName="checkNumber"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ سند</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'DAILY' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                      <span *ngIf="documentDateIs" style="color: rgb(4, 0, 255)"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="documentDate($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ سند از</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'DAILY' &&
+                          requsetModel.requestType === 'GROUP_DOCUMENT_IMAGE'
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="documentDateFrom($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ سند تا</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'DAILY' &&
+                          requsetModel.requestType === 'GROUP_DOCUMENT_IMAGE'
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="documentDateTo($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ چک</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'CHAKAVAK' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="checkDate($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ پرونده از</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType ===
+                            'OTHER_BANKING_OPERATIONS' &&
+                          requsetModel.requestType === 'GROUP_DOCUMENT_IMAGE'
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="fileDateFrom($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-5" style="padding-top: 12px">
+                      <span>عنوان پرونده</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType ===
+                            'OTHER_BANKING_OPERATIONS' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+                      <input
+                        class="input"
+                        type="text"
+                        [(ngModel)]="requsetModel.fileTitle"
+                        name="fileTitle"
+                        formControlName="fileTitle"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-5" style="padding-top: 12px">
+                      <span>نام بانک صادر کننده چک</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'CHAKAVAK' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+                      <input
+                        class="input"
+                        type="text"
+                        [(ngModel)]="requsetModel.checkIssuingBank"
+                        name="checkIssuingBank"
+                        formControlName="checkIssuingBank"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-5" style="padding-top: 12px">
+                      <span>شماره مشتری</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType ===
+                            'OTHER_BANKING_OPERATIONS' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                      <span
+                        *ngIf="customerNumberIs"
+                        style="color: rgb(4, 0, 255)"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+                      <input
+                        class="input"
+                        type="number"
+                        [(ngModel)]="requsetModel.customerNumber"
+                        formControlName="customerNumber"
+                        name="customerNumber"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-5" style="padding-top: 12px">
+                      <span>شماره پرونده</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType ===
+                            'OTHER_BANKING_OPERATIONS' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                      <span *ngIf="fileNumberIs" style="color: rgb(4, 0, 255)"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+                      <input
+                        class="input"
+                        type="number"
+                        [(ngModel)]="requsetModel.fileNumber"
+                        name="fileNumber"
+                        formControlName="fileNumber"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ وصول چک</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'CHAKAVAK' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="checkReceiptDate($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ وصول چک از</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'CHAKAVAK' &&
+                          requsetModel.requestType === 'GROUP_DOCUMENT_IMAGE'
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="checkReceiptDateFrom($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ وصول چک تا</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType === 'CHAKAVAK' &&
+                          requsetModel.requestType === 'GROUP_DOCUMENT_IMAGE'
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="checkReceiptDateTo($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ پرونده</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType ===
+                            'OTHER_BANKING_OPERATIONS' &&
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="fileDate($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-col-12 p-sm-12 p-grid date-div"
+                    style="padding-bottom: 0"
+                  >
+                    <div
+                      class="p-col-5"
+                      style="direction: rtl; float: right; display: inherit"
+                    >
+                      <span>تاریخ پرونده تا</span>
+                      <span
+                        *ngIf="
+                          requsetModel.documentType ===
+                            'OTHER_BANKING_OPERATIONS' &&
+                          requsetModel.requestType === 'GROUP_DOCUMENT_IMAGE'
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 p-sm-">
+                      <persian-date-picker
+                        placeholder="انتخاب کنید"
+                        (passEntry)="fileDateTo($event)"
+                      ></persian-date-picker>
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-5" style="padding-top: 12px">
+                      <span>عنوان مرجع</span>
+                      <span
+                        *ngIf="referenceTitleIs"
+                        style="color: rgb(4, 0, 255)"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+                      <input
+                        class="input"
+                        type="text"
+                        [(ngModel)]="requsetModel.referenceTitle"
+                        name="referenceTitle"
+                        formControlName="referenceTitle"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="p-col-12 p-sm-12 p-grid date-div">
+                    <div class="p-col-5" style="padding-top: 12px">
+                      <span>مبلغ سند / چک</span>
+                      <span
+                        *ngIf="
+                          (requsetModel.requestType === 'DOCUMENT_ORIGINAL' ||
+                            requsetModel.requestType === 'DOCUMENT_IMAGE') &&
+                          (requsetModel.documentType === 'DAILY' ||
+                            requsetModel.documentType === 'CHAKAVAK')
+                        "
+                        style="color: red"
+                        >*</span
+                      >
+                      <span
+                        *ngIf="documentAmountIs"
+                        style="color: rgb(4, 0, 255)"
+                        >*</span
+                      >
+                    </div>
+                    <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+                      <input
+                        class="input"
+                        type="text"
+                        [(ngModel)]="requsetModel.documentAmount"
+                        formControlName="documentAmount"
+                        name="documentAmount"
+                        separator
+                      />
+                      <span></span>
+                      ریال
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+        <div
+          class="p-col-12"
+          style="
+            padding-top: 12px;
+            float: right;
+            direction: rtl;
+            text-align: right;
+          "
+        >
+          <span style="font-size: larger; font-weight: 300">بارگذاری فایل</span>
+          <span *ngIf="fileIs" style="color: rgb(4, 0, 255)">*</span>
+        </div>
+        <div class="p-col-12 inputCSS">
+          <div class="text-center">
+            <input
+              class="global-upload-file"
+              style="padding: 0.5rem; margin-bottom: 1rem"
+              type="file"
+              formControlName="file"
+              (change)="onChange($event)"
+              accept=".png, .jpg, .jpeg, .pdf, .tif, .tiff"
+            />
+          </div>
+        </div>
+
+        <div
+          class="p-col-12"
+          style="
+            padding-top: 12px;
+            float: right;
+            direction: rtl;
+            text-align: right;
+          "
+        >
+          <span style="font-size: larger; font-weight: 300">توضیحات:</span>
+          <span style="color: red">*</span>
+        </div>
+        <div class="p-col-12 inputCSS">
+          <textarea
+            id="requestDescription"
+            name="requestDescription"
+            formControlName="requestDescription"
+            [(ngModel)]="requsetModel.requestDescription"
+            type="text"
+            style="
+              text-align: right;
+              font-family: iransans;
+              font-size: medium;
+              width: 100%;
+              height: 50px;
+            "
+          >
+          </textarea>
+        </div>
+      </div>
+    </mat-card>
+    <div class="p-col-12" style="display: flex; justify-content: space-evenly">
+      <button
+        class="global-primary-button"
+        [disabled]="!formGroup.valid"
+        type="submit"
+      >
+        ثبت
+      </button>
+      <button (click)="cancel()" class="global-cancel-button">انصراف</button>
+    </div>
+  </form>
+</div>

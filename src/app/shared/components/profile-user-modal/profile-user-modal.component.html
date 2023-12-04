@@ -1,0 +1,127 @@
+<mat-card dir="rtl">
+  <div *ngIf="loading" style="display: flex; justify-content: center">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div
+    *ngIf="!loading"
+    class="p-grid p-col-12"
+    style="padding-bottom: 0; font-size: 13px"
+  >
+    <div
+      class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+      style="padding-top: 23px"
+    >
+      <div class="p-col-12 p-sm-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>نام و نام خانوادگی</mat-card-subtitle>
+          <mat-card-title
+            >{{ profileModel?.user?.firstName }}
+
+            {{ profileModel?.user?.lastName }}</mat-card-title
+          >
+        </mat-card-header>
+      </div>
+
+      <div class="p-col-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>نقش کاربر</mat-card-subtitle>
+          <mat-card-title>{{ getType(profileModel?.role) }}</mat-card-title>
+        </mat-card-header>
+      </div>
+    </div>
+
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+      <div class="p-col-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>نام کاربری</mat-card-subtitle>
+          <mat-card-title>{{
+            profileModel?.user?.personelUserName
+          }}</mat-card-title>
+        </mat-card-header>
+      </div>
+
+      <div class="p-col-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>نام و کد شعبه</mat-card-subtitle>
+          <mat-card-title
+            >{{ profileModel?.branchCode }} -
+            {{ profileModel?.branchName }}</mat-card-title
+          >
+        </mat-card-header>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<mat-card *ngIf="roleName === 'BA' || roleName === 'BU'" dir="rtl">
+  <div *ngIf="loading" style="display: flex; justify-content: center">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div
+    *ngIf="!loading"
+    class="p-grid p-col-12"
+    style="padding-bottom: 0; font-size: 13px"
+  >
+    <div
+      class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+      style="padding-top: 23px"
+    >
+      <div class="p-col-12 p-sm-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>مدیریت اسناد - ثبت دسته اسناد</mat-card-subtitle>
+          <mat-card-title>{{
+            badges?.documentSetByBranchCount
+          }}</mat-card-title>
+        </mat-card-header>
+      </div>
+
+      <div class="p-col-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>مدیریت فایل های دارای مغایرت </mat-card-subtitle>
+          <mat-card-title>{{ badges?.conflictingCount }}</mat-card-title>
+        </mat-card-header>
+      </div>
+
+      <div *ngIf="roleName === 'BA'" class="p-col-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>مدیریت دسته اسناد منتظر تایید </mat-card-subtitle>
+          <mat-card-title>{{ badges?.acceptWaitingCount }}</mat-card-title>
+        </mat-card-header>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>مدیریت سایر اسناد</mat-card-subtitle>
+          <mat-card-title>{{ badges?.otherDocumentCount }}</mat-card-title>
+        </mat-card-header>
+      </div>
+    </div>
+
+    <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+      <div class="p-col-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>مدیریت درخواست و دریافت اسناد </mat-card-subtitle>
+          <mat-card-title>{{ badges?.documentRequestCount }}</mat-card-title>
+        </mat-card-header>
+      </div>
+
+      <div class="p-col-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>مدیریت دسته اسناد دارای مغایرت </mat-card-subtitle>
+          <mat-card-title>{{
+            badges?.sentConflictedDocumentCount
+          }}</mat-card-title>
+        </mat-card-header>
+      </div>
+
+      <div *ngIf="roleName === 'BA'" class="p-col-12 p-grid date-div">
+        <mat-card-header>
+          <mat-card-subtitle>مدیریت فایل های منتظر تایید </mat-card-subtitle>
+          <mat-card-title>{{
+            badges?.fixedConflictedDocumentsCount
+          }}</mat-card-title>
+        </mat-card-header>
+      </div>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,28 @@
+
+:host ::ng-deep .p-dropdown {
+  width: 197px;
+}
+
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 197px;
+}
+
+.textBox {
+  display: inline-block;
+  width: 98px;
+}
+
+:host ::ng-deep .mat-tab-body-content {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.reciveButton {
+  color: #820263;
+  background-color: #fff;
+  border: none;
+}
+
+.reciveButton:disabled {
+  color: #e0dfdf;
+}

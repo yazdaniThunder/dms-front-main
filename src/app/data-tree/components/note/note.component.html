@@ -1,0 +1,36 @@
+<div style="text-align: center; margin-top: 35px; min-height: 200px">
+
+  <textarea id="comment" class="round form-control" style="height: 120px;"
+            [(ngModel)]="content"></textarea>
+
+  <div style="text-align: center;">
+    <button class="add-button" type="submit" (click)="saveNote()">
+      ذخیره
+    </button>
+    <button *ngIf="disableSubmit" class="cancel-button" type="submit" (click)="cancelEditNote()">
+      انصراف
+    </button>
+  </div>
+  <p-table responsive="true" class="Table tableSize"  [scrollable]="true" scrollHeight="120px" [value]="notes" autoLayout [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+      <tr class="tr-class">
+        <th class="th-class">نویسنده</th>
+        <th class="th-class">تاریخ ایجاد یادداشت</th>
+        <th class="th-class">عملیات</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-note>
+      <tr class="tr-class2">
+        <td class="td-class">{{note.author}}</td>
+        <td class="td-class">{{getDate(note.date)}}</td>
+        <td class="td-class" style="color: red; cursor: pointer;">
+          <span  style="color: green;" (click)="showNote(note)">مشاهده </span>
+          <span  style="color: red;padding-right: 5px" (click)="deleteNote(note)"> حذف</span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-toast></p-toast>
+<app-in-progress></app-in-progress>

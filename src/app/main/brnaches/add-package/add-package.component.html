@@ -1,0 +1,191 @@
+<div class="p-grid p-col-12" class="global-modal-body">
+  <form autocomplete="off" [formGroup]="formGroup" class="form-inline p-col-12">
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div
+        class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+        style="padding-top: 23px"
+      >
+        <div class="p-col-12 p-sm-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span style="color: red">*</span>
+
+            <span>نوع دسته اسناد</span>
+          </div>
+          <div class="p-col-7" style="padding-right: 1rem">
+            <p-dropdown
+              [options]="enumKeys"
+              placeholder="انتخاب کنید"
+              optionLabel="label"
+              (onChange)="setType($event)"
+              formGroupName="type"
+              formControlName="type"
+              [title]="getType(documentSetModel.type)"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <div
+          *ngIf="!show"
+          class="p-col-12 p-sm-12 p-grid date-div"
+          style="padding-bottom: 0"
+        >
+          <div
+            class="p-col-5"
+            style="direction: rtl; float: right; display: inherit"
+          >
+            <span style="color: red">*</span>
+
+            <span>تاریخ دسته اسناد از</span>
+          </div>
+          <div class="p-col-7">
+            <persian-date-picker
+              placeholder="انتخاب کنید"
+              (passEntry)="setStartDate($event)"
+            ></persian-date-picker>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>کد و نام واحد بانکی</span>
+          </div>
+
+          <div class="p-col-7 inputCSS">
+            <input
+              formControlName="branchId"
+              class="input"
+              type="text"
+              [(ngModel)]="branchName"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div *ngIf="show" class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>نوع پرونده</span>
+          </div>
+
+          <div class="p-col-7 inputCSS">
+            <input
+              class="input"
+              type="text"
+              [value]="getFileType(fileType)"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div *ngIf="show" class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>وضعیت پرونده</span>
+          </div>
+
+          <div class="p-col-7 inputCSS">
+            <p-dropdown
+              *ngIf="statusKeys.length > 0"
+              [(ngModel)]="defaultStatusKey"
+              formControlName="fileStatus"
+              [options]="statusKeys"
+              optionLabel="label"
+              (onChange)="setFileStatusId($event)"
+              placeholder="انتخاب کنید"
+              [title]="defaultStatusKey.label"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>بانک صادر کننده</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <input disabled class="input" type="text" value="بانک سامان" />
+          </div>
+        </div>
+
+        <div
+          *ngIf="!show"
+          class="p-col-12 p-sm-12 p-grid date-div"
+          style="padding-bottom: 0"
+        >
+          <div
+            class="p-col-5"
+            style="direction: rtl; float: right; display: inherit"
+          >
+            <span style="color: red">*</span>
+
+            <span>تاریخ دسته اسناد تا</span>
+          </div>
+          <div class="p-col-7">
+            <div style="width: 197px">
+              <persian-date-picker
+                placeholder="انتخاب کنید"
+                (passEntry)="setEndDate($event)"
+              ></persian-date-picker>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>شمارنده دسته سند</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <input
+              class="input"
+              type="text"
+              value="توسط سیستم ایجاد میشود."
+              disabled
+            />
+          </div>
+        </div>
+
+        <div *ngIf="show" class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>شماره پرونده</span>
+          </div>
+
+          <div class="p-col-7 inputCSS">
+            <input
+              formControlName="fileNumber"
+              class="input"
+              type="text"
+              [(ngModel)]="documentSetModel.fileNumber"
+            />
+          </div>
+        </div>
+
+        <div *ngIf="show" class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>شماره مشتری</span>
+          </div>
+
+          <div class="p-col-7 inputCSS">
+            <input
+              formControlName="customerNumber"
+              class="input"
+              type="text"
+              [(ngModel)]="documentSetModel.customerNumber"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12" style="display: flex; justify-content: space-evenly">
+      <button (click)="cancel()" class="global-cancel-button">انصراف</button>
+
+      <button
+        class="global-primary-button"
+        (click)="submit()"
+        type="submit"
+        [disabled]="!formGroup.valid"
+      >
+        ثبت
+      </button>
+    </div>
+  </form>
+</div>

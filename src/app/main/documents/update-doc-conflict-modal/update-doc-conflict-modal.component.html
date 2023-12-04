@@ -1,0 +1,84 @@
+<div class="p-grid p-col-12">
+  <form
+    [formGroup]="formGroup"
+    (ngSubmit)="submit()"
+    class="form-inline p-col-12"
+  >
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div class="p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12">
+        <div
+          *ngIf="documentModel.conflicts[0]?.registerDescription !== null"
+          class="description"
+        >
+          توضیح مغایرت :
+          {{ documentModel.conflicts[0].registerDescription }}
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div">
+          <div class="p-col-12" style="display: flex; justify-content: center">
+            <span>دلیل مغایرت</span>
+          </div>
+          <div
+            *ngIf="documentModel.conflicts && documentModel.conflicts[0]"
+            class="p-col-12"
+            style="
+              display: flex;
+              justify-content: center;
+              padding-bottom: 15px;
+              text-align: center;
+              overflow-x: scroll;
+            "
+          >
+            <div
+              *ngFor="let item of documentModel.conflicts[0].conflictReasons"
+            >
+              <span class="conflict-item">{{ item.reason }}</span>
+            </div>
+          </div>
+          <div
+            style="display: flex; justify-content: center"
+            class="p-col-12 p-sm-12"
+          >
+            <p-multiSelect
+              [options]="enumKeys"
+              placeholder="انتخاب کنید"
+              [(ngModel)]="selectedReason"
+              formControlName="conflictReasons"
+              optionLabel="label"
+              [selectedItemsLabel]="'{0} مغایرت'"
+            ></p-multiSelect>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-grid p-col-12">
+        <span>توضیحات:</span>
+        <textarea
+          id="description"
+          [(ngModel)]="description"
+          formControlName="description"
+          name="description"
+          type="text"
+          style="
+            text-align: right;
+            font-family: iransans;
+            font-size: medium;
+            width: 100%;
+            height: 70px;
+          "
+        >
+        </textarea>
+      </div>
+
+      <div class="p-col-12" style="display: flex; justify-content: center">
+        <button
+          class="global-primary-button"
+          [disabled]="false"
+          (click)="submit()"
+          type="submit"
+        >
+          ثبت
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

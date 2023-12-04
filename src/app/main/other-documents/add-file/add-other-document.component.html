@@ -1,0 +1,496 @@
+<div class="p-grid p-col-12 fix-direction" style="padding: 0 !important">
+  <div class="p-grid p-col-12">
+    <div
+      class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12"
+      style="padding-right: 30px; padding-top: 45px"
+    >
+      <h2
+        class="Title"
+        style="
+          padding-top: 41px;
+          padding-bottom: 25px;
+          padding-right: 0;
+          font-family: iransans;
+          font-size: 24px;
+          font-weight: 500;
+          margin-right: 2rem;
+        "
+      >
+        ثبت تصاویر مدارک سایر اسناد عملیات بانکی
+      </h2>
+      <mat-expansion-panel
+        (closed)="panelOpenState = false"
+        (opened)="panelOpenState = true"
+        style="margin: 2%"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> جستجو</mat-panel-title>
+        </mat-expansion-panel-header>
+        <form
+          [formGroup]="formGroup"
+          autocomplete="off"
+          class="p-col-12"
+          style="min-height: 450px"
+        >
+          <div
+            class="p-grid p-col-12"
+            style="padding-bottom: 0; font-size: 13px"
+          >
+            <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>تاریخ ثبت فایل از</span>
+                </div>
+                <div class="p-col-8" inputCSS>
+                  <persian-date-picker
+                    (passEntry)="setRegisterFromDate($event)"
+                    placeholder="انتخاب کنید"
+                  ></persian-date-picker>
+                </div>
+              </div>
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>تاریخ ثبت فایل تا</span>
+                </div>
+                <div class="p-col-8" inputCSS>
+                  <persian-date-picker
+                    (passEntry)="setRegisterToDate($event)"
+                    placeholder="انتخاب کنید"
+                  ></persian-date-picker>
+                </div>
+              </div>
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>کد و نام واحد بانکی</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <span *ngIf="roleName === 'ADMIN'">
+                    <p-dropdown
+                      (onChange)="setBranch($event)"
+                      *ngIf="typeBranchKeys.length > 0"
+                      [filterBy]="'label'"
+                      [filter]="true"
+                      [options]="currentPageItemsBranch"
+                      formControlName="branchIds"
+                      optionLabel="label"
+                      placeholder="انتخاب کنید"
+                      [title]="branchLabel"
+                    ></p-dropdown>
+                  </span>
+                  <span *ngIf="roleName !== 'ADMIN'">
+                    <input
+                      [value]="branchName"
+                      class="input"
+                      disabled
+                      type="text"
+                    />
+                  </span>
+                </div>
+              </div>
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>شماره مشتری</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <input
+                    [(ngModel)]="otherDocumentSearchDto.customerNumber"
+                    class="input"
+                    formControlName="customerNumber"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>شماره پرونده</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <input
+                    [(ngModel)]="otherDocumentSearchDto.fileNumber"
+                    class="input"
+                    formControlName="fileNumber"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="p-grid p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6">
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>نوع پرونده</span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <p-dropdown
+                    *ngIf="fileTypeKeys.length > 0"
+                    (onChange)="setFileTypeId($event)"
+                    [options]="fileTypeKeys"
+                    formControlName="fileTypeId"
+                    optionLabel="label"
+                    placeholder="انتخاب کنید"
+                    [title]="fileTypeLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>وضعیت پرونده</span>
+                </div>
+                <div class="p-col-8">
+                  <p-dropdown
+                    *ngIf="fileStatusKeys.length > 0; else emptyDD"
+                    [(ngModel)]="defaultFs"
+                    (onChange)="setFileStatusId($event)"
+                    [options]="fileStatusKeys"
+                    formControlName="fileStatusId"
+                    optionLabel="label"
+                    placeholder="انتخاب کنید"
+                    [title]="defaultFs.label"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>نوع سند</span>
+                </div>
+                <div class="p-col-8">
+                  <p-dropdown
+                    *ngIf="otherDocumentType.length > 0; else emptyDD"
+                    (onChange)="setOtherDocumentTypeId($event)"
+                    [options]="otherDocumentType"
+                    formControlName="otherDocumentTypeId"
+                    optionLabel="label"
+                    placeholder="انتخاب کنید"
+                    [title]="otherDocumentTypeLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>کاربر ثبت کننده </span>
+                </div>
+                <div class="p-col-8 inputCSS">
+                  <p-dropdown
+                    (onChange)="setRegisterUser($event)"
+                    *ngIf="userKeys.length > 0"
+                    [options]="userKeys"
+                    formControlName="registrarId"
+                    optionLabel="label"
+                    placeholder="انتخاب کنید"
+                    [title]="userLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="p-col-12 p-grid date-div">
+                <div class="p-col-4" style="padding-top: 12px">
+                  <span>وضعیت فایل سایر اسناد</span>
+                </div>
+                <div class="p-col-8">
+                  <p-dropdown
+                    (onChange)="setState($event)"
+                    [options]="stateKeys"
+                    formControlName="state"
+                    optionLabel="label"
+                    placeholder="انتخاب کنید"
+                    [title]="stateLabel"
+                  ></p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="p-col-12"
+            style="
+              display: flex;
+              justify-content: space-evenly;
+              margin-top: 5rem;
+            "
+          >
+            <button
+              (click)="search()"
+              [disabled]="false"
+              class="global-primary-button"
+            >
+              جستجو
+            </button>
+            <button
+              (click)="resetSearchItems()"
+              class="global-cancel-button"
+              type="submit"
+            >
+              انصراف
+            </button>
+          </div>
+        </form>
+      </mat-expansion-panel>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>مشاهده نتایج جستجو</mat-card-title>
+        </mat-card-header>
+        <div class="p-grid p-col-12">
+          <div style="padding: 12px">
+            <button
+              class="global-primary-button"
+              [disabled]="false"
+              (click)="openModalFileClick(addNewModal)"
+              type="button"
+            >
+              ثبت سایر اسناد عملیات بانکی
+            </button>
+          </div>
+        </div>
+        <div style="margin-top: 30px; min-height: 80vh">
+          <p-table
+            (onLazyLoad)="loadOtherDocument($event)"
+            [(selection)]="selectOtherDocument"
+            [lazy]="true"
+            [paginator]="
+              resultOtherDocument !== null && resultOtherDocument !== 0
+            "
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            [totalRecords]="resultOtherDocument"
+            [value]="otherDocumentData"
+            autoLayout
+            class="Table"
+            currentPageReportTemplate="تعداد: {totalRecords} رکورد"
+            dataKey="id"
+            responsive="true"
+            selectionMode="single"
+          >
+            <ng-template pTemplate="header">
+              <tr class="tr-class">
+                <th class="th-class" style="width: 15%">تاریخ ثبت</th>
+                <th class="th-class" style="width: 15%">کد و نام واحد بانکی</th>
+                <th class="th-class" style="width: 15%">
+                  کد و نام واحد سرپرستی
+                </th>
+                <th
+                  class="th-class"
+                  pSortableColumn="fileType.title"
+                  style="width: 15%"
+                >
+                  <p-sortIcon field="fileType.title"></p-sortIcon>
+                  نوع پرونده
+                </th>
+                <th class="th-class" style="width: 15%">شماره مشتری</th>
+                <th class="th-class" style="width: 15%">شماره پرونده</th>
+                <th class="th-class" style="width: 15%">کاربر ثبت کننده</th>
+                <th class="th-class" style="width: 15%">وضعیت</th>
+                <th class="th-class" style="width: 7%">عملیات</th>
+                <th class="th-class" style="width: 7%">ارسال</th>
+                <th class="th-class" style="width: 7%">مشاهده</th>
+                <th class="th-class" style="width: 7%">حذف</th>
+              </tr>
+            </ng-template>
+            <ng-template let-product pTemplate="body">
+              <tr class="tr-class2">
+                <td class="td-class">
+                  {{ getDate(product.registerDate) }}
+                </td>
+                <td class="td-class">
+                  {{ product.branchCode }}-{{ product.branchName }}
+                </td>
+                <td class="td-class">
+                  {{ product.superVisorCode }}-{{ product.superVisorName }}
+                </td>
+                <td class="td-class">{{ product.fileType.title }}</td>
+                <td class="td-class">{{ product.customerNumber }}</td>
+                <td class="td-class">{{ product.fileNumber }}</td>
+                <td class="td-class">{{ product.createByFullName }}</td>
+                <td class="td-class">
+                  {{ getState(product.lastState.state) }}
+                </td>
+                <td class="td-class">
+                  <img
+                    *ngIf="
+                      product.lastState.state === 'REGISTERED' ||
+                        product.lastState.state === 'BRANCH_REJECTED';
+                      else notUpdate
+                    "
+                    src="../../../../assets/icons/color-edit.svg"
+                    width="30px"
+                    height="30px"
+                    alt="DELETE"
+                    aria-hidden="true"
+                    title="تکمیل سایر اسناد"
+                    (click)="openModalFileClick(updateModal, product)"
+                  />
+                </td>
+                <td class="td-class">
+                  <img
+                    *ngIf="
+                      (product.lastState.state === 'REGISTERED' ||
+                        product.lastState.state === 'BRANCH_REJECTED') &&
+                        product.complete;
+                      else notSend
+                    "
+                    src="../../../../assets/icons/send.svg"
+                    width="20px"
+                    height="20px"
+                    alt="SEND"
+                    aria-hidden="true"
+                    title="ارسال سایر اسناد"
+                    (click)="sendOtherDocument(product.id)"
+                  />
+                </td>
+                <td class="td-class">
+                  <span *ngIf="product.lastState.seen === false">
+                    <img
+                      *ngIf="
+                        product.lastState.state !== 'REGISTERED';
+                        else notSee
+                      "
+                      src="../../../../assets/icons/eye.svg"
+                      width="15px"
+                      height="15px"
+                      alt="SHOW"
+                      aria-hidden="true"
+                      title="مشاهده سایر اسناد"
+                      (click)="openModalFileClick(seeModal, product)"
+                    />
+                  </span>
+                  <span *ngIf="product.lastState.seen === true">
+                    <img
+                      *ngIf="
+                        product.lastState.state !== 'REGISTERED';
+                        else notSee
+                      "
+                      src="../../../../assets/icons/eye-green.svg"
+                      width="15px"
+                      height="15px"
+                      alt="SHOW"
+                      aria-hidden="true"
+                      title="مشاهده سایر اسناد"
+                      (click)="openModalFileClick(seeModal, product)"
+                    />
+                  </span>
+                </td>
+                <td class="td-class">
+                  <img
+                    *ngIf="
+                      product.lastState.state === 'REGISTERED';
+                      else notDelete
+                    "
+                    src="../../../../assets/icons/remove-pink.svg"
+                    width="15px"
+                    height="15px"
+                    alt="DELETE"
+                    aria-hidden="true"
+                    title="حذف سایر اسناد"
+                    (click)="deleteOtherDocument(product.id)"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #addNewModal let-modal style="z-index: 10">
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <app-other-file-modal-document
+    (passEntry)="submitNew($event)"
+  ></app-other-file-modal-document>
+</ng-template>
+
+<ng-template #updateModal let-modal style="z-index: 10">
+  <div class="modal-header">
+    <h6 class="modal-title">تکمیل فایل سایر اسناد</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <app-update-other-document
+    [otherDocumentModel]="selectOtherDocument"
+    (passEntry)="submitNew($event)"
+  ></app-update-other-document>
+</ng-template>
+
+<ng-template #seeModal let-modal style="z-index: 10">
+  <div class="modal-header">
+    <h6 class="modal-title">مشاهده فایل سایر اسناد</h6>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true" style="color: black; float: left">&times;</span>
+    </button>
+  </div>
+  <app-see-other-document
+    [otherDocumentModel]="selectOtherDocument"
+    (passEntry)="submitNew($event)"
+  ></app-see-other-document>
+</ng-template>
+
+<ng-template #notUpdate>
+  <img
+    src="../../../../assets/icons/edit.svg"
+    width="30px"
+    height="30px"
+    alt="DELETE"
+    aria-hidden="true"
+    title="تکمیل سایر اسناد"
+  />
+</ng-template>
+
+<ng-template #notSend>
+  <img
+    src="../../../../assets/icons/send-gray.svg"
+    width="20px"
+    height="20px"
+    alt="SEND"
+    aria-hidden="true"
+    title="ارسال سایر اسناد"
+  />
+</ng-template>
+
+<ng-template #emptyDD>
+  <input
+    style="width: 198px"
+    value="ابتدا نوع پرونده را انتخاب کنید"
+    disabled
+    class="input"
+  />
+</ng-template>
+
+<ng-template #notDelete>
+  <img
+    src="../../../../assets/icons/remove-gray.svg"
+    width="15px"
+    height="15px"
+    alt="DELETE"
+    aria-hidden="true"
+    title="حذف سایر اسناد"
+  />
+</ng-template>
+
+<ng-template #notSee>
+  <img
+    src="../../../../assets/icons/eye-closed.svg"
+    width="15px"
+    height="15px"
+    alt="SHOW"
+    aria-hidden="true"
+    title="مشاهده سایر اسناد"
+  />
+</ng-template>

@@ -1,0 +1,41 @@
+
+
+.Title {
+ padding-bottom: 0px;
+}
+
+.Table {
+  padding-bottom: 20px
+
+}
+
+:host ::ng-deep .p-dropdown {
+    width: 197px;
+}
+
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 197px;
+}
+
+
+.textBox {
+    display: inline-block;
+    width: 98px;
+}
+
+
+:host ::ng-deep .mat-tab-body-content  {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+:host ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #820263;
+}
+
+.reasons{
+  display: flex;
+  background-color: #ede0ea;
+  margin: 0.5rem;
+}

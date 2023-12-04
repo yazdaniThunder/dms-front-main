@@ -1,0 +1,112 @@
+.header-item {
+  margin-top: 70px;
+  width: 180px;
+  background-color: #d7d7f9;
+  border-radius: 50px;
+  padding: 35px 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.header-sub-item {
+  width: 235px;
+  height: 40px;
+  background-color: #820263;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 0 10px 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.menu-element {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: iransans;
+  margin-bottom: 5px;
+  cursor: pointer;
+  text-align: right;
+}
+.menu-element:hover {
+  background-color: #ede0ea;
+  color: #820263;
+  border-radius: 10px;
+  padding: 0 5px;
+}
+
+.menu-around {
+  min-width: 200px;
+  position: relative;
+  border: 5px solid #ebebeb;
+  border-radius: 10px;
+  padding: 50px;
+  margin: 20px;
+}
+
+.selected {
+  background-color: #ede0ea;
+  color: #820263;
+  border-radius: 10px;
+  padding: 0 5px;
+  font-weight: bold; /* Set the font weight for the selected item */
+  /* Add any additional styling for the selected item */
+}
+
+.icons {
+  position: absolute;
+  font-size: 21px;
+  margin-top: 10px;
+  color: white;
+  top: 5px;
+  background-color: #6f6fa3;
+  border-radius: 60px;
+  padding: 8px 10px;
+  right: 9px;
+}
+:host ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+  padding: 0;
+}
+
+:host ::ng-deep .mat-list-base {
+  padding-top: 0;
+}
+
+:host ::ng-deep .mat-tab-label {
+  font-family: iransans;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+:host ::ng-deep .mat-tab-label {
+  min-width: 50%;
+  max-width: 50%;
+  padding: 0;
+}
+
+:host ::ng-deep .mat-tab-label-container {
+  border-radius: 10px !important;
+}
+
+:host ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #820263;
+}
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  background-color: #ede0ea;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-show {
+  display: unset !important;
+}
+
+.display-admin {
+  margin-top: 1rem !important;
+}
+
+.between-two {
+  padding: 5rem;
+}

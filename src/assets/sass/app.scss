@@ -1,0 +1,18 @@
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+@import "scss/variables";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "~prismjs/plugins/toolbar/prism-toolbar.css";
+@import "~prismjs/themes/prism-okaidia";
+@import "scss/app-variables";
+@import "scss/mixins";
+@import "scss/custom-bootstrap";
+@import "scss/custom-bootstrap-rtl";
+@import '~ngx-ui-switch/ui-switch.component.scss';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+
+// RTL styles
+.card-link + .card-link {
+    margin-left: 0 !important;
+    margin-right: 1.5rem;
+}

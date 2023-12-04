@@ -1,0 +1,479 @@
+<div
+  class="p-grid p-col-12 p-xl-3 p-md-4 p-lg-4 padding-0"
+  style="position: absolute; right: 10px"
+>
+  <div class="p-col-12" style="padding: 10px 0 !important">
+    <div *ngIf="tabIndex != null" style="padding-top: 75px">
+      <mat-tab-group animationDuration="0ms" [(selectedIndex)]="tabIndex">
+        <mat-tab
+          *ngIf="
+            roleCheck === 'ADMIN' || roleCheck === 'BA' || roleCheck === 'BU'
+          "
+          label="درختواره اسناد"
+        >
+          <div
+            style="
+              max-height: 700px;
+              overflow: scroll;
+              height: 700px;
+              direction: ltr;
+            "
+          >
+            <app-tree-root *ngIf="tabIndex === 0"></app-tree-root>
+          </div>
+        </mat-tab>
+
+        <mat-tab
+          label="مدیریت فرآیند اسناد"
+          style="border-radius: 70px !important"
+        >
+          <div class="menu-around">
+            <div
+              [ngClass]="{
+                'display-show':
+                  roleCheck === 'ADMIN' ||
+                  roleCheck === 'RU' ||
+                  roleCheck === 'DOPU' ||
+                  roleCheck === 'DOEU'
+              }"
+              class="display-none"
+            >
+              <div class="header-sub-item" (click)="onClickSubItem3()">
+                <span style="font-weight: bold; font-size: small">گزارشات</span>
+              </div>
+
+              <div
+                *ngIf="showSubItem3"
+                [@listAnimation]
+                style="padding-right: 5px; padding-top: 5px"
+              >
+                <mat-list *ngFor="let item of categories3; let i = index">
+                  <span *ngIf="item.role === 'DOPU'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="
+                        roleCheck === 'RU' ||
+                        roleCheck === 'ADMIN' ||
+                        roleCheck === 'DOPU'
+                      "
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'DOEU'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="
+                        roleCheck === 'RU' ||
+                        roleCheck === 'ADMIN' ||
+                        roleCheck === 'DOEU'
+                      "
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                </mat-list>
+              </div>
+            </div>
+
+            <div
+              [ngClass]="{
+                'between-two': roleCheck === 'ADMIN' || roleCheck === 'RU'
+              }"
+              class="display-none"
+            ></div>
+            <div
+              [ngClass]="{
+                'display-admin': roleCheck === 'ADMIN' || roleCheck === 'RU'
+              }"
+            ></div>
+
+            <div
+              [ngClass]="{
+                'display-show': roleCheck === 'ADMIN'
+              }"
+              class="display-none"
+            >
+              <div class="header-sub-item" (click)="onClickSubItem4()">
+                <span style="font-weight: bold; font-size: small"
+                  >اطلاعات سایر اسناد عملیات بانکی در شعب</span
+                >
+              </div>
+
+              <div
+                *ngIf="showSubItem4"
+                [@listAnimation]
+                style="padding-right: 5px; padding-top: 5px"
+              >
+                <mat-list *ngFor="let item of categories4; let i = index">
+                  <span *ngIf="item.role === 'ALL'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="
+                        roleCheck === 'BA' ||
+                        roleCheck === 'ADMIN' ||
+                        roleCheck === 'BU'
+                      "
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'BA'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="roleCheck === 'BA' || roleCheck === 'ADMIN'"
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                </mat-list>
+              </div>
+            </div>
+
+            <div
+              [ngClass]="{
+                'between-two':
+                  roleCheck === 'ADMIN' ||
+                  roleCheck === 'RU' ||
+                  roleCheck === 'DOEU' ||
+                  roleCheck === 'DOPU' ||
+                  roleCheck === 'DOA'
+              }"
+              class="display-none"
+            ></div>
+            <div
+              [ngClass]="{
+                'display-admin':
+                  roleCheck === 'ADMIN' ||
+                  roleCheck === 'RU' ||
+                  roleCheck === 'DOEU' ||
+                  roleCheck === 'DOPU' ||
+                  roleCheck === 'DOA'
+              }"
+            ></div>
+
+            <div
+              [ngClass]="{
+                'display-show':
+                  roleCheck === 'BU' ||
+                  roleCheck === 'BA' ||
+                  roleCheck === 'RU' ||
+                  roleCheck === 'ADMIN'
+              }"
+              class="display-none"
+            >
+              <div class="header-sub-item" (click)="onClickSubItem()">
+                <span style="font-weight: bold; font-size: small"
+                  >مدیریت شعب/مراکز/باجه/دفاتر</span
+                >
+              </div>
+
+              <div
+                *ngIf="showSubItem"
+                [@listAnimation]
+                style="padding-right: 5px; padding-top: 5px"
+              >
+                <mat-list *ngFor="let item of categories; let i = index">
+                  <span *ngIf="item.role === 'ALL' && roleCheck !== 'RU'">
+                    <mat-list-item style="padding: 0">
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'BA'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="roleCheck === 'BA' || roleCheck === 'ADMIN'"
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'RU'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="roleCheck === 'RU'"
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                </mat-list>
+              </div>
+            </div>
+
+            <div
+              [ngClass]="{
+                'between-two': roleCheck === 'ADMIN' || roleCheck === 'RU'
+              }"
+              class="display-none"
+            ></div>
+            <div
+              [ngClass]="{
+                'display-admin': roleCheck === 'ADMIN' || roleCheck === 'RU'
+              }"
+            ></div>
+
+            <div
+              class="display-none"
+              [ngClass]="{
+                'display-show':
+                  roleCheck === 'DOEU' ||
+                  roleCheck === 'DOPU' ||
+                  roleCheck === 'DOA' ||
+                  roleCheck === 'RU' ||
+                  roleCheck === 'ADMIN'
+              }"
+            >
+              <div class="header-sub-item" (click)="onClickSubItem2()">
+                <span style="font-weight: bold; font-size: small"
+                  >مدیریت اداره اسناد</span
+                >
+              </div>
+
+              <div
+                *ngIf="showSubItem2"
+                [@listAnimation]
+                style="padding-right: 5px; padding-top: 15px"
+              >
+                <mat-list *ngFor="let item of categories2; let i = index">
+                  <span
+                    *ngIf="
+                      item.role === 'ALL' &&
+                      roleCheck !== 'RU' &&
+                      roleCheck !== 'DOPU' &&
+                      roleCheck !== 'DOEU'
+                    "
+                  >
+                    <mat-list-item style="padding: 0">
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'ADMIN'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="roleCheck === 'ADMIN'"
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'DOA'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="roleCheck === 'DOA' || roleCheck === 'ADMIN'"
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'RU'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="roleCheck === 'RU'"
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'DOEU'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="roleCheck === 'DOEU'"
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                  <span *ngIf="item.role === 'DOPU'">
+                    <mat-list-item
+                      style="padding: 0"
+                      *ngIf="roleCheck === 'DOPU'"
+                    >
+                      <p
+                        class="menu-element"
+                        [ngClass]="{ selected: item.selected }"
+                        (click)="categuriClick(item.id, item)"
+                      >
+                        <span>
+                          <i
+                            class="{{ item.icon }}"
+                            aria-hidden="true"
+                            style="font-size: 12px"
+                          ></i>
+                        </span>
+
+                        {{ item.title }}
+                      </p>
+                    </mat-list-item>
+                  </span>
+                </mat-list>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

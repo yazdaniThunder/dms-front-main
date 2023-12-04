@@ -1,0 +1,175 @@
+<div class="p-grid p-col-12" class="global-modal-body">
+  .
+
+  <form
+    autocomplete="off"
+    [formGroup]="formGroup"
+    class="form-inline p-col-12"
+    (ngSubmit)="submit()"
+  >
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div
+        class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+        style="padding-top: 23px"
+      >
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>نام</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <input
+              class="input"
+              type="text"
+              formGroupName="firstName"
+              formControlName="firstName"
+              [(ngModel)]="createUserModel.firstName"
+            />
+          </div>
+        </div>
+
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>نام کاربری</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <input
+              class="input"
+              type="text"
+              formGroupName="personelUserName"
+              formControlName="personelUserName"
+              [(ngModel)]="createUserModel.personelUserName"
+            />
+          </div>
+        </div>
+
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>کد پرسنلی</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <input
+              class="input"
+              type="number"
+              formGroupName="prsnCode"
+              formControlName="prsnCode"
+              [(ngModel)]="createUserModel.prsnCode"
+            />
+          </div>
+        </div>
+
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>نوع شعبه</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <p-dropdown
+              [options]="typeEnumKeys"
+              placeholder="انتخاب کنید"
+              optionLabel="label"
+              (onChange)="setGeneralType($event)"
+              [title]="typeLabel"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <div *ngIf="type !== 'BRANCH'" class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>نام شعبه مادر</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <input class="input" type="text" [value]="parentName" disabled />
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6">
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>نام خانوادگی</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <input
+              class="input"
+              type="text"
+              formGroupName="lastName"
+              formControlName="lastName"
+              [(ngModel)]="createUserModel.lastName"
+            />
+          </div>
+        </div>
+
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>کد ملی</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <input
+              class="input"
+              type="text"
+              formGroupName="nationalKey"
+              formControlName="nationalKey"
+              [(ngModel)]="createUserModel.nationalKey"
+            />
+          </div>
+        </div>
+
+        <div class="p-col-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>نقش کاربر</span>
+          </div>
+          <div class="p-col-7 inputCSS" style="margin-bottom: 15px">
+            <p-dropdown
+              [options]="enumKeys"
+              placeholder="انتخاب کنید"
+              optionLabel="label"
+              formControlName="role"
+              (onChange)="setRole($event)"
+              [title]="roleLabel"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-sm-12 p-grid date-div">
+          <div class="p-col-5" style="padding-top: 12px">
+            <span>کد و نام شعبه</span>
+          </div>
+          <div class="p-col-7" style="margin-bottom: 15px">
+            <p-dropdown
+              *ngIf="typeBranchKeys.length > 0; else emptyBranch"
+              [options]="currentPageItems"
+              placeholder="انتخاب کنید"
+              optionLabel="label"
+              [filter]="true"
+              [filterBy]="'label'"
+              formControlName="branchId"
+              (onChange)="setBranch($event)"
+              [title]="branchLabel"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12" style="display: flex; justify-content: space-evenly">
+      <button (click)="cancel()" class="global-cancel-button">انصراف</button>
+
+      <button
+        class="global-primary-button"
+        type="submit"
+        [disabled]="!formGroup.valid"
+      >
+        ثبت
+      </button>
+    </div>
+  </form>
+</div>
+
+<ng-template #emptyBranch>
+  <input
+    style="color: red"
+    class="input"
+    type="text"
+    value="ابتدا نوع شعبه را انتخاب کنید"
+    disabled
+  />
+</ng-template>

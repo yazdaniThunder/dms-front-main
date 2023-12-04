@@ -1,0 +1,21 @@
+:host ::ng-deep .p-dropdown {
+  width: 197px;
+}
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 197px;
+}
+
+
+::ng-deep .p-inputnumber {
+  direction: ltr !important;
+}
+
+.description {
+  background-color: #ede0ea;
+  padding: 0.5rem;
+  border-radius: 5px;
+  width: inherit;
+  overflow-wrap: break-word;
+  text-align: center;
+  direction: rtl;
+}

@@ -1,0 +1,25 @@
+<div class="p-col-12">
+  <h4
+    (click)="downloadFile()"
+    style="
+      float: right;
+      font-size: large;
+      font-weight: 700;
+      padding-top: 15px;
+      cursor: pointer;
+    "
+  >
+    دانلود فایل
+  </h4>
+</div>
+<div class="p-grid p-col-12" style="padding-right: 15px" *ngIf="document.mimeType === 'application/pdf'">
+  <div style="width: 100%">
+    <p-accordion>
+      <p-accordionTab header="نمایش فایل">
+        <div *ngIf="openFile" style="width: 100%; height: 500px">
+          <ng2-pdfjs-viewer [pdfSrc]="link"></ng2-pdfjs-viewer>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</div>

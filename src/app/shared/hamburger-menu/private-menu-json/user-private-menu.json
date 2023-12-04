@@ -1,0 +1,95 @@
+[
+  {
+    "label": "خانه",
+    "icon": "fa fa-home",
+    "routerLink": ["/main/home"]
+  },
+  {
+    "label": "مدیریت شعب/مراکز/باجه/دفاتر",
+    "icon": "",
+    "items": [
+      {
+        "label": "مدیریت اسناد - ثبت دسته اسناد",
+        "icon": "",
+        "routerLink": ["/main/manage-document"]
+      },
+      {
+        "label": "مدیریت تائید/عدم تائید",
+        "icon": "",
+        "routerLink": ["/main/confirm-package"]
+      },
+      {
+        "label": "مدیریت مغایرت ها",
+        "icon": "",
+        "routerLink": ["/main/manage-contradiction-in-branch"]
+      },
+      {
+        "label": "جستجوی دسته اسناد",
+        "icon": "",
+        "routerLink": ["/main/search-document"]
+      },
+      {
+        "label": "مدیریت درخواست و دریافت اسناد",
+        "icon": "",
+        "routerLink": ["/main/manage-request-in-branch"]
+      }
+    ]
+  },
+  {
+    "label": "مدیریت اداره اسناد",
+    "icon": "",
+    "items": [
+     {
+        "label": "مدیریت کاربران",
+        "icon": "",
+        "routerLink": ["/main/manage-users"]
+      },
+     {
+        "label": "اطلاعات پایه",
+        "icon": "",
+        "routerLink": ["/main/basic-information"]
+      },
+      {
+        "label": "تخصیص واحد های بانک به کاربران اداره اسناد",
+        "icon": "",
+        "routerLink": ["/main/branch-assignment"]
+      },
+      {
+        "label": "مدیریت بررسی دسته اسناد",
+        "icon": "",
+        "routerLink": ["/main/manage-checking"]
+      },
+          {
+        "label": "مدیریت اسکن و OCR و بررسی اسناد",
+        "icon": "",
+        "routerLink": ["/main/manage-scanning"]
+      },
+      {
+        "label": "مدیریت تائید/عدم تائید فایل",
+        "icon": "",
+        "routerLink": ["/main/confirm-documents"]
+      },
+  
+      {
+        "label": "مدیریت مغایرت فایل",
+        "icon": "",
+        "routerLink": ["/main/manage-contradiction"]
+      },
+       {
+        "label": "جستجو دسته اسناد",
+        "icon": "",
+        "routerLink": ["/main/search-document-office"]
+      },
+      {
+        "label": "جستجو فایل",
+        "icon": "",
+        "routerLink": ["/main/file-search"]
+      },
+           {
+        "label": "مدیریت ارسال اسناد",
+        "icon": "",
+        "routerLink": ["/main/manage-request-document"]
+      }
+    ]
+  }
+]

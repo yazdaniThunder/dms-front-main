@@ -1,0 +1,28 @@
+
+
+:host ::ng-deep .p-dropdown {
+  width: 165px;
+}
+
+
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 165px;
+}
+
+:host ::ng-deep.input {
+  width: 165px;
+}
+
+
+:host ::ng-deep .cal-input {
+  margin-top: -8px;
+}
+
+.reasons {
+  display: flex;
+  background-color: #ede0ea;
+  border-radius: 5px;
+  margin: 0.5rem;
+  padding: 10px;
+  text-align: right;
+}

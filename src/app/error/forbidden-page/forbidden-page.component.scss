@@ -1,0 +1,59 @@
+.errorPage {
+  position: relative;
+  min-height: 100vh;
+  background-color: #EDE0EA;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .errorBox {
+    text-align: center;
+    color: #820263;
+  }
+
+  .code {
+    font-size: 110px;
+    margin-bottom: 100px;
+  }
+
+  .description {
+    font-size: 28px;
+    margin-bottom: 2em;
+  }
+
+  .goBack {
+    background-color: #F9F9F9;
+    color: #820263;
+    border: 2px solid #820263;
+    margin: 1em;
+
+    &:hover, &:active {
+      background-color: #e9e9e9;
+    }
+  }
+
+  .dashboard {
+    background-color: #820263;
+    color: #F9F9F9;
+    margin: 1em;
+
+    &:hover, &:active {
+      background-color: #820263;
+      opacity: 0.8;
+    }
+  }
+
+  .circles {
+    position: absolute;
+    bottom: -1.5em;
+    right: -1em;
+    width: 35vw;
+  }
+
+  .lines {
+    position: absolute;
+    top: -7.5em;
+    left: -6em;
+  }
+}

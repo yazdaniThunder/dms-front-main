@@ -1,0 +1,159 @@
+<div
+  class="p-grid p-col-12"
+  style="padding: 0 !important; position: relative; margin: 0"
+>
+  <img
+    style="width: 100%; height: 80%; position: absolute; top: 15%"
+    src="../../../assets/img/back-login.png"
+  />
+  <div
+    class="p-grid p-col-12"
+    style="margin: 0; padding: 0 !important; overflow-x: hidden"
+  >
+    <div
+      class="p-col-1 p-sm-2 p-md-2 p-lg-2 p-xl-2"
+      style="padding: 0 !important"
+    ></div>
+
+    <div
+      class="p-grid p-col-10 p-sm-8 p-md-8 p-lg-8 p-xl-8 padding-0"
+      style="
+        margin-top: 100px;
+        margin-bottom: 150px;
+        padding: 0 !important;
+        position: relative;
+      "
+    >
+      <div
+        class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 title text-center padding-0"
+        style="border: 5px solid #820263; border-radius: 10px"
+      >
+        <h2
+          style="
+            font-size: 25px;
+            margin-top: 30px;
+            text-align: right;
+            margin-right: 12%;
+            font-weight: bold;
+          "
+        >
+          ورود کاربر
+        </h2>
+        <div class="content">
+          <div>
+            <div
+              fxLayoutAlign="center center"
+              fxLayout="row"
+              style="width: 100%; margin-top: 8px;padding: 1rem;"
+            >
+              <img
+                src="../../../assets/icons/personal-dark.svg"
+                width="20px"
+                height="20px"
+                alt=""
+                style="margin-left: 10px; margin-right: 10px; margin-top: 10px"
+              />
+              <mat-form-field
+                class="example-full-width"
+                style="margin-top: 10px; width: 100%"
+              >
+                <mat-label style="font-size: 16px; font-family: iransans"
+                  >نام کاربری</mat-label
+                >
+                <input
+                  #phoneUser
+                  matInput
+                  style="
+                    font-size: 16px;
+                    font-family: iransans;
+                    text-align: left;
+                  "
+                  autocomplete="true"
+                  [(ngModel)]="username"
+                  (keyup.enter)="login()"
+                />
+              </mat-form-field>
+            </div>
+
+            <div
+              fxLayoutAlign="center center"
+              fxLayout="row"
+              style="width: 100%;padding: 1rem;"
+            >
+              <img
+                src="../../../assets/icons/unlock.svg"
+                width="25px"
+                height="25px"
+                alt=""
+                style="margin-left: 10px; margin-right: 10px; margin-top: 12px"
+              />
+              <mat-form-field class="example-full-width" style="width: 100%">
+                <mat-label style="font-size: 16px; font-family: iransans"
+                  >رمز عبور</mat-label
+                >
+                <input
+                  #passUser
+                  type="{{ Type() }}"
+                  matInput
+                  style="font-size: 16px; font-family: iransans"
+                  [(ngModel)]="password"
+                  (keyup.enter)="login()"
+                />
+              </mat-form-field>
+
+              <img
+                src="{{ getIcon() }}"
+                width="15px"
+                height="15px"
+                alt=""
+                (click)="changeType()"
+                style="margin-top: 15px"
+              />
+            </div>
+
+            <div class="p-grid p-col-12" style="position: relative">
+              <div class="p-col-1 p-sm-2 p-md-2 p-lg-2 p-xl-3"></div>
+
+              <div
+                class="p-col-10 p-sm-8 p-md-8 p-lg-8 p-xl-6"
+                style="
+                  position: relative;
+                  text-align: center;
+                  padding-top: 25%;
+                  margin-bottom: 10px;
+                "
+              >
+                <button
+                  class="global-primary-button"
+                  [disabled]="isLoading"
+                  (click)="nextPage(phoneUser.value, passUser.value)"
+                  type="button"
+                >
+                  ورود
+                </button>
+              </div>
+              <div class="p-col-1 p-sm-2 p-md-2 p-lg-2 p-xl-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="p-col-12 p-sm-12 p-md-6 p-lg-6 p-xl-6 padding-0"
+        style="
+          display: grid;
+          height: 129px;
+          justify-items: center;
+          margin-top: 8rem;
+        "
+      >
+        <a class="title-main">
+        سامانه یکپارچه مدیریت اسناد
+          <img src="../../../assets/img/mainLogo.png" style="width: 4rem" />
+        </a>
+        <img src="../../../assets/img/SamanLogo.png" style="width: 20rem" />
+      </div>
+    </div>
+
+    <div class="p-col-1 p-sm-2 p-md-2 p-lg-2 p-xl-2"></div>
+  </div>
+</div>

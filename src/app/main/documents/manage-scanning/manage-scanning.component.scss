@@ -1,0 +1,30 @@
+
+
+
+:host ::ng-deep .p-dropdown {
+  width: 197px;
+}
+
+
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 197px;
+}
+
+
+.table-button{
+  background-color: #fff;
+  border: none;
+}
+
+
+
+.textBox {
+  display: inline-block;
+  width: 98px;
+}
+
+
+::ng-deep .my-class .modal-dialog {
+  max-width: 98%;
+  width: 98%;
+}

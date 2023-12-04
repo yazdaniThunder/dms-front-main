@@ -1,0 +1,43 @@
+<div class="p-grid p-col-12" class="global-modal-body">
+  <form
+    (ngSubmit)="submit()"
+    class="form-inline p-col-12"
+  >
+    <div class="p-grid p-col-12" style="padding-bottom: 0; font-size: 13px">
+      <div
+        class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-6 p-xl-6"
+        style="padding-top: 23px"
+      >
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="direction: rtl; float: right; display: inherit"
+          >
+            <span>تاریخ اعتبار مشاهده </span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <persian-date-picker
+              placeholder="انتخاب کنید"
+              (passEntry)="setDate($event)"
+              [epochDate]="expireDate"
+            ></persian-date-picker>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-col-12" style="display: flex; justify-content: space-evenly">
+      <button
+        (click)="cancel()"
+        class="global-cancel-button"
+        [disabled]="false"
+        type="button"
+      >
+        انصراف
+      </button>
+      <button class="global-primary-button" [disabled]="false" type="submit">
+        ثبت
+      </button>
+    </div>
+  </form>
+</div>

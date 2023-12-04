@@ -1,0 +1,30 @@
+:host ::ng-deep .p-dropdown {
+  width: 197px;
+}
+
+:host ::ng-deep .p-dropdown-item:hover {
+  min-width: 197px;
+}
+
+:host ::ng-deep .mat-tab-body-content {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.excel-small {
+  font-size: 40px;
+  color: #10783f;
+  cursor: pointer;
+  padding-bottom: 0;
+}
+
+.reasons {
+  display: flex;
+  background-color: #ede0ea;
+  margin: 0.5rem;
+}
+
+::ng-deep .my-class .modal-dialog {
+  max-width: 90%;
+  width: 90%;
+}

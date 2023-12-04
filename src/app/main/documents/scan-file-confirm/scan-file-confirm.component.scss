@@ -1,0 +1,72 @@
+
+
+:host ::ng-deep .p-dropdown {
+    width: 400px;
+}
+
+
+
+:host ::ng-deep .pi-chevron-right:before {
+    content: "\e900";
+    font-size: 20px;
+}
+
+
+:host ::ng-deep .p-datatable-scrollable-header-box {
+    margin-left: 17px !important;
+    padding-right: 0 !important;
+    background-color: #f8f9fa;
+}
+
+:host ::ng-deep .p-datatable-scrollable-header {
+    background-color: #f8f9fa !important;
+}
+
+:host ::ng-deep td {
+    text-align: center;
+}
+
+:host ::ng-deep .p-accordion .p-accordion-content {
+    min-height: 88px !important;
+}
+
+.basic-dropdown {
+  border: 1px solid gray;
+  width: 90%;
+}
+
+:host ::ng-deep .p-dropdown {
+  width: 100%;
+  border: unset;
+}
+:host ::ng-deep .p-dropdown-item {
+  max-width: 400px;
+}
+
+.plus-icon {
+  padding-top: 5px;
+  font-size: 20px;
+}
+
+input.mat-chip-input {
+  flex: 0.5 0 50px;
+  width: 120px;
+}
+
+.mat-chip.mat-standard-chip {
+  font-size: 13px;
+}
+
+.hidden-input {
+  display: none !important;
+}
+
+.show-input {
+  display: block;
+}
+
+.reasons {
+  display: flex;
+  background-color: #ede0ea;
+  margin: 0.5rem;
+}

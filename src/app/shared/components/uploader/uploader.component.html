@@ -1,0 +1,20 @@
+<div class="text-center">
+  <h4 style="padding-bottom: 15px">لطفا فایل مورد نظر خود را انتخاب کنید</h4>
+  <input class="form-control" type="file"/>
+  <label (change)="onChange($event)" class="custom-file-upload">
+    <input type="file"/>
+    <img height="20px" src="../../../../assets/icons/upload.svg" width="20px"/>
+    انتخاب فایل
+  </label>
+  <div *ngIf="file" style="padding-top: 20px">
+    <i [className]="checkFileIcon(file.name)"></i>
+    <span>{{ file.name }} - {{ file.size }} bytes </span>
+  </div>
+  <div class="p-col-12" style="text-align: center; padding-top: 25px">
+    <button (click)="onUpload()" [disabled]="!file" class="btn p-button-icon-only">
+      <img height="20px" src="../../../../assets/icons/upload.svg" width="20px"/>
+      بارگذاری
+    </button>
+  </div>
+</div>
+<p-toast></p-toast>

@@ -1,0 +1,513 @@
+<div class="p-col-12" style="padding: 0 !important; direction: rtl">
+  <p-accordion>
+    <p-accordionTab header="نمایش فایل و متادیتا">
+      <div class="p-grid p-col-12 p-xl-12" style="padding-top: 23px">
+        <form [formGroup]="formGroup2" (ngSubmit)="submitMetaData()">
+          <div class="p-grid p-col-12 p-xl-12" style="padding-top: 23px">
+            <p style="font-weight: bolder">اطلاعات متادیتا</p>
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-5"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>نوع دسته سند</span>
+              </div>
+              <div class="p-col-7 p-sm-">
+                <input
+                  [(ngModel)]="documentSetType"
+                  [value]="documentSetType"
+                  class="input"
+                  formControlName="documentSetType"
+                  id="documentSetType"
+                  style="width: 90%"
+                  type="text"
+                />
+              </div>
+            </div>
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-5"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>شماره سند</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-7 p-sm-"
+              >
+                <mat-chip-list #chipList>
+                  <mat-chip
+                    *ngFor="let docNumber of docnumber"
+                    [removable]="removablenum"
+                    (removed)="removenum(docNumber)"
+                  >
+                    {{ docNumber }}
+                    <mat-icon
+                      style="margin: 0 10px 8px 0"
+                      matChipRemove
+                      *ngIf="removablenum"
+                    >
+                      <img
+                        src="../../../../assets/icons/wrong.svg"
+                        width="15px"
+                        height="15px"
+                        alt="Delete"
+                        aria-hidden="true"
+                    /></mat-icon>
+                  </mat-chip>
+
+                  <input
+                    style="border: 0.1rem solid gray; border-radius: 5px"
+                    #chipInput
+                    [formControl]="docnumCtrl"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodesnum"
+                    [matChipInputAddOnBlur]="addOnBlurnum"
+                    (matChipInputTokenEnd)="addnum($event)"
+                  />
+                </mat-chip-list>
+              </div>
+            </div>
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-5"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>کد شعبه</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-7 p-sm-"
+              >
+                <mat-chip-list #chipList2>
+                  <mat-chip
+                    *ngFor="let branchCode of docbranchcode"
+                    [removable]="removable"
+                    (removed)="remove(branchCode)"
+                  >
+                    {{ branchCode }}
+                    <mat-icon
+                      style="margin: 0 10px 8px 0"
+                      matChipRemove
+                      *ngIf="removable"
+                    >
+                      <img
+                        src="../../../../assets/icons/wrong.svg"
+                        width="15px"
+                        height="15px"
+                        alt="Delete"
+                        aria-hidden="true"
+                    /></mat-icon>
+                  </mat-chip>
+
+                  <input
+                    style="border: 0.1rem solid gray; border-radius: 5px"
+                    #chipInput
+                    [formControl]="docbranchcodeCtrl"
+                    [matChipInputFor]="chipList2"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)"
+                  />
+                </mat-chip-list>
+              </div>
+            </div>
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-5"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>تاریخ سند</span>
+              </div>
+              <div
+                style="
+                  background-color: aliceblue;
+                  border-radius: 5px;
+                  margin: 0.5rem 0;
+                "
+                class="p-col-7 p-sm-"
+              >
+                <mat-chip-list #chipList3>
+                  <mat-chip
+                    *ngFor="let docDate of docdate"
+                    [removable]="removabledate"
+                    (removed)="removedate(docDate)"
+                  >
+                    {{ docDate }}
+                    <mat-icon
+                      style="margin: 0 10px 8px 0"
+                      matChipRemove
+                      *ngIf="removabledate"
+                    >
+                      <img
+                        src="../../../../assets/icons/wrong.svg"
+                        width="15px"
+                        height="15px"
+                        alt="Delete"
+                        aria-hidden="true"
+                      />
+                    </mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+                <div style="margin-top: 2rem">
+                  <persian-date-picker
+                    placeholder="انتخاب کنید"
+                    (passEntry)="addDateFromPicker($event)"
+                  ></persian-date-picker>
+                </div>
+              </div>
+            </div>
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-5"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>طبقه سند</span>
+              </div>
+              <div class="p-col-7 p-sm-">
+                <p-dropdown
+                  (onChange)="setDocumentClass($event)"
+                  [(ngModel)]="documentClass"
+                  [filterBy]="'label'"
+                  [filter]="true"
+                  [options]="enumKeys"
+                  class="basic-dropdown"
+                  formControlName="documentClass"
+                  optionLabel="label"
+                  placeholder="انتخاب کنید"
+                  [title]="documentClassLabel"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <div
+              class="p-col-12 p-sm-12 p-grid date-div"
+              style="padding-bottom: 0"
+            >
+              <div
+                class="p-col-5"
+                style="direction: rtl; float: right; display: inherit"
+              >
+                <span>شرح سند / فرم</span>
+              </div>
+              <div class="p-col-7 p-sm-">
+                <p-dropdown
+                  (onChange)="setDocumentDescription($event)"
+                  *ngIf="documentTypes.length > 0"
+                  [(ngModel)]="documentDescription"
+                  [filterBy]="'label'"
+                  [filter]="true"
+                  [options]="currentPageItems"
+                  class="basic-dropdown"
+                  formControlName="documentDescription"
+                  optionLabel="title"
+                  placeholder="انتخاب کنید"
+                  [title]="documentDescriptionLabel"
+                ></p-dropdown>
+                <button
+                  class="global-primary-button"
+                  [disabled]="false"
+                  style="margin-top: 15px"
+                  type="submit"
+                >
+                  ثبت متادیتا
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="p-col-12" style="padding: 0 !important">
+          <div *ngIf="open" style="width: 100%; height: 500px">
+            <ng2-pdfjs-viewer [pdfSrc]="link"></ng2-pdfjs-viewer>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="اطلاعات کلی فایل">
+      <div class="p-grid p-col-12 p-xl-12" style="padding-top: 23px">
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>تاریخ دسته اسناد از</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="getDate(fileContradictionSets.fromDate)"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>تاریخ دسته اسناد تا</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="getDate(fileContradictionSets.toDate)"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>تاریخ ارسال دسته اسناد </span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="getDate(fileContradictionSets.sendDate)"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>کد شعبه</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="fileContradictionSets.branchCode"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>شماره ردیف دسته سند</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="fileContradictionSets.documentSetRowsNumber"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+        <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+          <div
+            class="p-col-5"
+            style="
+              direction: rtl;
+              float: right;
+              display: inherit;
+              text-align: right;
+            "
+          >
+            <span>کد نگهداری</span>
+          </div>
+          <div class="p-col-7 p-sm-">
+            <input
+              disabled
+              class="input"
+              type="text"
+              [value]="fileContradictionSets.maintenanceCode"
+              style="width: 90%"
+            />
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+
+    <p-accordionTab
+      *ngIf="fileContradictionSets.currentState === 'NOT_CHECKED'"
+      header="ثبت مغایرت"
+    >
+      <div
+        class="p-grid p-col-12 p-sm-12 p-md-12 p-lg-12 p-xl-12"
+        style="padding-top: 23px; justify-content: space-between"
+        *ngIf="fileContradictionSets.conflicts.length > 0"
+      >
+        <div
+          class="p-col-12 p-sm-12 p-grid date-div"
+          style="display: flex; justify-content: space-evenly"
+        >
+          <div
+            *ngIf="
+              fileContradictionSets.currentState === 'NOT_CHECKED';
+              else disabledButton
+            "
+          >
+            <button
+              class="global-primary-button"
+              [disabled]="false"
+              (click)="
+                openModalFilesClick(setConflictModal, fileContradictionSets)
+              "
+              type="button"
+            >
+              ثبت مغایرت
+            </button>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="تایید اولیه">
+      <div class="p-col-12 p-sm-12 p-grid date-div" style="padding-bottom: 0">
+        <div class="p-col-2" style="margin-top: 20px">
+          <span>کد نگهداری</span>
+        </div>
+        <div style="display: flex" class="p-col-10">
+          <form [formGroup]="formGroup" (ngSubmit)="submitCode()">
+            <input
+              class="input"
+              type="text"
+              numericInput
+              maxlength="15"
+              formControlName="maintenanceCode"
+              id="maintenanceCode"
+              [(ngModel)]="maintenanceCode"
+              style="margin-left: 10px"
+              [value]="maintenanceCode"
+            />
+            <button
+              class="global-primary-button"
+              [disabled]="false"
+              style="margin-top: 15px; margin-left: 70px"
+              type="submit"
+            >
+              ثبت کد نگهداری
+            </button>
+            <button
+              class="global-primary-button"
+              (click)="confirmDoc()"
+              type="button"
+            >
+              تایید اولیه فایل
+            </button>
+          </form>
+        </div>
+      </div>
+    </p-accordionTab>
+
+    <ng-template #manageConflictModal let-modal>
+      <div class="modal-header">
+        <h6 class="modal-title">مدیریت مغایرت ها</h6>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true" style="color: black; float: left"
+            >&times;</span
+          >
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-manage-contradiction-modal
+          [documentModel]="selectedDoc"
+          (passEntry)="submitNew()"
+        ></app-manage-contradiction-modal>
+      </div>
+    </ng-template>
+
+    <ng-template #disabledButton>
+      <button
+        class="global-primary-button"
+        [disabled]="true"
+        (click)="openModalFilesClick(setConflictModal, fileContradictionSets)"
+        type="button"
+      >
+        ثبت مغایرت
+      </button>
+    </ng-template>
+
+    <ng-template #setConflictModal let-modal>
+      <div class="modal-header">
+        <h6 class="modal-title">ثبت مغایرت اسناد</h6>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true" style="color: black; float: left"
+            >&times;</span
+          >
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-set-conflict-document
+          [documentModel]="selectedDoc"
+          (passEntry)="submitNew()"
+        ></app-set-conflict-document>
+      </div>
+    </ng-template>
+  </p-accordion>
+</div>

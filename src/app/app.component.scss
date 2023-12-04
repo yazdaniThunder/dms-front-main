@@ -1,0 +1,50 @@
+
+app-header {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+  &.fixed {
+    // Styles for a fixed header
+  }
+}
+
+main {
+  padding-top:53px; // Your header height + some slack
+}
+
+@media (min-width: 1200px) {
+  .ham {
+    display: none;
+  }
+  .menu {
+    display: unset;
+  }
+}
+
+@media (max-width: 1200px) {
+  .ham {
+    display: unset;
+  }
+  .menu {
+    display: none;
+  }
+}
+:host ::ng-deep .fix-direction {
+  //direction: ;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-show {
+  display: unset !important;
+}
+
+@media screen and (max-width: 899px) {
+  .p-sm-12 {
+    width: 100%;
+  }
+}

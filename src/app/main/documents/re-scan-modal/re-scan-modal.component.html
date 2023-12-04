@@ -1,0 +1,10 @@
+<div class="text-center">
+  <input
+    class="global-upload-file"
+    style="padding: 0.5rem; margin-bottom: 1rem"
+    type="file"
+    (change)="onChange($event)"
+    accept=".pdf, .tif, .tiff"
+  />
+  <button (click)="onUpload()" class="global-primary-button">بارگذاری</button>
+</div>

@@ -1,0 +1,36 @@
+<p-sidebar
+  (onHide)="closeClick()"
+  [(visible)]="display"
+  [position]="position"
+  [baseZIndex]="100000"
+  [style]="{ width: '80%' }"
+>
+  <mat-tab-group animationDuration="0ms" [(selectedIndex)]="tabIndex">
+    <mat-tab label="مدیریت فرایند اسناد">
+      <p-panelMenu [model]="items" [multiple]="false"></p-panelMenu>
+    </mat-tab>
+    <mat-tab label="درختواره">
+      <app-tree-root *ngIf="tabIndex === 0"></app-tree-root>
+    </mat-tab>
+  </mat-tab-group>
+</p-sidebar>
+<button
+  class="ui-button-blue fix-button fix-direction"
+  style="
+    background-color: lightgray;
+    color: #706f6f;
+    position: fixed;
+    z-index: 10000;
+    right: 0;
+  "
+  (click)="clickButton($event)"
+  type="submit"
+>
+  <img
+    src="../../../assets/icons/menu.svg"
+    width="40px"
+    height="40px"
+    alt=""
+    class="icons"
+  />
+</button>
